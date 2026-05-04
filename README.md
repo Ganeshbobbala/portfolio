@@ -1,16 +1,50 @@
-# React + Vite
+# Ganesh Bobbala - Personal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to my personal portfolio repository! This is a modern, responsive single-page web application built to showcase my projects, skills, education, and professional experience as an AI Specialist / Software Engineer.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
+*(You can add your Netlify/Vercel URL here once deployed)*
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Built With
 
-## React Compiler
+*   **React (Vite):** Frontend framework for building the UI.
+*   **Tailwind CSS:** Utility-first CSS framework for rapid and responsive styling.
+*   **Framer Motion:** Used for fluid, interactive animations.
+*   **Web3Forms:** Serverless form submissions for the contact section.
+*   **Lucide React:** Icon library for consistent and beautiful icons.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
 
-## Expanding the ESLint configuration
+*   **About Me:** A brief introduction and my professional journey.
+*   **Skills:** Categorized list of technical skills (Programming Languages, AI/ML, Web Tech, Database, etc.).
+*   **Projects:** Detailed showcase of my key projects including:
+    *   Autism Detection via Video Recognition
+    *   Driver Drowsiness Detection System
+    *   Digital Ration Distribution System
+    *   EMG-Based Parkinson’s Disease Detection System
+*   **Education:** Academic background from Kalasalingam Academy of Research and Education.
+*   **Certifications:** Professional certifications and achievements.
+*   **Contact Form:** A fully functional contact form to get in touch directly via email.
+*   **Resume Download:** Easy access to view or download my latest professional resume.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## ⚙️ Running Locally
+
+To run this portfolio on your local machine:
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/Ganeshbobbala/portfolio.git
+    cd portfolio
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Open your browser:** Navigate to `http://localhost:5173` to view the app.
