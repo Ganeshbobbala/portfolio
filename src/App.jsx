@@ -284,10 +284,10 @@ const App = () => {
                             </div>
                             <div className="flex flex-col md:flex-row items-center gap-6 mt-12">
 
-                                <a href="/B.%20ganesh.pdf" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
+                                <a href="/G@nesh.pdf" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
                                     <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" /> View Resume
                                 </a>
-                                <a href="/B.%20ganesh.pdf" download="B_ganesh_Resume.pdf" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
+                                <a href="/G@nesh.pdf" download="Ganesh_Resume.pdf" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
                                     <Download size={18} className="group-hover:translate-y-1 transition-transform" /> Download Resume
                                 </a>
                             </div>
