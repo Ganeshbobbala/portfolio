@@ -165,8 +165,7 @@ const App = () => {
             title: "Driver Drowsiness Detection System",
             image: "/driver_drowsiness.png",
             desc: "An IoT-based system that monitors driver drowsiness using computer vision to analyze eye blink rate, head movement, and facial features in real-time with alert mechanisms.",
-            tech: ["Arduino", "Python", "OpenCV", "IoT Sensors"],
-            github: "https://github.com/Ganeshbobbala"
+            tech: ["Arduino", "Python", "OpenCV", "IoT Sensors"]
         },
         {
             title: "Digital Ration Distribution System",
@@ -179,8 +178,7 @@ const App = () => {
             title: "EMG-Based Parkinson’s Disease Detection System",
             image: "/emg_parkinsons.png",
             desc: "A real-time system using Arduino Uno to capture muscle activity. Applies signal processing to detect abnormal neuromuscular patterns, offering a low-cost, non-invasive prototype for healthcare monitoring.",
-            tech: ["Arduino Uno", "Embedded C", "EMG Sensors", "Signal Processing"],
-            github: "https://github.com/Ganeshbobbala"
+            tech: ["Arduino Uno", "Embedded C", "EMG Sensors", "Signal Processing"]
         }
     ];
 
