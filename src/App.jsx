@@ -155,6 +155,13 @@ const App = () => {
 
     const projects = [
         {
+            title: "MarroeCode – AI-Powered Coding Practice Platform",
+            image: "/marroe_code.png",
+            desc: "A full-stack coding platform featuring a modern IDE interface. It utilizes an AI-powered Python AST engine for real-time code analysis and feedback, integrated with a Supabase PostgreSQL database and React dashboard to track history and learning analytics.",
+            tech: ["React", "Python", "Supabase", "FastAPI", "AI"],
+            github: "https://github.com/Ganeshbobbala/MarroeCode"
+        },
+        {
             title: "Autism Detection via Video Recognition",
             image: "/autism_detection_new.png",
             desc: "A web-based system that detects autism-related behaviors from uploaded videos using CNN + LSTM deep learning models with pose estimation via OpenCV and MediaPipe.",
