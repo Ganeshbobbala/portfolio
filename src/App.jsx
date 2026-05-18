@@ -280,12 +280,12 @@ const App = () => {
                             </div>
                             <div className="grid grid-cols-2 lg:grid-cols-2 gap-6">
                                 {[
-                                    { l: 'Projects', v: '5+' }, { l: 'Certifications', v: '4+' }
+                                    { l: 'Projects', v: '5+', href: '#myprojects' }, { l: 'Certifications', v: '4+', href: '#certifications' }
                                 ].map((s, i) => (
-                                    <div key={i} className="bg-zinc-950/50 border border-zinc-900 p-8 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-zinc-900 transition-all">
+                                    <a key={i} href={s.href} className="bg-zinc-950/50 border border-zinc-900 p-8 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-zinc-900 transition-all cursor-pointer">
                                         <p className="text-4xl font-black text-blue-500 mb-1">{s.v}</p>
                                         <p className="text-[10px] font-black uppercase tracking-widest text-zinc-600">{s.l}</p>
-                                    </div>
+                                    </a>
                                 ))}
                             </div>
                             <div className="flex flex-col md:flex-row items-center gap-6 mt-12">
