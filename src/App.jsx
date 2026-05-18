@@ -268,9 +268,9 @@ const App = () => {
                             </div>
                         </div>
                         <div className="lg:w-[60%]">
-                            <h2 className="text-3xl md:text-5xl font-black mb-8 tracking-normal">Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">AI Specialist</span></h2>
+                            <h2 className="text-3xl md:text-5xl font-black mb-8 tracking-normal">Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">Web Developer</span></h2>
                             <p className="text-zinc-400 text-lg md:text-xl font-medium leading-relaxed mb-10">
-                                I am an AI Specialist and Software Engineer focused on building intelligent, scalable, and user-centric applications. With expertise in web development and machine learning, I combine modern technologies with data-driven approaches to create innovative and efficient digital solutions. I am passionate about developing impactful systems that solve real-world challenges.
+                                I am a Web Developer and Software Engineer focused on building intelligent, scalable, and user-centric applications. With expertise in web development and machine learning, I combine modern technologies with data-driven approaches to create innovative and efficient digital solutions. I am passionate about developing impactful systems that solve real-world challenges.
                             </p>
                             <div className="flex flex-wrap gap-8 mb-12">
                                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none"><GraduationCap size={16} className="text-blue-500" /> B.Tech CSE (AI & ML)</div>
