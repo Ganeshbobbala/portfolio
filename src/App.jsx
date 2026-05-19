@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    Github, Linkedin, Mail, Code2, ExternalLink, Download, User, MapPin, Search, Menu, X, Landmark, GraduationCap, Briefcase, BrainCircuit, Cpu, Laptop, Send, Phone, MessageSquare, Award, CheckCircle2, Sparkles, Target, Zap
+    Github, Linkedin, Mail, Code2, ExternalLink, Download, User, MapPin, Search, Menu, X, Landmark, GraduationCap, Briefcase, BrainCircuit, Cpu, Laptop, Send, Phone, MessageSquare, Award, CheckCircle2, Sparkles, Target, Zap, Sun, Moon
 } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Sphere, MeshDistortMaterial } from '@react-three/drei';
@@ -17,7 +17,7 @@ const SectionHeader = ({ title, subtitle }) => (
     </div>
 );
 
-const Navbar = () => {
+const Navbar = ({ isDark, toggleTheme }) => {
     const [isOpen, setIsOpen] = useState(false);
     const tabs = ['Home', 'About', 'My skills', 'My projects', 'Education', 'Certifications', 'Contact'];
 
@@ -30,25 +30,71 @@ const Navbar = () => {
                 </div>
                 
                 {/* Desktop Menu */}
-                <div className="hidden lg:flex items-center gap-2">
+                <div className="hidden md:flex items-center gap-2">
                     {tabs.map((tab) => (
                         <a 
                             key={tab} 
                             href={`#${tab.replace(/\s+/g, '').toLowerCase()}`} 
-                            className="text-[10px] font-black tracking-[0.1em] text-zinc-300 hover:text-white transition-all px-4 py-2 rounded-xl bg-white/5 hover:bg-blue-600/20 border border-white/5 hover:border-blue-600/40 uppercase shadow-[0_0_20px_rgba(37,99,235,0.05)] hover:shadow-[0_0_20px_rgba(37,99,235,0.1)]"
+                            className="text-xs font-black tracking-[0.1em] text-zinc-300 hover:text-white transition-all px-4 py-2 rounded-xl bg-white/5 hover:bg-blue-600/20 border border-white/5 hover:border-blue-600/40 uppercase shadow-[0_0_20px_rgba(37,99,235,0.05)] hover:shadow-[0_0_20px_rgba(37,99,235,0.1)]"
                         >
                             {tab}
                         </a>
                     ))}
+
+                    {/* Theme Toggle */}
+                    <button
+                        onClick={toggleTheme}
+                        title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                        className="ml-2 relative w-14 h-7 rounded-full transition-all duration-300 border focus:outline-none"
+                        style={{
+                            background: isDark ? 'rgba(37,99,235,0.15)' : 'rgba(250,204,21,0.15)',
+                            borderColor: isDark ? 'rgba(37,99,235,0.4)' : 'rgba(250,204,21,0.5)'
+                        }}
+                    >
+                        <motion.div
+                            layout
+                            animate={{ x: isDark ? 2 : 30 }}
+                            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                            className="absolute top-[3px] w-5 h-5 rounded-full flex items-center justify-center"
+                            style={{ background: isDark ? '#3b82f6' : '#facc15' }}
+                        >
+                            {isDark
+                                ? <Moon size={11} className="text-white" />
+                                : <Sun size={11} className="text-zinc-900" />}
+                        </motion.div>
+                    </button>
                 </div>
 
-                {/* Mobile Menu Toggle */}
-                <button 
-                  onClick={() => setIsOpen(!isOpen)}
-                  className="lg:hidden p-2 text-zinc-400 hover:text-white transition-colors"
-                >
-                  {isOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
+                {/* Mobile Right: Theme Toggle + Hamburger */}
+                <div className="md:hidden flex items-center gap-3">
+                    <button
+                        onClick={toggleTheme}
+                        title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                        className="relative w-12 h-6 rounded-full transition-all duration-300 border focus:outline-none"
+                        style={{
+                            background: isDark ? 'rgba(37,99,235,0.15)' : 'rgba(250,204,21,0.15)',
+                            borderColor: isDark ? 'rgba(37,99,235,0.4)' : 'rgba(250,204,21,0.5)'
+                        }}
+                    >
+                        <motion.div
+                            layout
+                            animate={{ x: isDark ? 2 : 25 }}
+                            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                            className="absolute top-[2px] w-4 h-4 rounded-full flex items-center justify-center"
+                            style={{ background: isDark ? '#3b82f6' : '#facc15' }}
+                        >
+                            {isDark
+                                ? <Moon size={9} className="text-white" />
+                                : <Sun size={9} className="text-zinc-900" />}
+                        </motion.div>
+                    </button>
+                    <button 
+                      onClick={() => setIsOpen(!isOpen)}
+                      className="p-2 text-zinc-400 hover:text-white transition-colors"
+                    >
+                      {isOpen ? <X size={24} /> : <Menu size={24} />}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Menu Overlay */}
@@ -58,7 +104,7 @@ const Navbar = () => {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="lg:hidden bg-zinc-950/95 border-b border-white/5 overflow-hidden"
+                  className="md:hidden bg-zinc-950/95 border-b border-white/5 overflow-hidden"
                 >
                   <div className="flex flex-col p-6 gap-4">
                     {tabs.map((tab) => (
@@ -130,7 +176,19 @@ const RotatingReactLogo = () => {
 };
 
 const App = () => {
-    const roles = ["Problem Solver", "AI Specialist", "Web Developer"];
+    const [isDark, setIsDark] = useState(() => {
+        const saved = localStorage.getItem('portfolio-theme');
+        return saved ? saved === 'dark' : true;
+    });
+
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
+    }, [isDark]);
+
+    const toggleTheme = () => setIsDark(prev => !prev);
+
+    const roles = ["Problem Solver", "Software Engineer", "Web Developer", "Frontend Developer"];
 
     const skills = [
         { title: "Programming Languages", items: ["Java", "JavaScript"] },
@@ -191,8 +249,8 @@ const App = () => {
     ];
 
     return (
-        <div className="bg-[#020202] text-white min-h-screen selection:bg-purple-500/30 overflow-x-hidden font-sans">
-            <Navbar />
+        <div className="bg-[#020202] text-white min-h-screen selection:bg-purple-500/30 overflow-x-hidden font-sans portfolio-root">
+            <Navbar isDark={isDark} toggleTheme={toggleTheme} />
 
             {/* --- HERO --- */}
             <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
