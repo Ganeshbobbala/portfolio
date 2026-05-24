@@ -8,6 +8,7 @@ import { Float, Sphere, MeshDistortMaterial } from '@react-three/drei';
 import { Typewriter } from 'react-simple-typewriter';
 
 const RESUME_URL = '/Ganesh_Resume.pdf';
+const DEPLOY_URL = 'https://portfolio-ganeshbobbala.vercel.app/';
 
 // --- COMPONENTS ---
 
@@ -579,7 +580,13 @@ const App = () => {
             {/* --- FOOTER --- */}
             <footer className="py-12 border-t border-white/5 bg-black/40">
                 <div className="max-w-7xl mx-auto px-10 text-center">
-                    <p className="text-zinc-600 text-xs font-black uppercase tracking-[0.3em] mb-4">Designed & Built with ❤️ by <span className="text-white">Ganesh Bobbala</span></p>
+                    <p className="text-zinc-600 text-xs font-black uppercase tracking-[0.3em] mb-4">
+                        Designed & Built with ❤️ by <span className="text-white">Ganesh Bobbala</span>
+                        {' · '}
+                        <a href={DEPLOY_URL} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-blue-400 transition-colors">Live Site</a>
+                        {' · '}
+                        <a href="https://github.com/Ganeshbobbala/portfolio" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-blue-400 transition-colors">GitHub</a>
+                    </p>
                 </div>
             </footer>
         </div >

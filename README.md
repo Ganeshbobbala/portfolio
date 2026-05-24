@@ -3,7 +3,8 @@
 Welcome to my personal portfolio repository! This is a modern, responsive single-page web application built to showcase my projects, skills, education, and professional experience as an AI Specialist / Software Engineer.
 
 ## 🚀 Live Demo
-*(You can add your Netlify/Vercel URL here once deployed)*
+
+**[https://portfolio-ganeshbobbala.vercel.app/](https://portfolio-ganeshbobbala.vercel.app/)**
 
 ## 🛠️ Built With
 
