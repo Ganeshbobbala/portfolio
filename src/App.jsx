@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
     Github, Linkedin, Mail, Code2, ExternalLink, Download, User, MapPin, Search, Menu, X, Landmark, GraduationCap, Briefcase, BrainCircuit, Cpu, Laptop, Send, Phone, MessageSquare, Award, CheckCircle2, Sparkles, Target, Zap, Sun, Moon
 } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Sphere, MeshDistortMaterial } from '@react-three/drei';
 import { Typewriter } from 'react-simple-typewriter';
+
+const RESUME_URL = '/Ganesh_Resume.pdf';
 
 // --- COMPONENTS ---
 
@@ -191,18 +193,15 @@ const App = () => {
     const roles = ["Problem Solver", "Software Engineer", "Web Developer", "Frontend Developer"];
 
     const skills = [
-        { title: "Programming Languages", items: ["Java", "JavaScript"] },
-        { title: "Web Technologies", items: ["HTML", "CSS"] },
-        { title: "Database", items: ["PostgreSQL", "Supabase"] },
+        { title: "Programming Languages", items: ["Java"] },
+        { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript"] },
+        { title: "Database Technologies", items: ["SQL"] },
         { title: "Tools & Platforms", items: ["Git", "GitHub", "Visual Studio Code"] },
-        { title: "Soft Skills", items: ["Team Collaboration", "Communication", "Analytical Thinking", "Adaptability"] }
+        { title: "Core Concepts", items: ["Object-Oriented Programming (OOP)", "DBMS"] },
+        { title: "Soft Skills", items: ["Problem Solving", "Team Collaboration", "Communication", "Adaptability"] }
     ];
 
-    const education = [
-        { s: "Kalasalingam Academy", d: "Bachelor of Technology", f: "Computer Science (AI & ML)", g: "CGPA: 8.65", t: "2023 - 2027" },
-        { s: "Sri Chaitanya Junior College", d: "Higher Secondary Education (MPC)", f: "Science Stream", g: "Percentage: 89.7%", t: "2021 - 2023" },
-        { s: "Sri Srinivasa High School", d: "Secondary School Certificate (SSC)", f: "Computer Science and Engineering", g: "Percentage: 100%", t: "2020 - 2021" }
-    ];
+// (removed unused education constant; education UI uses inline data)
 
     const certs = [
         { n: "AI Tools and ChatGPT Workshop", i: "be10x", link: "/Copy of Be10x participate.pdf", c: "bg-purple-500/10 text-purple-500" },
@@ -347,11 +346,10 @@ const App = () => {
                                 ))}
                             </div>
                             <div className="flex flex-col md:flex-row items-center gap-6 mt-12">
-
-                                <a href="/GaneSh.pdf" target="_blank" rel="noopener noreferrer" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
+                                <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
                                     <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" /> View Resume
                                 </a>
-                                <a href="/GaneSh.pdf" download="Ganesh_Resume.pdf" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
+                                <a href={RESUME_URL} download="Ganesh_Bobbala_Resume.pdf" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
                                     <Download size={18} className="group-hover:translate-y-1 transition-transform" /> Download Resume
                                 </a>
                             </div>
