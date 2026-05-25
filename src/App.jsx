@@ -27,10 +27,10 @@ const Navbar = ({ isDark, toggleTheme }) => {
     return (
         <nav className="fixed top-0 left-0 right-0 z-[100] bg-black/60 backdrop-blur-3xl border-b border-white/5 py-4 px-6 md:px-0">
             <div className="max-w-7xl mx-auto px-4 md:px-8 flex justify-between items-center text-white">
-                <div className="text-2xl font-black tracking-tighter text-blue-500 italic flex items-center gap-2">
+                <a href="#home" className="text-2xl font-black tracking-tighter text-blue-500 italic flex items-center gap-2 hover:text-blue-400 transition-colors">
                     <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center italic text-sm">P</div>
                     Portfolio
-                </div>
+                </a>
                 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center gap-2">
@@ -336,9 +336,20 @@ const App = () => {
                                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none"><Code2 size={16} className="text-blue-500" /> Open to Opportunities</div>
                                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none"><Sparkles size={16} className="text-blue-500" /> Passionate Learner</div>
                             </div>
+                            <div className="flex flex-wrap gap-4 mb-12">
+                                {[
+                                    { label: 'Portfolio', href: DEPLOY_URL },
+                                    { label: 'GitHub', href: 'https://github.com/Ganeshbobbala' },
+                                    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ganesh-bobbala-9a7a52327' }
+                                ].map((link) => (
+                                    <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="px-5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-400 hover:text-blue-400 hover:border-blue-500/40 transition-all">
+                                        {link.label}
+                                    </a>
+                                ))}
+                            </div>
                             <div className="grid grid-cols-2 lg:grid-cols-2 gap-6">
                                 {[
-                                    { l: 'Projects', v: '5+', href: '#myprojects' }, { l: 'Certifications', v: '4+', href: '#certifications' }
+                                    { l: 'Projects', v: '5+', href: '#myprojects' }, { l: 'Certifications', v: '5+', href: '#certifications' }
                                 ].map((s, i) => (
                                     <a key={i} href={s.href} className="bg-zinc-950/50 border border-zinc-900 p-8 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-zinc-900 transition-all cursor-pointer">
                                         <p className="text-4xl font-black text-blue-500 mb-1">{s.v}</p>
