@@ -196,7 +196,7 @@ const App = () => {
     const skills = [
         { title: "Programming Languages", items: ["Java"] },
         { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript"] },
-        { title: "Database Technologies", items: ["SQL"] },
+        { title: "Database Technologies", items: ["MySQL"] },
         { title: "Tools & Platforms", items: ["Git", "GitHub", "Visual Studio Code"] },
         { title: "Core Concepts", items: ["Object-Oriented Programming (OOP)", "DBMS"] },
         { title: "Soft Skills", items: ["Problem Solving", "Team Collaboration", "Communication", "Adaptability"] }
@@ -215,35 +215,50 @@ const App = () => {
     const projects = [
         {
             title: "MarroeCode – AI-Powered Coding Practice Platform",
-            image: "/marroe_code.png",
-            desc: "A full-stack coding platform featuring a modern IDE interface. It utilizes an AI-powered Python AST engine for real-time code analysis and feedback, integrated with a Supabase PostgreSQL database and React dashboard to track history and learning analytics.",
-            tech: ["React", "Python", "Supabase", "FastAPI", "AI"],
+            bullets: [
+                "Developed a full-stack coding practice platform with a modern IDE-style interface for writing, executing, and analyzing code in real time.",
+                "Built an AI-powered Python AST analysis engine to detect code complexity, logic errors, and provide intelligent coding feedback and execution insights.",
+                "Integrated Supabase PostgreSQL database with interactive React dashboards to store coding history, track user performance, and visualize learning analytics."
+            ],
+            tech: ["React.js", "Supabase", "PostgreSQL", "Python", "AST"],
             github: "https://github.com/Ganeshbobbala/MarroeCode"
         },
         {
             title: "Autism Detection via Video Recognition",
-            image: "/autism_detection_new.png",
-            desc: "A web-based system that detects autism-related behaviors from uploaded videos using CNN + LSTM deep learning models with pose estimation via OpenCV and MediaPipe.",
+            bullets: [
+                "Developed a web-based system that detects autism-related behaviors from uploaded videos using CNN + LSTM deep learning models.",
+                "Trained CNN + LSTM models to recognize behavioral patterns, integrating landmarks and pose estimation via OpenCV and MediaPipe.",
+                "Stored video metadata and user analysis history securely using a custom MongoDB schema."
+            ],
             tech: ["Python", "TensorFlow", "OpenCV", "MediaPipe", "MongoDB"],
             github: "https://github.com/Ganeshbobbala/Behavioural-Video-Recognition-for-Autism-Detection"
         },
         {
             title: "Driver Drowsiness Detection System",
-            image: "/driver_drowsiness.png",
-            desc: "An IoT-based system that monitors driver drowsiness using computer vision to analyze eye blink rate, head movement, and facial features in real-time with alert mechanisms.",
+            bullets: [
+                "Monitored driver drowsiness using computer vision to analyze eye blink rate, head movement, and facial features in real-time.",
+                "Integrated Arduino controllers and IoT sensors with real-time facial detection alert mechanisms.",
+                "Programmed computer vision modules in Python with OpenCV to trigger immediate physical alarms."
+            ],
             tech: ["Arduino", "Python", "OpenCV", "IoT Sensors"]
         },
         {
             title: "Digital Ration Distribution System",
-            image: "/ration_system.png",
-            desc: "A full-stack application with role-based access for secure slot booking. Integrates an ML model via Flask to predict eligibility, and features a real-time dashboard with inventory tracking, QR tokens, and notifications.",
-            tech: ["HTML", "CSS", "JavaScript", "Node.js", "Supabase", "Flask", "Socket.io", "Twilio"],
-            github: "https://github.com/Ganeshbobbala"
+            bullets: [
+                "Developed a full-stack web application with role-based access for customers, distributors, and government authorities.",
+                "Integrated a Scikit-learn machine learning model through a Flask API to predict ration card eligibility.",
+                "Built a real-time admin dashboard with inventory tracking, analytics visualization, a QR-based token system, and notification features using Socket.io and Twilio."
+            ],
+            tech: ["HTML", "CSS", "JavaScript", "Node.js", "Flask", "Socket.io", "Twilio", "Supabase"],
+            github: "https://github.com/Ganeshbobbala/portfolio"
         },
         {
             title: "EMG-Based Parkinson’s Disease Detection System",
-            image: "/emg_parkinsons.png",
-            desc: "A real-time system using Arduino Uno to capture muscle activity. Applies signal processing to detect abnormal neuromuscular patterns, offering a low-cost, non-invasive prototype for healthcare monitoring.",
+            bullets: [
+                "Designed a real-time health monitoring prototype using Arduino Uno to capture muscle activity.",
+                "Applied signal processing algorithms to detect abnormal neuromuscular patterns from EMG sensors.",
+                "Offered a low-cost, non-invasive wearable prototype for early healthcare monitoring and diagnosis."
+            ],
             tech: ["Arduino Uno", "Embedded C", "EMG Sensors", "Signal Processing"]
         }
     ];
@@ -326,9 +341,9 @@ const App = () => {
                             </div>
                         </div>
                         <div className="lg:w-[60%]">
-                            <h2 className="text-3xl md:text-5xl font-black mb-8 tracking-normal">Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">Web Developer</span></h2>
+                            <h2 className="text-3xl md:text-5xl font-black mb-8 tracking-normal">Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">Software Engineer</span></h2>
                             <p className="text-zinc-400 text-lg md:text-xl font-medium leading-relaxed mb-10">
-                                I am a Web Developer and Software Engineer focused on building intelligent, scalable, and user-centric applications. With expertise in web development and machine learning, I combine modern technologies with data-driven approaches to create innovative and efficient digital solutions. I am passionate about developing impactful systems that solve real-world challenges.
+                                Aspiring Software Engineer with strong foundations and hands-on experience in Java, web development, and software engineering concepts. Skilled in building responsive web applications, problem-solving, and developing scalable software solutions. Passionate about learning modern technologies and contributing to innovative software development projects in collaborative environments.
                             </p>
                             <div className="flex flex-wrap gap-8 mb-12">
                                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none"><GraduationCap size={16} className="text-blue-500" /> B.Tech CSE (AI & ML)</div>
@@ -339,7 +354,7 @@ const App = () => {
                             <div className="flex flex-wrap gap-4 mb-12">
                                 {[
                                     { label: 'Portfolio', href: DEPLOY_URL },
-                                    { label: 'GitHub', href: 'https://github.com/Ganeshbobbala' },
+                                    { label: 'GitHub', href: 'https://github.com/Ganeshbobbala/portfolio' },
                                     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ganesh-bobbala-9a7a52327' }
                                 ].map((link) => (
                                     <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="px-5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-400 hover:text-blue-400 hover:border-blue-500/40 transition-all">
@@ -390,28 +405,28 @@ const App = () => {
             {/* --- PROJECTS --- */}
             <section id="myprojects" className="py-12">
                 <SectionHeader title="My projects" subtitle="Some of the things I've built" />
-                <div className="max-w-6xl mx-auto px-10 space-y-20">
+                <div className="max-w-6xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 gap-8">
                     {projects.map((proj, i) => (
-                        <div key={i} className={`flex flex-col lg:flex-row gap-16 items-center border border-zinc-900 bg-zinc-950/40 p-1 rounded-[3rem] overflow-hidden group ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
-                            <div className="lg:w-1/2 aspect-video overflow-hidden rounded-[2.5rem]">
-                                <img src={proj.image} alt={proj.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105" />
-                            </div>
-                            <div className="lg:w-1/2 p-6 lg:p-10">
-
-                                <h3 className="text-3xl md:text-4xl font-black tracking-tighter mb-8 leading-[1.1]">{proj.title}</h3>
-                                <div className="bg-zinc-900/60 p-8 rounded-3xl mb-10 border border-zinc-800/50 backdrop-blur-md">
-                                    <span className="text-zinc-500 text-base leading-relaxed font-medium capitalize">
-                                        {proj.desc}
-                                    </span>
+                        <div key={i} className="flex flex-col justify-between border border-zinc-900 bg-zinc-950/40 p-8 md:p-10 rounded-[2.5rem] group hover:border-blue-500/20 transition-all backdrop-blur-3xl hover:bg-zinc-900/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+                            <div>
+                                <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-6 leading-snug group-hover:text-blue-400 transition-colors">{proj.title}</h3>
+                                <div className="bg-zinc-900/40 p-6 rounded-2xl mb-8 border border-zinc-800/30">
+                                    <ul className="list-disc pl-5 space-y-2 text-zinc-400 text-xs md:text-sm leading-relaxed font-medium">
+                                        {proj.bullets.map((bullet, idx) => (
+                                            <li key={idx} className="marker:text-blue-500">{bullet}</li>
+                                        ))}
+                                    </ul>
                                 </div>
-                                <div className="flex flex-wrap gap-2 mb-10">
+                            </div>
+                            <div>
+                                <div className="flex flex-wrap gap-2 mb-8">
                                     {proj.tech.map(t => (
-                                        <span key={t} className="px-4 py-2 bg-zinc-900 text-[10px] font-black uppercase text-zinc-500 rounded-lg border border-zinc-800">{t}</span>
+                                        <span key={t} className="px-3.5 py-1.5 bg-zinc-900 text-[10px] font-black uppercase text-zinc-500 rounded-lg border border-zinc-800">{t}</span>
                                     ))}
                                 </div>
                                 {proj.github && (
-                                    <a href={proj.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white font-black uppercase tracking-widest text-[11px] hover:text-purple-500 transition-all">
-                                        <Github size={18} /> View my project
+                                    <a href={proj.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-blue-400 transition-all group-hover:translate-x-1 transition-transform">
+                                        <Github size={16} /> View my project
                                     </a>
                                 )}
                             </div>
@@ -427,9 +442,9 @@ const App = () => {
                     <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-500 to-indigo-500 hidden md:block shadow-[0_0_15px_rgba(37,99,235,0.5)]" />
                     <div className="space-y-10">
                         {[
-                            { title: "Bachelor of Technology", date: "AUG 2023 - PRESENT", org: "Kalasalingam Academy of Research and Education", f: "Computer Science and Engineering (AI & ML)", icon: "🎓", align: "left", c: "purple" },
-                            { title: "Higher Secondary Education (MPC)", date: "2021 - 2023", org: "Sri Chaitanya Junior College", icon: "📚", align: "right", c: "pink" },
-                            { title: "Secondary School Certificate (SSC)", date: "2020 - 2021", org: "Sri Srinivasa High School", icon: "🏫", align: "left", c: "blue" }
+                            { title: "Bachelor of Technology", date: "AUG 2023 - PRESENT", org: "Kalasalingam Academy of Research and Education", f: "Computer Science and Engineering (AI & ML)", grade: "CGPA: 8.63", icon: "🎓", align: "left", c: "purple" },
+                            { title: "Higher Secondary Education (MPC)", date: "2021 - 2023", org: "Sri Chaitanya Junior College", grade: "Percentage: 89.7%", icon: "📚", align: "right", c: "pink" },
+                            { title: "Secondary School Certificate (SSC)", date: "2020 - 2021", org: "Sri Srinivasa High School", grade: "Percentage: 100%", icon: "🏫", align: "left", c: "blue" }
                         ].map((exp, i) => (
                             <div key={i} className={`flex flex-col md:flex-row items-center gap-12 md:gap-0 ${exp.align === 'right' ? 'md:flex-row-reverse' : ''}`}>
                                 <motion.div
@@ -453,7 +468,8 @@ const App = () => {
                                         </div>
                                     </div>
                                     <p className="text-zinc-300 font-bold text-sm md:text-base mb-4">{exp.org}</p>
-                                    {exp.f && <p className="text-zinc-400 font-medium mb-4 text-sm italic">{exp.f}</p>}
+                                    {exp.f && <p className="text-zinc-400 font-medium mb-2 text-sm italic">{exp.f}</p>}
+                                    {exp.grade && <p className="text-zinc-500 font-semibold text-xs tracking-wide">{exp.grade}</p>}
                                 </motion.div>
                                 <div className={`z-10 w-16 h-16 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center shadow-2xl ${exp.c === 'purple' ? 'shadow-purple-500/10' : exp.c === 'pink' ? 'shadow-pink-500/10' : 'shadow-blue-500/10'}`}>
                                     <span className="text-2xl">{exp.icon}</span>
@@ -522,7 +538,7 @@ const App = () => {
                             </div>
                             <div className="flex gap-4 mt-16">
                                 {[
-                                    { i: <Github />, l: 'https://github.com/Ganeshbobbala' },
+                                    { i: <Github />, l: 'https://github.com/Ganeshbobbala/portfolio' },
                                     { i: <Linkedin />, l: 'https://www.linkedin.com/in/ganesh-bobbala-9a7a52327' },
                                     { i: <Mail />, l: 'mailto:ganeshbobbala479@gmail.com' }
                                 ].map((s, i) => (
