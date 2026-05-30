@@ -21,7 +21,7 @@ Welcome to my personal portfolio repository! This is a modern, responsive single
 *   **Projects:** Detailed showcase of my key projects including:
     *   Autism Detection via Video Recognition
     *   Driver Drowsiness Detection System
-    *   Digital Ration Distribution System
+    *   Smart PDS: Automated Time-Slot Booking & Distribution System
     *   EMG-Based Parkinson’s Disease Detection System
 *   **Education:** Academic background from Kalasalingam Academy of Research and Education.
 *   **Certifications:** Professional certifications and achievements.

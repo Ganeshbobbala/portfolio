@@ -243,7 +243,7 @@ const App = () => {
             tech: ["Arduino", "Python", "OpenCV", "IoT Sensors"]
         },
         {
-            title: "Digital Ration Distribution System",
+            title: "Smart PDS: Automated Time-Slot Booking & Distribution System",
             bullets: [
                 "Developed a full-stack web application with role-based access for customers, distributors, and government authorities.",
                 "Integrated a Scikit-learn machine learning model through a Flask API to predict ration card eligibility.",
