@@ -214,6 +214,16 @@ const App = () => {
 
     const projects = [
         {
+            title: "Smart PDS: Automated Time-Slot Booking & Distribution System",
+            bullets: [
+                "Built a multi-role full-stack web application with 7-language localization and PWA support, streamlining distribution through automated time-slot booking.",
+                "Integrated a Scikit-learn classification model via Flask API to predict ration card eligibility (APL/BPL) using demographic and income-based inputs for intelligent eligibility classification.",
+                "Built a real-time admin dashboard using Socket.io and Supabase to sync bookings, track inventory via Chart.js, and secure tickets with SHA-256 hashes."
+            ],
+            tech: ["HTML", "CSS", "JavaScript", "Node.js", "Socket.io", "Supabase", "Python", "Flask", "Scikit-Learn"],
+            github: "https://github.com/Ganeshbobbala/portfolio"
+        },
+        {
             title: "MarroeCode – AI-Powered Coding Practice Platform",
             bullets: [
                 "Developed a full-stack coding practice platform with a modern IDE-style interface for writing, executing, and analyzing code in real time.",
@@ -241,16 +251,6 @@ const App = () => {
                 "Programmed computer vision modules in Python with OpenCV to trigger immediate physical alarms."
             ],
             tech: ["Arduino", "Python", "OpenCV", "IoT Sensors"]
-        },
-        {
-            title: "Smart PDS: Automated Time-Slot Booking & Distribution System",
-            bullets: [
-                "Developed a full-stack web application with role-based access for customers, distributors, and government authorities.",
-                "Integrated a Scikit-learn machine learning model through a Flask API to predict ration card eligibility.",
-                "Built a real-time admin dashboard with inventory tracking, analytics visualization, a QR-based token system, and notification features using Socket.io and Twilio."
-            ],
-            tech: ["HTML", "CSS", "JavaScript", "Node.js", "Flask", "Socket.io", "Twilio", "Supabase"],
-            github: "https://github.com/Ganeshbobbala/portfolio"
         },
         {
             title: "EMG-Based Parkinson’s Disease Detection System",
@@ -341,9 +341,9 @@ const App = () => {
                             </div>
                         </div>
                         <div className="lg:w-[60%]">
-                            <h2 className="text-3xl md:text-5xl font-black mb-8 tracking-normal">Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">Software Engineer</span></h2>
+                            <h2 className="text-3xl md:text-5xl font-black mb-8 tracking-normal">Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">Software Developer</span></h2>
                             <p className="text-zinc-400 text-lg md:text-xl font-medium leading-relaxed mb-10">
-                                Aspiring Software Engineer with strong foundations and hands-on experience in Java, web development, and software engineering concepts. Skilled in building responsive web applications, problem-solving, and developing scalable software solutions. Passionate about learning modern technologies and contributing to innovative software development projects in collaborative environments.
+                                Aspiring Software Developer with strong foundations in Java, full-stack development, and database management. Experienced in building scalable applications through hands-on projects, with skills in problem-solving and developing responsive software solutions using modern technologies. Passionate about learning emerging technologies and contributing to innovative software development in collaborative environments.
                             </p>
                             <div className="flex flex-wrap gap-8 mb-12">
                                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none"><GraduationCap size={16} className="text-blue-500" /> B.Tech CSE (AI & ML)</div>
@@ -442,7 +442,7 @@ const App = () => {
                     <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-500 to-indigo-500 hidden md:block shadow-[0_0_15px_rgba(37,99,235,0.5)]" />
                     <div className="space-y-10">
                         {[
-                            { title: "Bachelor of Technology", date: "AUG 2023 - PRESENT", org: "Kalasalingam Academy of Research and Education", f: "Computer Science and Engineering (AI & ML)", grade: "CGPA: 8.63", icon: "🎓", align: "left", c: "purple" },
+                            { title: "Bachelor of Technology", date: "2023 - 2027 (Expected)", org: "Kalasalingam Academy of Research and Education", f: "Computer Science and Engineering (AI & ML)", grade: "CGPA: 8.63", icon: "🎓", align: "left", c: "purple" },
                             { title: "Higher Secondary Education (MPC)", date: "2021 - 2023", org: "Sri Chaitanya Junior College", grade: "Percentage: 89.7%", icon: "📚", align: "right", c: "pink" },
                             { title: "Secondary School Certificate (SSC)", date: "2020 - 2021", org: "Sri Srinivasa High School", grade: "Percentage: 100%", icon: "🏫", align: "left", c: "blue" }
                         ].map((exp, i) => (
