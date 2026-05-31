@@ -191,7 +191,7 @@ const App = () => {
 
     const toggleTheme = () => setIsDark(prev => !prev);
 
-    const roles = ["Problem Solver", "Software Engineer", "Web Developer", "Frontend Developer"];
+    const roles = ["Problem Solver", "Software Developer", "Web Developer", "Frontend Developer"];
 
     const skills = [
         { title: "Programming Languages", items: ["Java"] },
@@ -341,7 +341,7 @@ const App = () => {
                             </div>
                         </div>
                         <div className="lg:w-[60%]">
-                            <h2 className="text-3xl md:text-5xl font-black mb-8 tracking-normal">Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">Software Developer</span></h2>
+                            <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-8 tracking-normal" style={{ whiteSpace: 'nowrap' }}>Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">Software Developer</span></h2>
                             <p className="text-zinc-400 text-lg md:text-xl font-medium leading-relaxed mb-10">
                                 Aspiring Software Developer with strong foundations in Java, full-stack development, and database management. Experienced in building scalable applications through hands-on projects, with skills in problem-solving and developing responsive software solutions using modern technologies. Passionate about learning emerging technologies and contributing to innovative software development in collaborative environments.
                             </p>
