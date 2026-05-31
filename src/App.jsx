@@ -191,7 +191,7 @@ const App = () => {
 
     const toggleTheme = () => setIsDark(prev => !prev);
 
-    const roles = ["Problem Solver", "Software Developer", "Web Developer", "Frontend Developer"];
+    const roles = ["Problem Solver", "Software Developer", "Full-Stack Developer"];
 
     const skills = [
         { title: "Programming Languages", items: ["Java"] },
@@ -350,17 +350,6 @@ const App = () => {
                                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none"><MapPin size={16} className="text-blue-500" /> India</div>
                                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none"><Code2 size={16} className="text-blue-500" /> Open to Opportunities</div>
                                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none"><Sparkles size={16} className="text-blue-500" /> Passionate Learner</div>
-                            </div>
-                            <div className="flex flex-wrap gap-4 mb-12">
-                                {[
-                                    { label: 'Portfolio', href: DEPLOY_URL },
-                                    { label: 'GitHub', href: 'https://github.com/Ganeshbobbala/portfolio' },
-                                    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ganesh-bobbala-9a7a52327' }
-                                ].map((link) => (
-                                    <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="px-5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs font-black uppercase tracking-widest text-zinc-400 hover:text-blue-400 hover:border-blue-500/40 transition-all">
-                                        {link.label}
-                                    </a>
-                                ))}
                             </div>
                             <div className="grid grid-cols-2 lg:grid-cols-2 gap-6">
                                 {[
