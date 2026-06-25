@@ -319,7 +319,7 @@ const AITerminal = () => {
         skills: 'Languages: Java, Python\nWeb Tech: HTML, CSS, JavaScript, React.js\nDatabases: MySQL\nTools: Git, GitHub, VS Code\nConcepts: OOP, DBMS\nSoft Skills: Problem Solving, Collaboration, Communication, Adaptability',
         projects: '1. Smart PDS: Automated Time-Slot Booking & Distribution System\n2. MarroeCode: AI-Powered Coding Practice Platform\n3. Autism Detection via Video Recognition\n4. Driver Drowsiness Detection System\n5. EMG-Based Parkinson\'s Detection',
         certs: '1. Software Engineering Job Simulation (JPMorgan Forage)\n2. Generative AI for Beginners (Simplilearn)\n3. AI Tools and ChatGPT Workshop (be10x)\n4. GenAI Powered Data Analytics (JPMorgan Forage)\n5. Prompt Engineering (Infosys)',
-        contact: 'Email: ganeshbobbala44@gmail.com\nGitHub: https://github.com/Ganeshbobbala\nLinkedIn: https://www.linkedin.com/in/ganesh-bobbala-9a7a52327',
+        contact: 'Email: ganeshbobbala479@gmail.com\nGitHub: https://github.com/Ganeshbobbala\nLinkedIn: https://www.linkedin.com/in/ganesh-bobbala-9a7a52327',
         banner: '  ____    _    _   _ _____ ____  _   _ \n / ___|  / \\  | \\ | | ____/ ___|| | | |\n| |  _  / _ \\ |  \\| |  _| \\___ \\| |_| |\n| |_| |/ ___ \\| |\\  | |___ ___) |  _  |\n \\____/_/   \\_\\_| \\_|_____|____/|_| |_|\n\nGANESH BOBBALA - PORTFOLIO TERMINAL v1.0.0'
     };
 
@@ -865,7 +865,7 @@ const App = () => {
                                     <div className="w-16 h-16 bg-zinc-950 border border-zinc-900 rounded-[1.5rem] flex items-center justify-center text-zinc-500 group-hover:text-purple-500 transition-colors shadow-xl"><Mail size={24} /></div>
                                     <div>
                                         <p className="text-[10px] font-black text-zinc-700 uppercase tracking-widest mb-1">Email Me</p>
-                                        <p className="text-lg font-bold text-white tracking-tight underline decoration-purple-500/30 underline-offset-8 group-hover:decoration-purple-500 transition-all">ganeshbobbala44@gmail.com</p>
+                                        <p className="text-lg font-bold text-white tracking-tight underline decoration-purple-500/30 underline-offset-8 group-hover:decoration-purple-500 transition-all">ganeshbobbala479@gmail.com</p>
                                     </div>
                                 </div>
 
@@ -874,7 +874,7 @@ const App = () => {
                                 {[
                                     { i: <Github />, l: 'https://github.com/Ganeshbobbala/portfolio' },
                                     { i: <Linkedin />, l: 'https://www.linkedin.com/in/ganesh-bobbala-9a7a52327' },
-                                    { i: <Mail />, l: 'mailto:ganeshbobbala44@gmail.com' }
+                                    { i: <Mail />, l: 'mailto:ganeshbobbala479@gmail.com' }
                                 ].map((s, i) => (
                                     <a key={i} href={s.l} className="w-14 h-14 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center text-pink-500/40 hover:text-pink-400 hover:bg-pink-500/10 hover:border-pink-500/30 transition-all">{s.i}</a>
                                 ))}
