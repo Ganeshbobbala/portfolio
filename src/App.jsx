@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
-    Github, Linkedin, Mail, Code2, ExternalLink, Download, User, MapPin, Search, Menu, X, Landmark, GraduationCap, Briefcase, BrainCircuit, Cpu, Laptop, Send, Phone, MessageSquare, Award, CheckCircle2, Sparkles, Target, Zap, Sun, Moon
+    Github, Linkedin, Mail, Code2, ExternalLink, Download, User, MapPin, Search, Menu, X, Landmark, GraduationCap, Briefcase, BrainCircuit, Cpu, Laptop, Send, Phone, MessageSquare, Award, CheckCircle2, Sparkles, Target, Zap, Sun, Moon, Database
 } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Sphere, MeshDistortMaterial } from '@react-three/drei';
@@ -189,6 +189,64 @@ const RotatingReactLogo = () => {
                 </group>
             </group>
         </Float>
+    );
+};
+
+const Counter = ({ value, duration = 1.5 }) => {
+    const [count, setCount] = useState(0);
+    
+    useEffect(() => {
+        const num = parseInt(value, 10);
+        if (isNaN(num)) return;
+        
+        let start = 0;
+        const end = num;
+        const totalMiliseconds = duration * 1000;
+        const stepTime = Math.abs(Math.floor(totalMiliseconds / end));
+        
+        const timer = setInterval(() => {
+            start += 1;
+            setCount(start);
+            if (start === end) {
+                clearInterval(timer);
+            }
+        }, Math.max(stepTime, 20));
+        
+        return () => clearInterval(timer);
+    }, [value, duration]);
+    
+    const suffix = value.includes('+') ? '+' : '';
+    return <span>{count}{suffix}</span>;
+};
+
+const MagneticButton = ({ children, className, ...props }) => {
+    const ref = useRef(null);
+    const [position, setPosition] = useState({ x: 0, y: 0 });
+
+    const handleMouseMove = (e) => {
+        const { clientX, clientY } = e;
+        const { left, top, width, height } = ref.current.getBoundingClientRect();
+        const x = clientX - (left + width / 2);
+        const y = clientY - (top + height / 2);
+        setPosition({ x: x * 0.35, y: y * 0.35 });
+    };
+
+    const handleMouseLeave = () => {
+        setPosition({ x: 0, y: 0 });
+    };
+
+    return (
+        <motion.div
+            ref={ref}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            animate={{ x: position.x, y: position.y }}
+            transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+            className={className}
+            {...props}
+        >
+            {children}
+        </motion.div>
     );
 };
 
@@ -425,7 +483,13 @@ const App = () => {
     ];
 
     return (
-        <div className="bg-[#020202] text-white min-h-screen selection:bg-purple-500/30 overflow-x-hidden font-sans portfolio-root">
+        <div className="bg-[#020202] text-white min-h-screen selection:bg-purple-500/30 overflow-x-hidden font-sans portfolio-root relative">
+            {/* Aurora Background */}
+            <div className="absolute top-0 left-0 right-0 h-[1000px] pointer-events-none overflow-hidden z-0 opacity-40">
+                <div className="absolute top-[-30%] left-[-20%] w-[80%] h-[80%] rounded-full bg-gradient-to-br from-blue-600/10 via-indigo-600/10 to-transparent blur-[130px] animate-[pulse_10s_ease-in-out_infinite]" />
+                <div className="absolute top-[-10%] right-[-20%] w-[70%] h-[70%] rounded-full bg-gradient-to-br from-purple-600/10 via-pink-600/5 to-transparent blur-[130px] animate-[pulse_15s_ease-in-out_infinite_2s]" />
+            </div>
+
             <Navbar isDark={isDark} toggleTheme={toggleTheme} />
 
             {/* --- HERO --- */}
@@ -481,7 +545,9 @@ const App = () => {
                         Building intelligent AI-driven solutions and scalable modern web applications.
                     </p>
                     <div className="flex justify-center mb-16">
-                        <a href="#myprojects" className="w-full md:w-auto bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1">View Projects</a>
+                        <MagneticButton className="w-full md:w-auto">
+                            <a href="#myprojects" className="block w-full md:w-auto bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 text-center">View Projects</a>
+                        </MagneticButton>
                     </div>
                 </div>
             </section>
@@ -491,15 +557,53 @@ const App = () => {
                 <SectionHeader title="About Me" subtitle="Get to know me a little better" />
                 <div className="max-w-6xl mx-auto px-10">
                     <div className="flex flex-col lg:flex-row gap-24 items-center">
-                        <div className="lg:w-[40%] relative group">
-                            {/* Neon Glow Aura */}
-                            <div className="absolute -inset-4 bg-blue-600/20 rounded-[3rem] blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
+                        <div className="lg:w-[40%] relative group flex items-center justify-center p-8">
+                            {/* AI Energy Rings */}
+                            <div className="absolute inset-0 border border-blue-500/20 rounded-full animate-[spin_30s_linear_infinite] pointer-events-none" />
+                            <div className="absolute inset-4 border border-purple-500/10 border-dashed rounded-full animate-[spin_20s_linear_infinite_reverse] pointer-events-none" />
                             
-                            <div className="relative aspect-square rounded-[3rem] overflow-hidden bg-zinc-900 border border-white/10">
+                            {/* Neon Glow Aura */}
+                            <div className="absolute -inset-1 bg-blue-600/20 rounded-[3rem] blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
+                            
+                            {/* Profile Image with AI energy border */}
+                            <div className="relative w-72 h-72 rounded-[3.5rem] overflow-hidden bg-zinc-900 border-2 border-blue-500/30 shadow-[0_0_40px_rgba(59,130,246,0.2)] group-hover:border-purple-500/40 group-hover:shadow-[0_0_50px_rgba(168,85,247,0.3)] transition-all duration-700 z-10">
                                 <img src="/My Photo.png" alt="Ganesh Bobbala" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                                 {/* Inner Gloss Overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
+
+                            {/* 3D Orbiting Tech Icons */}
+                            {[
+                                { name: 'Java', color: 'text-red-500', icon: <Code2 size={12} /> },
+                                { name: 'Python', color: 'text-blue-400', icon: <Cpu size={12} /> },
+                                { name: 'React', color: 'text-cyan-400', icon: <Sparkles size={12} /> },
+                                { name: 'MySQL', color: 'text-orange-400', icon: <Database size={12} /> },
+                                { name: 'Git', color: 'text-red-400', icon: <Github size={12} /> }
+                            ].map((ico, idx, arr) => {
+                                const startAngle = (idx * 360) / arr.length;
+                                return (
+                                    <div 
+                                        key={ico.name} 
+                                        className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
+                                    >
+                                        <motion.div
+                                            className="absolute w-full h-full flex items-center justify-center"
+                                            animate={{ rotate: [startAngle, startAngle + 360] }}
+                                            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                                        >
+                                            <motion.div
+                                                className="absolute -top-4 w-10 h-10 bg-zinc-950/90 border border-zinc-800 rounded-xl flex flex-col items-center justify-center shadow-lg pointer-events-auto cursor-pointer"
+                                                animate={{ rotate: [-startAngle, -(startAngle + 360)] }}
+                                                transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                                                whileHover={{ scale: 1.1, borderColor: '#3b82f6' }}
+                                            >
+                                                <span className={ico.color}>{ico.icon}</span>
+                                                <span className="text-[7px] font-black tracking-tighter text-zinc-500 mt-1 uppercase">{ico.name}</span>
+                                            </motion.div>
+                                        </motion.div>
+                                    </div>
+                                );
+                            })}
                         </div>
                         <div className="lg:w-[60%]">
                             <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-8 tracking-normal" style={{ whiteSpace: 'nowrap' }}>Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">Software Developer</span></h2>
@@ -517,18 +621,22 @@ const App = () => {
                                     { l: 'Projects', v: '5+', href: '#myprojects' }, { l: 'Certifications', v: '5+', href: '#certifications' }
                                 ].map((s, i) => (
                                     <a key={i} href={s.href} className="bg-zinc-950/50 border border-zinc-900 p-8 rounded-2xl flex flex-col items-center justify-center text-center hover:bg-zinc-900 transition-all cursor-pointer">
-                                        <p className="text-4xl font-black text-blue-500 mb-1">{s.v}</p>
+                                        <p className="text-4xl font-black text-blue-500 mb-1"><Counter value={s.v} /></p>
                                         <p className="text-[10px] font-black uppercase tracking-widest text-zinc-600">{s.l}</p>
                                     </a>
                                 ))}
                             </div>
                             <div className="flex flex-col md:flex-row items-center gap-6 mt-12">
-                                <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
-                                    <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" /> View Resume
-                                </a>
-                                <a href={RESUME_URL} download="Ganesh_Bobbala_Resume.pdf" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
-                                    <Download size={18} className="group-hover:translate-y-1 transition-transform" /> Download Resume
-                                </a>
+                                <MagneticButton className="w-full md:w-auto">
+                                    <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
+                                        <ExternalLink size={18} className="group-hover:translate-x-1 transition-transform" /> View Resume
+                                    </a>
+                                </MagneticButton>
+                                <MagneticButton className="w-full md:w-auto">
+                                    <a href={RESUME_URL} download="Ganesh_Bobbala_Resume.pdf" className="w-full md:w-auto flex items-center justify-center gap-3 bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 group">
+                                        <Download size={18} className="group-hover:translate-y-1 transition-transform" /> Download Resume
+                                    </a>
+                                </MagneticButton>
                             </div>
                         </div>
                     </div>
@@ -817,12 +925,14 @@ const App = () => {
                                             placeholder="Tell me about your vision..."
                                         ></textarea>
                                     </div>
-                                    <button 
-                                        type="submit"
-                                        className="w-full bg-blue-600 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.3em] hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.3)] flex items-center justify-center gap-4 hover:-translate-y-1 active:translate-y-0"
-                                    >
-                                        Send Message <Send size={18} />
-                                    </button>
+                                    <MagneticButton className="w-full">
+                                        <button 
+                                            type="submit"
+                                            className="w-full bg-blue-600 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.3em] hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.3)] flex items-center justify-center gap-4 hover:-translate-y-1 active:translate-y-0"
+                                        >
+                                            Send Message <Send size={18} />
+                                        </button>
+                                    </MagneticButton>
                                 </form>
                             </div>
                         </div>
