@@ -194,8 +194,8 @@ const App = () => {
     const roles = ["Problem Solver", "Software Developer", "Full-Stack Developer"];
 
     const skills = [
-        { title: "Programming Languages", items: ["Java"] },
-        { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript"] },
+        { title: "Programming Languages", items: ["Java", "Python"] },
+        { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript", "React.js"] },
         { title: "Database Technologies", items: ["MySQL"] },
         { title: "Tools & Platforms", items: ["Git", "GitHub", "Visual Studio Code"] },
         { title: "Core Concepts", items: ["Object-Oriented Programming (OOP)", "DBMS"] },
@@ -343,7 +343,7 @@ const App = () => {
                         <div className="lg:w-[60%]">
                             <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-8 tracking-normal" style={{ whiteSpace: 'nowrap' }}>Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">Software Developer</span></h2>
                             <p className="text-zinc-400 text-lg md:text-xl font-medium leading-relaxed mb-10">
-                                Aspiring Software Developer with strong foundations in Java, full-stack development, and database management, with practical experience building scalable applications through academic and personal projects. Skilled in problem-solving and developing responsive software solutions using modern technologies. Passionate about learning emerging technologies and contributing to innovative software development in collaborative environments.
+                                Motivated and enthusiastic Computer Science student with knowledge of Java, Python, HTML, CSS, JavaScript, and SQL. Gained hands-on experience through academic and personal projects in software and web development. Passionate about Full-Stack Development, problem-solving, and continuous learning. Seeking an opportunity to apply and enhance technical skills while contributing to innovative software solutions in a professional environment.
                             </p>
                             <div className="flex flex-wrap gap-8 mb-12">
                                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none"><GraduationCap size={16} className="text-blue-500" /> B.Tech CSE (AI & ML)</div>
