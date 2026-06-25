@@ -306,96 +306,7 @@ const OrbitingTech = () => {
     );
 };
 
-const AITerminal = () => {
-    const [history, setHistory] = useState([
-        { cmd: '', output: 'Welcome to Ganesh\'s Interactive Terminal! Type "help" to see available commands.' }
-    ]);
-    const [input, setInput] = useState('');
-    const containerRef = useRef(null);
 
-    const commands = {
-        help: 'Available commands: about, skills, projects, certs, contact, clear, banner',
-        about: 'Ganesh Bobbala - Motivated and enthusiastic Computer Science student specializing in AI & ML. Gained hands-on experience through academic and personal projects in software and web development. Passionate about Full-Stack Development, problem-solving, and continuous learning.',
-        skills: 'Languages: Java, Python\nWeb Tech: HTML, CSS, JavaScript, React.js\nDatabases: MySQL\nTools: Git, GitHub, VS Code\nConcepts: OOP, DBMS\nSoft Skills: Problem Solving, Collaboration, Communication, Adaptability',
-        projects: '1. Smart PDS: Automated Time-Slot Booking & Distribution System\n2. MarroeCode: AI-Powered Coding Practice Platform\n3. Autism Detection via Video Recognition\n4. Driver Drowsiness Detection System\n5. EMG-Based Parkinson\'s Detection',
-        certs: '1. Software Engineering Job Simulation (JPMorgan Forage)\n2. Generative AI for Beginners (Simplilearn)\n3. AI Tools and ChatGPT Workshop (be10x)\n4. GenAI Powered Data Analytics (JPMorgan Forage)\n5. Prompt Engineering (Infosys)',
-        contact: 'Email: ganeshbobbala44@gmail.com\nGitHub: https://github.com/Ganeshbobbala\nLinkedIn: https://www.linkedin.com/in/ganesh-bobbala-9a7a52327',
-        banner: '  ____    _    _   _ _____ ____  _   _ \n / ___|  / \\  | \\ | | ____/ ___|| | | |\n| |  _  / _ \\ |  \\| |  _| \\___ \\| |_| |\n| |_| |/ ___ \\| |\\  | |___ ___) |  _  |\n \\____/_/   \\_\\_| \\_|_____|____/|_| |_|\n\nGANESH BOBBALA - PORTFOLIO TERMINAL v1.0.0'
-    };
-
-    const handleCommand = (e) => {
-        if (e.key === 'Enter') {
-            const trimmed = input.trim().toLowerCase();
-            if (trimmed === 'clear') {
-                setHistory([]);
-            } else if (trimmed === 'banner') {
-                setHistory(prev => [...prev, { cmd: input, output: commands.banner }]);
-            } else if (commands[trimmed]) {
-                setHistory(prev => [...prev, { cmd: input, output: commands[trimmed] }]);
-            } else if (trimmed === '') {
-                setHistory(prev => [...prev, { cmd: '', output: '' }]);
-            } else {
-                setHistory(prev => [...prev, { cmd: input, output: `Command not found: "${trimmed}". Type "help" for a list of commands.` }]);
-            }
-            setInput('');
-        }
-    };
-
-    useEffect(() => {
-        if (containerRef.current) {
-            containerRef.current.scrollTop = containerRef.current.scrollHeight;
-        }
-    }, [history]);
-
-    return (
-        <div className="w-full max-w-3xl mx-auto bg-zinc-950/90 border border-zinc-800 rounded-2xl overflow-hidden font-mono text-xs md:text-sm shadow-2xl relative z-10 backdrop-blur-md">
-            {/* Terminal Header */}
-            <div className="bg-zinc-900 px-4 py-3 flex items-center justify-between border-b border-zinc-850">
-                <div className="flex gap-2">
-                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                    <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                </div>
-                <span className="text-zinc-500 text-xs font-black tracking-wide">ganesh@portfolio: ~</span>
-                <div className="w-10" />
-            </div>
-            
-            {/* Terminal Body */}
-            <div 
-                ref={containerRef}
-                className="p-6 h-64 overflow-y-auto space-y-4 text-left leading-relaxed text-zinc-300"
-            >
-                {history.map((h, i) => (
-                    <div key={i}>
-                        {h.cmd && (
-                            <div className="flex items-center gap-2 text-blue-400 font-bold mb-1">
-                                <span className="text-green-500">ganesh@portfolio:~$</span> {h.cmd}
-                            </div>
-                        )}
-                        <div className="whitespace-pre-wrap text-zinc-400">{h.output}</div>
-                    </div>
-                ))}
-                
-                {/* Active Input Line */}
-                <div className="flex items-center gap-2 text-blue-400 font-bold">
-                    <span className="text-green-500">ganesh@portfolio:~$</span>
-                    <input 
-                        type="text"
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={handleCommand}
-                        className="flex-grow bg-transparent text-zinc-300 focus:outline-none font-mono caret-blue-500"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        autoCapitalize="off"
-                        spellCheck="false"
-                        placeholder="type 'help'..."
-                    />
-                </div>
-            </div>
-        </div>
-    );
-};
 
 const App = () => {
     const [isDark, setIsDark] = useState(() => {
@@ -826,14 +737,6 @@ const App = () => {
                             </div>
                         </Tilt>
                     ))}
-                </div>
-            </section>
-
-            {/* --- TERMINAL --- */}
-            <section id="terminal" className="py-12 bg-zinc-950/20 border-t border-b border-white/5">
-                <SectionHeader title="Interactive Terminal" subtitle="Explore my portfolio using command-line inputs" />
-                <div className="max-w-6xl mx-auto px-10">
-                    <AITerminal />
                 </div>
             </section>
 
