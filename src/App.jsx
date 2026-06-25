@@ -468,53 +468,15 @@ const App = () => {
                 <SectionHeader title="About Me" subtitle="Get to know me a little better" />
                 <div className="max-w-6xl mx-auto px-10">
                     <div className="flex flex-col lg:flex-row gap-24 items-center">
-                        <div className="lg:w-[40%] relative group flex items-center justify-center p-8">
-                            {/* AI Energy Rings */}
-                            <div className="absolute inset-0 border border-blue-500/20 rounded-full animate-[spin_30s_linear_infinite] pointer-events-none" />
-                            <div className="absolute inset-4 border border-purple-500/10 border-dashed rounded-full animate-[spin_20s_linear_infinite_reverse] pointer-events-none" />
-                            
+                        <div className="lg:w-[40%] relative group">
                             {/* Neon Glow Aura */}
-                            <div className="absolute -inset-1 bg-blue-600/20 rounded-[3rem] blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
+                            <div className="absolute -inset-4 bg-blue-600/20 rounded-[3rem] blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
                             
-                            {/* Profile Image with AI energy border */}
-                            <div className="relative w-72 h-72 rounded-[3.5rem] overflow-hidden bg-zinc-900 border-2 border-blue-500/30 shadow-[0_0_40px_rgba(59,130,246,0.2)] group-hover:border-purple-500/40 group-hover:shadow-[0_0_50px_rgba(168,85,247,0.3)] transition-all duration-700 z-10">
+                            <div className="relative aspect-square rounded-[3rem] overflow-hidden bg-zinc-900 border border-white/10 z-10">
                                 <img src="/My Photo.png" alt="Ganesh Bobbala" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                                 {/* Inner Gloss Overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
-
-                            {/* 3D Orbiting Tech Icons */}
-                            {[
-                                { name: 'Java', color: 'text-red-500', icon: <Code2 size={12} /> },
-                                { name: 'Python', color: 'text-blue-400', icon: <Cpu size={12} /> },
-                                { name: 'React', color: 'text-cyan-400', icon: <Sparkles size={12} /> },
-                                { name: 'MySQL', color: 'text-orange-400', icon: <Database size={12} /> },
-                                { name: 'Git', color: 'text-red-400', icon: <Github size={12} /> }
-                            ].map((ico, idx, arr) => {
-                                const startAngle = (idx * 360) / arr.length;
-                                return (
-                                    <div 
-                                        key={ico.name} 
-                                        className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
-                                    >
-                                        <motion.div
-                                            className="absolute w-full h-full flex items-center justify-center"
-                                            animate={{ rotate: [startAngle, startAngle + 360] }}
-                                            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-                                        >
-                                            <motion.div
-                                                className="absolute -top-4 w-10 h-10 bg-zinc-950/90 border border-zinc-800 rounded-xl flex flex-col items-center justify-center shadow-lg pointer-events-auto cursor-pointer"
-                                                animate={{ rotate: [-startAngle, -(startAngle + 360)] }}
-                                                transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-                                                whileHover={{ scale: 1.1, borderColor: '#3b82f6' }}
-                                            >
-                                                <span className={ico.color}>{ico.icon}</span>
-                                                <span className="text-[7px] font-black tracking-tighter text-zinc-500 mt-1 uppercase">{ico.name}</span>
-                                            </motion.div>
-                                        </motion.div>
-                                    </div>
-                                );
-                            })}
                         </div>
                         <div className="lg:w-[60%]">
                             <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-8 tracking-normal" style={{ whiteSpace: 'nowrap' }}>Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-blue-400">Software Developer</span></h2>
