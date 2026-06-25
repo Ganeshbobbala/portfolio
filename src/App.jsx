@@ -6,6 +6,7 @@ import {
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Sphere, MeshDistortMaterial } from '@react-three/drei';
 import { Typewriter } from 'react-simple-typewriter';
+import Tilt from 'react-parallax-tilt';
 
 const RESUME_URL = '/Ganesh_Resume.pdf';
 const DEPLOY_URL = 'https://portfolio-ganeshbobbala.vercel.app/';
@@ -27,8 +28,8 @@ const Navbar = ({ isDark, toggleTheme }) => {
     return (
         <nav className="fixed top-0 left-0 right-0 z-[100] bg-black/60 backdrop-blur-3xl border-b border-white/5 py-4 px-6 md:px-0">
             <div className="max-w-7xl mx-auto px-4 md:px-8 flex justify-between items-center text-white">
-                <a href="#home" className="text-2xl font-black tracking-tighter text-blue-500 italic flex items-center gap-2 hover:text-blue-400 transition-colors">
-                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center italic text-sm">P</div>
+                <a href="#home" className="text-2xl font-black tracking-tighter text-blue-500 italic flex items-center gap-2 hover:text-blue-400 transition-colors group">
+                    <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center italic text-sm transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(37,99,235,0.8)] group-hover:scale-105">P</div>
                     Portfolio
                 </a>
                 
@@ -175,6 +176,62 @@ const RotatingReactLogo = () => {
                 </group>
             </group>
         </Float>
+    );
+};
+
+const OrbitingTech = () => {
+    const icons = [
+        { name: 'Java', color: 'text-red-500' },
+        { name: 'Python', color: 'text-blue-400' },
+        { name: 'React', color: 'text-cyan-400' },
+        { name: 'JS', color: 'text-yellow-400' },
+        { name: 'MySQL', color: 'text-orange-400' },
+        { name: 'Git', color: 'text-red-400' },
+        { name: 'VS Code', color: 'text-blue-500' },
+        { name: 'OOP', color: 'text-purple-400' }
+    ];
+
+    return (
+        <div className="relative w-80 h-80 mx-auto flex items-center justify-center overflow-hidden">
+            {/* Ambient Radial Gradient Background */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.08)_0%,transparent_70%)] pointer-events-none" />
+            
+            {/* Center Node */}
+            <div className="relative z-10 w-24 h-24 bg-zinc-950 border border-zinc-800 rounded-full flex flex-col items-center justify-center shadow-[0_0_50px_rgba(59,130,246,0.15)] group hover:border-blue-500/40 transition-colors duration-500">
+                <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur opacity-10 group-hover:opacity-25 transition-opacity" />
+                <BrainCircuit size={36} className="text-blue-500 group-hover:text-purple-400 transition-colors duration-500 animate-[pulse_3s_ease-in-out_infinite]" />
+                <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 mt-2">Skills</span>
+            </div>
+
+            {/* Orbiting Rings */}
+            <div className="absolute w-64 h-64 border border-zinc-800/40 rounded-full border-dashed animate-[spin_40s_linear_infinite]" />
+            <div className="absolute w-44 h-44 border border-zinc-800/20 rounded-full border-dashed animate-[spin_25s_linear_infinite_reverse]" />
+
+            {/* Orbiting Items */}
+            {icons.map((ico, idx) => {
+                const startAngle = (idx * 360) / icons.length;
+                return (
+                    <div 
+                        key={ico.name} 
+                        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                    >
+                        <motion.div
+                            className="absolute w-full h-full flex items-center justify-center"
+                            animate={{ rotate: [startAngle, startAngle + 360] }}
+                            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                        >
+                            <motion.div
+                                className="absolute top-2 w-12 h-12 bg-zinc-950 border border-zinc-800 rounded-2xl flex flex-col items-center justify-center shadow-xl hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] transition-all pointer-events-auto cursor-pointer"
+                                animate={{ rotate: [-startAngle, -(startAngle + 360)] }}
+                                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                            >
+                                <span className={`text-[10px] font-black tracking-widest uppercase ${ico.color}`}>{ico.name}</span>
+                            </motion.div>
+                        </motion.div>
+                    </div>
+                );
+            })}
+        </div>
     );
 };
 
@@ -377,17 +434,39 @@ const App = () => {
             {/* --- SKILLS --- */}
             <section id="myskills" className="py-12 bg-zinc-950/20">
                 <SectionHeader title="My skills" subtitle="Core competencies and frameworks" />
-                <div className="max-w-6xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 gap-10">
-                    {skills.map((s, i) => (
-                        <div key={i} className="bg-zinc-950/80 border border-zinc-900 p-10 rounded-[2rem] hover:border-purple-500/20 transition-all group backdrop-blur-3xl">
-                            <h3 className="text-purple-500 text-sm font-black tracking-widest uppercase mb-10">{s.title}</h3>
-                            <div className="flex flex-wrap gap-4">
-                                {s.items.map(item => (
-                                    <span key={item} className="px-5 py-2.5 bg-zinc-900 border border-zinc-800 text-sm font-black text-zinc-400 hover:text-white hover:border-purple-500/50 transition-all rounded-2xl uppercase tracking-tighter">{item}</span>
-                                ))}
+                <div className="max-w-6xl mx-auto px-10 grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
+                    {/* Left Column (first 3 skill categories) */}
+                    <div className="space-y-10">
+                        {skills.slice(0, 3).map((s, i) => (
+                            <div key={i} className="bg-zinc-950/80 border border-zinc-900 p-10 rounded-[2rem] hover:border-purple-500/20 transition-all group backdrop-blur-3xl">
+                                <h3 className="text-purple-500 text-sm font-black tracking-widest uppercase mb-10">{s.title}</h3>
+                                <div className="flex flex-wrap gap-4">
+                                    {s.items.map(item => (
+                                        <span key={item} className="px-5 py-2.5 bg-zinc-900 border border-zinc-800 text-sm font-black text-zinc-400 hover:text-white hover:border-purple-500/50 transition-all rounded-2xl uppercase tracking-tighter">{item}</span>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+
+                    {/* Center Column (Orbiting tech icons visual) */}
+                    <div className="hidden lg:block">
+                        <OrbitingTech />
+                    </div>
+
+                    {/* Right Column (last 3 skill categories) */}
+                    <div className="space-y-10">
+                        {skills.slice(3, 6).map((s, i) => (
+                            <div key={i} className="bg-zinc-950/80 border border-zinc-900 p-10 rounded-[2rem] hover:border-purple-500/20 transition-all group backdrop-blur-3xl">
+                                <h3 className="text-purple-500 text-sm font-black tracking-widest uppercase mb-10">{s.title}</h3>
+                                <div className="flex flex-wrap gap-4">
+                                    {s.items.map(item => (
+                                        <span key={item} className="px-5 py-2.5 bg-zinc-900 border border-zinc-800 text-sm font-black text-zinc-400 hover:text-white hover:border-purple-500/50 transition-all rounded-2xl uppercase tracking-tighter">{item}</span>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </section>
 
@@ -396,30 +475,42 @@ const App = () => {
                 <SectionHeader title="My projects" subtitle="Some of the things I've built" />
                 <div className="max-w-6xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 gap-8">
                     {projects.map((proj, i) => (
-                        <div key={i} className="flex flex-col justify-between border border-zinc-900 bg-zinc-950/40 p-8 md:p-10 rounded-[2.5rem] group hover:border-blue-500/20 transition-all backdrop-blur-3xl hover:bg-zinc-900/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-                            <div>
-                                <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-6 leading-snug group-hover:text-blue-400 transition-colors">{proj.title}</h3>
-                                <div className="bg-zinc-900/40 p-6 rounded-2xl mb-8 border border-zinc-800/30">
-                                    <ul className="list-disc pl-5 space-y-2 text-zinc-400 text-xs md:text-sm leading-relaxed font-medium">
-                                        {proj.bullets.map((bullet, idx) => (
-                                            <li key={idx} className="marker:text-blue-500">{bullet}</li>
+                        <Tilt 
+                            key={i} 
+                            tiltMaxAngleX={6} 
+                            tiltMaxAngleY={6} 
+                            glareEnable={true} 
+                            glareMaxOpacity={0.1} 
+                            glareColor="#3b82f6" 
+                            glarePosition="all"
+                            glareBorderRadius="2.5rem"
+                            className="flex"
+                        >
+                            <div className="w-full flex flex-col justify-between border border-zinc-900 bg-zinc-950/40 p-8 md:p-10 rounded-[2.5rem] group hover:border-blue-500/20 transition-all backdrop-blur-3xl hover:bg-zinc-900/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+                                <div>
+                                    <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-6 leading-snug group-hover:text-blue-400 transition-colors">{proj.title}</h3>
+                                    <div className="bg-zinc-900/40 p-6 rounded-2xl mb-8 border border-zinc-800/30">
+                                        <ul className="list-disc pl-5 space-y-2 text-zinc-400 text-xs md:text-sm leading-relaxed font-medium">
+                                            {proj.bullets.map((bullet, idx) => (
+                                                <li key={idx} className="marker:text-blue-500">{bullet}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div className="flex flex-wrap gap-2 mb-8">
+                                        {proj.tech.map(t => (
+                                            <span key={t} className="px-3.5 py-1.5 bg-zinc-900 text-[10px] font-black uppercase text-zinc-500 rounded-lg border border-zinc-800">{t}</span>
                                         ))}
-                                    </ul>
+                                    </div>
+                                    {proj.github && (
+                                        <a href={proj.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-blue-400 transition-all group-hover:translate-x-1 transition-transform">
+                                            <Github size={16} /> View my project
+                                        </a>
+                                    )}
                                 </div>
                             </div>
-                            <div>
-                                <div className="flex flex-wrap gap-2 mb-8">
-                                    {proj.tech.map(t => (
-                                        <span key={t} className="px-3.5 py-1.5 bg-zinc-900 text-[10px] font-black uppercase text-zinc-500 rounded-lg border border-zinc-800">{t}</span>
-                                    ))}
-                                </div>
-                                {proj.github && (
-                                    <a href={proj.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-blue-400 transition-all group-hover:translate-x-1 transition-transform">
-                                        <Github size={16} /> View my project
-                                    </a>
-                                )}
-                            </div>
-                        </div>
+                        </Tilt>
                     ))}
                 </div>
             </section>
@@ -475,19 +566,31 @@ const App = () => {
                 <SectionHeader title="Certifications" subtitle="Courses and achievements I've completed" />
                 <div className="max-w-7xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {certs.map((c, i) => (
-                        <div key={i} className="bg-zinc-950/40 border border-zinc-900 p-8 rounded-[3rem] hover:border-blue-500/20 transition-all flex flex-col gap-6 group backdrop-blur-3xl hover:bg-zinc-900/50 hover:shadow-[0_20px_50px_rgba(37,99,235,0.05)]">
-                            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${c.c} group-hover:scale-110 transition-transform`}><Award size={24} /></div>
-                            <h4 className="text-white font-black tracking-tight text-lg leading-snug h-14 line-clamp-2">{c.n}</h4>
-                            <p className="text-zinc-500 text-[10px] font-black uppercase tracking-widest mb-4 h-8 line-clamp-2">{c.i}</p>
-                            <a 
-                                href={c.link} 
-                                target="_blank" 
-                                rel="noopener noreferrer" 
-                                className="mt-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-[0_10px_20px_rgba(37,99,235,0.2)] hover:-translate-y-0.5 active:translate-y-0"
-                            >
-                                View Certificate <ExternalLink size={16} />
-                            </a>
-                        </div>
+                        <Tilt 
+                            key={i} 
+                            tiltMaxAngleX={10} 
+                            tiltMaxAngleY={10} 
+                            glareEnable={true} 
+                            glareMaxOpacity={0.15} 
+                            glareColor="#a855f7" 
+                            glarePosition="all"
+                            glareBorderRadius="3rem"
+                            className="flex"
+                        >
+                            <div className="w-full bg-zinc-950/40 border border-zinc-900 p-8 rounded-[3rem] hover:border-blue-500/20 transition-all flex flex-col gap-6 group backdrop-blur-3xl hover:bg-zinc-900/50 hover:shadow-[0_20px_50px_rgba(37,99,235,0.05)]">
+                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${c.c} group-hover:scale-110 transition-transform`}><Award size={24} /></div>
+                                <h4 className="text-white font-black tracking-tight text-lg leading-snug h-14 line-clamp-2">{c.n}</h4>
+                                <p className="text-zinc-500 text-[10px] font-black uppercase tracking-widest mb-4 h-8 line-clamp-2">{c.i}</p>
+                                <a 
+                                    href={c.link} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="mt-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-[0_10px_20px_rgba(37,99,235,0.2)] hover:-translate-y-0.5 active:translate-y-0"
+                                >
+                                    View Certificate <ExternalLink size={16} />
+                                </a>
+                            </div>
+                        </Tilt>
                     ))}
                 </div>
             </section>
