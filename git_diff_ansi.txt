@@ -1,0 +1,564 @@
+diff --git a/src/App.jsx b/src/App.jsx
+index 0edf292..09781aa 100644
+--- a/src/App.jsx
++++ b/src/App.jsx
+@@ -250,6 +250,283 @@ const MagneticButton = ({ children, className, ...props }) => {
+     );
+ };
+ 
++const FloatingIcon = ({ icon, className, delay = 0, duration = 4 }) => (
++    <motion.div
++        className={`absolute pointer-events-none opacity-20 hover:opacity-75 transition-opacity duration-500 z-10 ${className}`}
++        initial={{ y: 0 }}
++        animate={{ y: [-12, 12, -12] }}
++        transition={{
++            duration,
++            repeat: Infinity,
++            ease: "easeInOut",
++            delay
++        }}
++    >
++        {icon}
++    </motion.div>
++);
++
++const LiveCodeEditor = () => {
++    const codeLines = [
++        "// Ganesh's profile configuration",
++        "const developer = {",
++        "  name: 'Ganesh Bobbala',",
++        "  role: 'Full-Stack Developer',",
++        "  skills: [",
++        "    'Java', 'Python', 'React.js',",
++        "    'Node.js', 'Git', 'SQL'",
++        "  ],",
++        "  passions: [",
++        "    'AI/ML', 'Full-Stack Web'",
++        "  ],",
++        "  motto: 'Code. Build. Scale.',",
++        "};",
++        "",
++        "function startBuilding() {",
++        "  console.log('Building apps...');",
++        "}"
++    ];
++    const [currentLine, setCurrentLine] = useState(0);
++    const [currentText, setCurrentText] = useState('');
++    const [typedCode, setTypedCode] = useState([]);
++
++    useEffect(() => {
++        if (currentLine >= codeLines.length) return;
++
++        let charIndex = 0;
++        const interval = setInterval(() => {
++            const targetText = codeLines[currentLine];
++            if (charIndex < targetText.length) {
++                setCurrentText(prev => prev + targetText[charIndex]);
++                charIndex++;
++            } else {
++                clearInterval(interval);
++                setTypedCode(prev => [...prev, targetText]);
++                setCurrentText('');
++                setCurrentLine(prev => prev + 1);
++            }
++        }, 35);
++
++        return () => clearInterval(interval);
++    }, [currentLine]);
++
++    const renderStyledLine = (line) => {
++        if (line.startsWith("//")) return <span className="text-zinc-600 italic">{line}</span>;
++        if (line.includes("const ") || line.includes("function ")) {
++            const isConst = line.includes("const ");
++            const keyword = isConst ? "const " : "function ";
++            const rest = line.replace(keyword, "");
++            return (
++                <span>
++                    <span className="text-purple-400 font-bold">{keyword}</span>
++                    <span className="text-blue-400">{rest.split(" ")[0]}</span>
++                    {rest.substring(rest.split(" ")[0].length)}
++                </span>
++            );
++        }
++        if (line.includes("console.log")) {
++            return (
++                <span>
++                    <span className="text-zinc-550">  console.</span>
++                    <span className="text-yellow-400">log</span>
++                    <span className="text-zinc-400">(</span>
++                    <span className="text-green-400">'Building apps...'</span>
++                    <span className="text-zinc-400">);</span>
++                </span>
++            );
++        }
++        return <span className="text-zinc-300">{line}</span>;
++    };
++
++    return (
++        <div className="w-full max-w-md bg-[#050608]/90 border border-zinc-800 rounded-3xl shadow-[0_30px_65px_rgba(0,0,0,0.6)] overflow-hidden font-mono text-[11px] leading-relaxed text-zinc-400">
++            {/* Header */}
++            <div className="bg-zinc-950/95 px-5 py-3 flex items-center justify-between border-b border-zinc-900">
++                <div className="flex gap-2">
++                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
++                    <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
++                    <div className="w-3 h-3 rounded-full bg-green-500/80" />
++                </div>
++                <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">GaneshBobbala.js</span>
++                <div className="w-8" />
++            </div>
++            {/* Editor Area */}
++            <div className="p-6 h-64 overflow-y-auto flex gap-4">
++                {/* Line Numbers */}
++                <div className="text-zinc-700 select-none text-right flex flex-col font-bold w-4">
++                    {Array.from({ length: Math.max(codeLines.length, 10) }).map((_, i) => (
++                        <span key={i}>{i + 1}</span>
++                    ))}
++                </div>
++                {/* Code Lines */}
++                <div className="flex-grow flex flex-col text-left">
++                    {typedCode.map((line, idx) => (
++                        <div key={idx} className="min-h-[1.2rem] whitespace-pre-wrap">
++                            {renderStyledLine(line)}
++                        </div>
++                    ))}
++                    {currentLine < codeLines.length && (
++                        <div className="min-h-[1.2rem] whitespace-pre-wrap border-r-2 border-blue-500 animate-pulse">
++                            {renderStyledLine(currentText)}
++                        </div>
++                    )}
++                </div>
++            </div>
++        </div>
++    );
++};
++
++const RenderProjectMockup = ({ projectKey }) => {
++    if (projectKey === "pds") {
++        return (
++            <div className="relative w-full max-w-[280px] mx-auto group-hover:scale-105 transition-transform duration-500">
++                {/* Laptop Screen */}
++                <div className="w-full aspect-[16/10] bg-[#0c0d12] border-4 border-zinc-800 rounded-t-2xl overflow-hidden flex flex-col shadow-inner">
++                    {/* Browser Header */}
++                    <div className="h-3.5 bg-zinc-950 px-2 flex items-center gap-1 border-b border-zinc-900/60">
++                        <div className="w-1.5 h-1.5 rounded-full bg-red-500/60" />
++                        <div className="w-1.5 h-1.5 rounded-full bg-yellow-500/60" />
++                        <div className="w-1.5 h-1.5 rounded-full bg-green-500/60" />
++                        <div className="bg-zinc-900 text-zinc-500 text-[5px] px-2 py-0.5 rounded ml-2 font-mono truncate max-w-[120px]">smart-pds.gov/admin</div>
++                    </div>
++                    {/* Dashboard Content */}
++                    <div className="flex-grow p-2.5 flex gap-2 text-[5px] font-sans text-zinc-400">
++                        {/* Sidebar */}
++                        <div className="w-10 bg-zinc-950/90 rounded border border-zinc-800/80 p-1 flex flex-col gap-1">
++                            <div className="h-1.5 bg-blue-500/20 rounded" />
++                            <div className="h-1.5 bg-zinc-800 rounded" />
++                            <div className="h-1.5 bg-zinc-800 rounded" />
++                            <div className="h-1.5 bg-zinc-800 rounded" />
++                        </div>
++                        {/* Dashboard Stats & Table */}
++                        <div className="flex-grow flex flex-col gap-2">
++                            {/* Grid cards */}
++                            <div className="grid grid-cols-3 gap-1">
++                                <div className="bg-zinc-900 border border-zinc-800/80 p-0.5 rounded text-center">
++                                    <p className="text-[3px] text-zinc-500 uppercase font-black">Slots</p>
++                                    <p className="text-[6px] font-black text-blue-400">240</p>
++                                </div>
++                                <div className="bg-zinc-900 border border-zinc-800/80 p-0.5 rounded text-center">
++                                    <p className="text-[3px] text-zinc-500 uppercase font-black">Stock</p>
++                                    <p className="text-[6px] font-black text-purple-400">92%</p>
++                                </div>
++                                <div className="bg-zinc-900 border border-zinc-800/80 p-0.5 rounded text-center">
++                                    <p className="text-[3px] text-zinc-500 uppercase font-black">Model</p>
++                                    <p className="text-[6px] font-black text-green-400">APL/BPL</p>
++                                </div>
++                            </div>
++                            {/* Live bar chart */}
++                            <div className="flex-grow bg-zinc-900/50 border border-zinc-800/30 rounded p-1 flex flex-col justify-between">
++                                <div className="flex justify-between items-center text-[4px] text-zinc-500 font-bold border-b border-zinc-800/50 pb-1">
++                                    <span>Time-slot bookings</span>
++                                    <span className="text-blue-500">Live</span>
++                                </div>
++                                <div className="flex items-end justify-around h-8 pt-1.5">
++                                    <div className="w-1.5 bg-blue-500 h-[60%] rounded-t" />
++                                    <div className="w-1.5 bg-blue-500 h-[80%] rounded-t" />
++                                    <div className="w-1.5 bg-blue-500 h-[45%] rounded-t" />
++                                    <div className="w-1.5 bg-purple-500 h-[95%] rounded-t" />
++                                    <div className="w-1.5 bg-purple-500 h-[70%] rounded-t" />
++                                </div>
++                            </div>
++                        </div>
++                    </div>
++                </div>
++                {/* Laptop Base */}
++                <div className="w-[108%] -left-[4%] relative h-2 bg-zinc-800 rounded-b-2xl border-t border-zinc-700 shadow-md shadow-black/60" />
++            </div>
++        );
++    }
++    if (projectKey === "code") {
++        return (
++            <div className="relative w-full max-w-[280px] mx-auto group-hover:scale-105 transition-transform duration-500">
++                {/* Laptop Screen */}
++                <div className="w-full aspect-[16/10] bg-[#07080c] border-4 border-zinc-800 rounded-t-2xl overflow-hidden flex flex-col shadow-inner">
++                    {/* Header */}
++                    <div className="h-3.5 bg-zinc-950 px-2 flex items-center justify-between border-b border-zinc-900/60">
++                        <div className="flex gap-1">
++                            <div className="w-1.5 h-1.5 rounded-full bg-red-500/60" />
++                            <div className="w-1.5 h-1.5 rounded-full bg-yellow-500/60" />
++                            <div className="w-1.5 h-1.5 rounded-full bg-green-500/60" />
++                        </div>
++                        <div className="bg-zinc-900 text-zinc-500 text-[5px] px-2 py-0.5 rounded font-mono truncate max-w-[120px]">marroecode.io/editor</div>
++                        <div className="w-4" />
++                    </div>
++                    {/* IDE layout */}
++                    <div className="flex-grow flex text-zinc-400 text-[5px] font-mono leading-relaxed p-1">
++                        {/* File explorer */}
++                        <div className="w-12 bg-zinc-950 border-r border-zinc-900 p-1 flex flex-col gap-1">
++                            <div className="text-[4px] text-zinc-650 font-bold uppercase pb-0.5">Explorer</div>
++                            <div className="text-blue-400">📄 app.py</div>
++                            <div className="text-zinc-600">📄 db.sql</div>
++                            <div className="text-zinc-650">📄 config.js</div>
++                        </div>
++                        {/* Code area */}
++                        <div className="flex-grow p-1.5 flex gap-2">
++                            <div className="text-zinc-700 text-right select-none font-bold w-2 flex flex-col">
++                                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
++                            </div>
++                            <div className="flex flex-col text-left text-zinc-300">
++                                <span><span className="text-purple-400">import</span> ast, sys</span>
++                                <span><span className="text-purple-400">def</span> <span className="text-blue-400">analyze</span>(code):</span>
++                                <span className="pl-2">tree = ast.parse(code)</span>
++                                <span className="pl-2">print(<span className="text-green-400">"Complexity: O(n)"</span>)</span>
++                                <span>analyze(<span className="text-green-400">"x = 5"</span>)</span>
++                            </div>
++                        </div>
++                    </div>
++                </div>
++                {/* Laptop Base */}
++                <div className="w-[108%] -left-[4%] relative h-2 bg-zinc-800 rounded-b-2xl border-t border-zinc-700 shadow-md shadow-black/60" />
++            </div>
++        );
++    }
++    if (projectKey === "autism") {
++        return (
++            <div className="relative w-40 h-72 mx-auto group-hover:scale-105 transition-transform duration-500">
++                {/* Mobile Phone Mockup */}
++                <div className="w-full h-full bg-[#08090c] border-4 border-zinc-800 rounded-[2rem] overflow-hidden flex flex-col relative shadow-2xl shadow-black/80">
++                    {/* Notch */}
++                    <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-14 h-3.5 bg-zinc-900 rounded-full flex items-center justify-center border border-zinc-800/40 z-20">
++                        <div className="w-1.5 h-1.5 rounded-full bg-blue-900/60 absolute left-2" />
++                    </div>
++                    {/* Screen Content */}
++                    <div className="flex-grow p-3 pt-7 flex flex-col justify-between text-zinc-400 text-[6px] font-sans">
++                        <div className="flex justify-between items-center border-b border-zinc-800/50 pb-1.5">
++                            <span className="font-bold text-zinc-300">Autism Detection App</span>
++                            <span className="text-green-500 font-bold animate-pulse">Scanning</span>
++                        </div>
++                        {/* Video Frame */}
++                        <div className="flex-grow my-3 bg-zinc-950 rounded-xl relative border border-zinc-800/30 overflow-hidden flex items-center justify-center">
++                            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0%,transparent_60%)]" />
++                            {/* Face Mesh Dots */}
++                            <div className="relative w-20 h-20 border border-zinc-800/30 rounded-full flex items-center justify-center">
++                                <User size={24} className="text-zinc-700" />
++                                {/* Face landmarks dots */}
++                                <div className="absolute top-6 left-6 w-1 h-1 rounded-full bg-cyan-400 animate-ping" />
++                                <div className="absolute top-6 right-6 w-1 h-1 rounded-full bg-cyan-400" />
++                                <div className="absolute top-10 left-10 w-1 h-1 rounded-full bg-purple-400" />
++                                <div className="absolute bottom-6 left-8 w-4 h-1 border-b border-cyan-400 rounded-full" />
++                            </div>
++                        </div>
++                        <div className="bg-zinc-900/80 p-2 rounded-lg border border-zinc-800/50 flex flex-col gap-1">
++                            <div className="flex justify-between text-[5px]">
++                                <span>Eye Gaze tracking:</span>
++                                <span className="text-white">Normal</span>
++                            </div>
++                            <div className="flex justify-between text-[5px]">
++                                <span>CNN-LSTM Score:</span>
++                                <span className="text-blue-400 font-bold">0.86</span>
++                            </div>
++                        </div>
++                    </div>
++                </div>
++            </div>
++        );
++    }
++    return null;
++};
++
+ const OrbitingTech = () => {
+     const icons = [
+         { name: 'Java', color: 'text-red-500' },
+@@ -398,6 +675,30 @@ const AITerminal = () => {
+ };
+ 
+ const App = () => {
++    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
++    const [spotlightPos, setSpotlightPos] = useState({ x: 0, y: 0 });
++    const heroRef = useRef(null);
++
++    useEffect(() => {
++        const handleMouse = (e) => {
++            setMousePos({
++                x: (e.clientX - window.innerWidth / 2) / 35,
++                y: (e.clientY - window.innerHeight / 2) / 35
++            });
++        };
++        window.addEventListener('mousemove', handleMouse);
++        return () => window.removeEventListener('mousemove', handleMouse);
++    }, []);
++
++    const handleHeroMouseMove = (e) => {
++        if (!heroRef.current) return;
++        const rect = heroRef.current.getBoundingClientRect();
++        setSpotlightPos({
++            x: e.clientX - rect.left,
++            y: e.clientY - rect.top
++        });
++    };
++
+     const [isDark, setIsDark] = useState(() => {
+         const saved = localStorage.getItem('portfolio-theme');
+         return saved ? saved === 'dark' : true;
+@@ -410,7 +711,7 @@ const App = () => {
+ 
+     const toggleTheme = () => setIsDark(prev => !prev);
+ 
+-    const roles = ["Problem Solver", "Software Developer", "Full-Stack Developer"];
++    const roles = ["Frontend Developer", "Full-Stack Developer", "Aspiring Software Engineer"];
+ 
+     const skills = [
+         { title: "Programming Languages", items: ["Java", "Python"] },
+@@ -440,7 +741,8 @@ const App = () => {
+                 "Built a real-time admin dashboard using Socket.io and Supabase to sync bookings, track inventory via Chart.js, and secure tickets with SHA-256 hashes."
+             ],
+             tech: ["HTML", "CSS", "JavaScript", "Node.js", "Socket.io", "Supabase", "Python", "Flask", "Scikit-Learn"],
+-            github: "https://github.com/Ganeshbobbala/portfolio"
++            github: "https://github.com/Ganeshbobbala/portfolio",
++            mockup: "pds"
+         },
+         {
+             title: "MarroeCode – AI-Powered Coding Practice Platform",
+@@ -450,7 +752,8 @@ const App = () => {
+                 "Integrated Supabase PostgreSQL database with interactive React dashboards to store coding history, track user performance, and visualize learning analytics."
+             ],
+             tech: ["React.js", "Supabase", "PostgreSQL", "Python", "AST"],
+-            github: "https://github.com/Ganeshbobbala/MarroeCode"
++            github: "https://github.com/Ganeshbobbala/MarroeCode",
++            mockup: "code"
+         },
+         {
+             title: "Autism Detection via Video Recognition",
+@@ -460,7 +763,8 @@ const App = () => {
+                 "Stored video metadata and user analysis history securely using a custom MongoDB schema."
+             ],
+             tech: ["Python", "TensorFlow", "OpenCV", "MediaPipe", "MongoDB"],
+-            github: "https://github.com/Ganeshbobbala/Behavioural-Video-Recognition-for-Autism-Detection"
++            github: "https://github.com/Ganeshbobbala/Behavioural-Video-Recognition-for-Autism-Detection",
++            mockup: "autism"
+         },
+         {
+             title: "Driver Drowsiness Detection System",
+@@ -493,7 +797,31 @@ const App = () => {
+             <Navbar isDark={isDark} toggleTheme={toggleTheme} />
+ 
+             {/* --- HERO --- */}
+-            <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
++            <section 
++                id="home" 
++                ref={heroRef}
++                onMouseMove={handleHeroMouseMove}
++                className="min-h-screen flex items-center justify-center relative pt-24 pb-12 overflow-hidden"
++            >
++                {/* Mouse spotlight overlay */}
++                <div 
++                    className="absolute inset-0 pointer-events-none opacity-50 z-0 bg-[radial-gradient(800px_circle_at_var(--spotlight-x,50%)_var(--spotlight-y,50%),rgba(99,102,241,0.08),transparent_80%)]" 
++                    style={{
++                        '--spotlight-x': `${spotlightPos.x}px`,
++                        '--spotlight-y': `${spotlightPos.y}px`
++                    }}
++                />
++
++                {/* Floating tech icons */}
++                <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
++                    <FloatingIcon icon={<Cpu size={36} className="text-cyan-400/30" />} className="top-1/4 left-10" delay={0} duration={6} />
++                    <FloatingIcon icon={<Code2 size={32} className="text-red-500/30" />} className="top-10 right-1/4" delay={1.5} duration={5} />
++                    <FloatingIcon icon={<span className="text-2xl font-black text-yellow-500/20 font-mono">JS</span>} className="bottom-1/3 left-20" delay={3} duration={7} />
++                    <FloatingIcon icon={<span className="text-lg font-black text-green-500/25 font-mono">NODE</span>} className="bottom-1/4 right-1/3" delay={4.5} duration={6} />
++                    <FloatingIcon icon={<Github size={32} className="text-zinc-500/30" />} className="top-1/3 right-12" delay={2} duration={5.5} />
++                    <FloatingIcon icon={<Database size={32} className="text-blue-500/30" />} className="bottom-10 left-1/3" delay={3.5} duration={6.5} />
++                </div>
++
+                 <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-40">
+                     <Canvas 
+                         camera={{ position: [0, 0, 5], fov: 60 }} 
+@@ -517,38 +845,70 @@ const App = () => {
+                     }}
+                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/5 blur-[150px] rounded-full opacity-60 pointer-events-none" 
+                 />
+-                <div className="max-w-5xl mx-auto px-8 text-center relative z-10">
+-                    <motion.p
+-                        initial={{ opacity: 0, tracking: '0.1em' }}
+-                        animate={{ opacity: 1, tracking: '0.5em' }}
+-                        className="text-purple-500 text-xs font-black uppercase mb-10"
++
++                <div className="max-w-6xl mx-auto px-8 relative z-10 flex flex-col lg:flex-row items-center gap-16 w-full">
++                    {/* Left Column - Greetings & Intro */}
++                    <motion.div 
++                        style={{ x: -mousePos.x * 0.3, y: -mousePos.y * 0.3 }}
++                        className="lg:w-[55%] text-center lg:text-left flex flex-col items-center lg:items-start"
+                     >
+-                        <span className="text-purple-500 text-base font-black uppercase mb-10">Welcome to my portfolio</span>
+-                    </motion.p>
+-                    <h1 className="text-5xl md:text-7xl font-black tracking-normal mb-8 leading-none select-none">
+-                        Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-indigo-400 to-blue-500">Ganesh</span>
+-                    </h1>
+-                    <div className="h-16 md:h-20 mb-12">
+-                        <span className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 tracking-tight">
+-                            <Typewriter
+-                                words={roles}
+-                                loop={0}
+-                                cursor
+-                                cursorStyle='_'
+-                                typeSpeed={70}
+-                                deleteSpeed={50}
+-                                delaySpeed={2000}
+-                            />
+-                        </span>
+-                    </div>
+-                    <p className="text-zinc-500 text-lg md:text-xl font-medium max-w-3xl mx-auto leading-relaxed mb-16 px-4">
+-                        Building intelligent AI-driven solutions and scalable modern web applications.
+-                    </p>
+-                    <div className="flex justify-center mb-16">
+-                        <MagneticButton className="w-full md:w-auto">
+-                            <a href="#myprojects" className="block w-full md:w-auto bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 text-center">View Projects</a>
+-                        </MagneticButton>
+-                    </div>
++                        <motion.p
++                            initial={{ opacity: 0, tracking: '0.1em' }}
++                            animate={{ opacity: 1, tracking: '0.5em' }}
++                            className="text-purple-500 text-xs font-black uppercase mb-6"
++                        >
++                            <span className="text-purple-500 text-sm font-black uppercase tracking-widest">Welcome to my portfolio</span>
++                        </motion.p>
++                        <h1 className="text-5xl md:text-7xl font-black tracking-normal mb-8 leading-none select-none text-white">
++                            Hi, I'm{" "}
++                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-indigo-400 to-blue-500 inline-flex">
++                                {"Ganesh".split("").map((letter, idx) => (
++                                    <motion.span
++                                        key={idx}
++                                        initial={{ opacity: 0, y: 15 }}
++                                        animate={{ opacity: 1, y: 0 }}
++                                        transition={{
++                                            duration: 0.4,
++                                            delay: 0.2 + idx * 0.08,
++                                            ease: "easeOut"
++                                        }}
++                                        className="inline-block"
++                                    >
++                                        {letter}
++                                    </motion.span>
++                                ))}
++                            </span>
++                        </h1>
++                        <div className="h-16 md:h-20 mb-8 flex items-center justify-center lg:justify-start">
++                            <span className="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 tracking-tight">
++                                <Typewriter
++                                    words={roles}
++                                    loop={0}
++                                    cursor
++                                    cursorStyle='_'
++                                    typeSpeed={70}
++                                    deleteSpeed={50}
++                                    delaySpeed={2000}
++                                />
++                            </span>
++                        </div>
++                        <p className="text-zinc-500 text-lg font-medium max-w-xl leading-relaxed mb-12">
++                            Building intelligent AI-driven solutions and scalable modern web applications.
++                        </p>
++                        <div className="flex justify-center lg:justify-start">
++                            <MagneticButton className="w-full md:w-auto">
++                                <a href="#myprojects" className="block w-full md:w-auto bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 text-center">View Projects</a>
++                            </MagneticButton>
++                        </div>
++                    </motion.div>
++
++                    {/* Right Column - Live Code Editor */}
++                    <motion.div 
++                        style={{ x: mousePos.x, y: mousePos.y }}
++                        className="lg:w-[45%] w-full flex justify-center"
++                    >
++                        <LiveCodeEditor />
++                    </motion.div>
+                 </div>
+             </section>
+ 
+@@ -685,7 +1045,7 @@ const App = () => {
+             {/* --- PROJECTS --- */}
+             <section id="myprojects" className="py-12">
+                 <SectionHeader title="My projects" subtitle="Some of the things I've built" />
+-                <div className="max-w-6xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 gap-8">
++                <div className="max-w-6xl mx-auto px-10 grid grid-cols-1 gap-12">
+                     {projects.map((proj, i) => (
+                         <Tilt 
+                             key={i} 
+@@ -706,32 +1066,42 @@ const App = () => {
+                                     e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+                                     e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+                                 }}
+-                                className="w-full flex flex-col justify-between border border-zinc-900 bg-zinc-950/40 p-8 md:p-10 rounded-[2.5rem] group hover:border-blue-500/20 transition-all backdrop-blur-3xl hover:bg-zinc-900/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden"
++                                className="w-full flex flex-col lg:flex-row justify-between border border-zinc-900 bg-zinc-950/40 p-8 md:p-10 rounded-[2.5rem] group hover:border-blue-500/20 transition-all backdrop-blur-3xl hover:bg-zinc-900/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden gap-8"
+                             >
+                                 {/* Spotlight layer */}
+                                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(350px_circle_at_var(--mouse-x,0px)_var(--mouse-y,0px),rgba(59,130,246,0.12),transparent_80%)]" />
+-                                <div>
+-                                    <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-6 leading-snug group-hover:text-blue-400 transition-colors">{proj.title}</h3>
+-                                    <div className="bg-zinc-900/40 p-6 rounded-2xl mb-8 border border-zinc-800/30">
+-                                        <ul className="list-disc pl-5 space-y-2 text-zinc-400 text-xs md:text-sm leading-relaxed font-medium">
+-                                            {proj.bullets.map((bullet, idx) => (
+-                                                <li key={idx} className="marker:text-blue-500">{bullet}</li>
++                                
++                                <div className="flex-grow flex flex-col justify-between lg:w-3/5">
++                                    <div>
++                                        <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-6 leading-snug group-hover:text-blue-400 transition-colors">{proj.title}</h3>
++                                        <div className="bg-zinc-900/40 p-6 rounded-2xl mb-8 border border-zinc-800/30">
++                                            <ul className="list-disc pl-5 space-y-2 text-zinc-400 text-xs md:text-sm leading-relaxed font-medium">
++                                                {proj.bullets.map((bullet, idx) => (
++                                                    <li key={idx} className="marker:text-blue-500">{bullet}</li>
++                                                ))}
++                                            </ul>
++                                        </div>
++                                    </div>
++                                    <div>
++                                        <div className="flex flex-wrap gap-2 mb-8">
++                                            {proj.tech.map(t => (
++                                                <span key={t} className="px-3.5 py-1.5 bg-zinc-900 text-[10px] font-black uppercase text-zinc-500 rounded-lg border border-zinc-800">{t}</span>
+                                             ))}
+-                                        </ul>
++                                        </div>
++                                        {proj.github && (
++                                            <a href={proj.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-blue-400 transition-all group-hover:translate-x-1 transition-transform">
++                                                <Github size={16} /> View my project
++                                            </a>
++                                        )}
+                                     </div>
+                                 </div>
+-                                <div>
+-                                    <div className="flex flex-wrap gap-2 mb-8">
+-                                        {proj.tech.map(t => (
+-                                            <span key={t} className="px-3.5 py-1.5 bg-zinc-900 text-[10px] font-black uppercase text-zinc-500 rounded-lg border border-zinc-800">{t}</span>
+-                                        ))}
++
++                                {/* Mockup Column */}
++                                {proj.mockup && (
++                                    <div className="lg:w-2/5 w-full flex items-center justify-center bg-zinc-950/20 border border-zinc-900/50 rounded-[2rem] p-6 backdrop-blur-md">
++                                        <RenderProjectMockup projectKey={proj.mockup} />
+                                     </div>
+-                                    {proj.github && (
+-                                        <a href={proj.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-blue-400 transition-all group-hover:translate-x-1 transition-transform">
+-                                            <Github size={16} /> View my project
+-                                        </a>
+-                                    )}
+-                                </div>
++                                )}
+                             </div>
+                         </Tilt>
+                     ))}
