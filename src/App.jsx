@@ -235,7 +235,113 @@ const OrbitingTech = () => {
     );
 };
 
+const LoadingScreen = ({ onComplete }) => {
+    const [progress, setProgress] = useState(0);
+    const [codeText, setCodeText] = useState('');
+    
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setProgress((prev) => {
+                if (prev >= 100) {
+                    clearInterval(interval);
+                    setTimeout(onComplete, 500);
+                    return 100;
+                }
+                return prev + Math.floor(Math.random() * 15) + 5;
+            });
+        }, 150);
+
+        return () => clearInterval(interval);
+    }, [onComplete]);
+
+    useEffect(() => {
+        const lines = [
+            'git clone portfolio...',
+            'npm install...',
+            'vite v8.0.0 ready...',
+            'loading assets...',
+            'welcome to my portfolio!'
+        ];
+        let lineIdx = 0;
+        let charIdx = 0;
+
+        const typeInterval = setInterval(() => {
+            if (lineIdx < lines.length) {
+                const currentLine = lines[lineIdx];
+                if (charIdx <= currentLine.length) {
+                    setCodeText(currentLine.substring(0, charIdx));
+                    charIdx++;
+                } else {
+                    setTimeout(() => {
+                        lineIdx++;
+                        charIdx = 0;
+                    }, 200);
+                }
+            } else {
+                clearInterval(typeInterval);
+            }
+        }, 35);
+
+        return () => clearInterval(typeInterval);
+    }, []);
+
+    return (
+        <motion.div 
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 bg-[#020202] z-[999] flex flex-col items-center justify-center text-white font-mono"
+        >
+            <div className="flex flex-col items-center max-w-sm w-full px-6 gap-8">
+                {/* Logo Morphing */}
+                <motion.div
+                    animate={{
+                        borderRadius: ["20%", "50%", "20%"],
+                        rotate: [0, 180, 360],
+                        scale: [1, 1.1, 1],
+                        borderColor: ["rgba(59,130,246,0.3)", "rgba(168,85,247,0.6)", "rgba(59,130,246,0.3)"],
+                        boxShadow: [
+                            "0 0 20px rgba(59,130,246,0.2)",
+                            "0 0 40px rgba(168,85,247,0.4)",
+                            "0 0 20px rgba(59,130,246,0.2)"
+                        ]
+                    }}
+                    transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                    className="w-20 h-20 border-2 flex items-center justify-center bg-zinc-950/80"
+                >
+                    <span className="text-2xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">GB</span>
+                </motion.div>
+
+                {/* Code Typing */}
+                <div className="w-full bg-zinc-950/80 border border-zinc-900 rounded-xl p-4 h-20 text-[10px] text-zinc-500 font-mono overflow-hidden">
+                    <span className="text-blue-500 mr-2">&gt;</span>
+                    <span className="text-zinc-300">{codeText}</span>
+                    <span className="animate-pulse">_</span>
+                </div>
+
+                {/* Progress Bar */}
+                <div className="w-full flex flex-col gap-2">
+                    <div className="flex justify-between text-[10px] text-zinc-500 font-bold uppercase tracking-wider">
+                           <span>Initializing Portfolio</span>
+                           <span>{Math.min(progress, 100)}%</span>
+                    </div>
+                    <div className="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden border border-zinc-800/40">
+                        <motion.div 
+                            className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"
+                            style={{ width: `${Math.min(progress, 100)}%` }}
+                        />
+                    </div>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
 const App = () => {
+    const [loading, setLoading] = useState(true);
     const [isDark, setIsDark] = useState(() => {
         const saved = localStorage.getItem('portfolio-theme');
         return saved ? saved === 'dark' : true;
@@ -247,6 +353,36 @@ const App = () => {
     }, [isDark]);
 
     const toggleTheme = () => setIsDark(prev => !prev);
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        
+        const formData = new FormData(e.target);
+        
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            });
+            const data = await response.json();
+            if (data.success) {
+                setIsSuccess(true);
+                e.target.reset();
+                setTimeout(() => setIsSuccess(false), 4000);
+            } else {
+                alert("Something went wrong. Please try again.");
+            }
+        } catch (error) {
+            console.error("Form submit error", error);
+            alert("Something went wrong. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     const roles = ["Problem Solver", "Software Developer", "Full-Stack Developer"];
 
@@ -321,8 +457,19 @@ const App = () => {
     ];
 
     return (
-        <div className="bg-[#020202] text-white min-h-screen selection:bg-purple-500/30 overflow-x-hidden font-sans portfolio-root">
-            <Navbar isDark={isDark} toggleTheme={toggleTheme} />
+        <AnimatePresence mode="wait">
+            {loading ? (
+                <LoadingScreen key="loader" onComplete={() => setLoading(false)} />
+            ) : (
+                <motion.div 
+                    key="portfolio"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="bg-[#020202] text-white min-h-screen selection:bg-purple-500/30 overflow-x-hidden font-sans portfolio-root"
+                >
+                    <Navbar isDark={isDark} toggleTheme={toggleTheme} />
 
             {/* --- HERO --- */}
             <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
@@ -611,6 +758,33 @@ const App = () => {
                     }}
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-blue-600/5 blur-[200px] rounded-full pointer-events-none" 
                 />
+
+                {/* Floating Background Icons */}
+                {[
+                    { icon: <Mail size={24} />, x: "10%", y: "20%", delay: 0 },
+                    { icon: <MessageSquare size={20} />, x: "85%", y: "15%", delay: 1.5 },
+                    { icon: <Send size={18} />, x: "75%", y: "80%", delay: 3 },
+                    { icon: <Phone size={22} />, x: "15%", y: "75%", delay: 4.5 }
+                ].map((item, idx) => (
+                    <motion.div
+                        key={idx}
+                        className="absolute text-zinc-800/30 pointer-events-none hidden md:block"
+                        style={{ left: item.x, top: item.y }}
+                        animate={{
+                            y: [0, -15, 0],
+                            rotate: [0, 10, -10, 0]
+                        }}
+                        transition={{
+                            duration: 6,
+                            repeat: Infinity,
+                            delay: item.delay,
+                            ease: "easeInOut"
+                        }}
+                    >
+                        {item.icon}
+                    </motion.div>
+                ))}
+
                 <div className="max-w-6xl mx-auto px-10 relative z-10">
                     <div className="flex flex-col lg:flex-row gap-32">
                         <div className="lg:w-1/2">
@@ -626,7 +800,6 @@ const App = () => {
                                         <p className="text-lg font-bold text-white tracking-tight underline decoration-purple-500/30 underline-offset-8 group-hover:decoration-purple-500 transition-all">ganeshbobbala479@gmail.com</p>
                                     </div>
                                 </div>
-
                             </div>
                             <div className="flex gap-4 mt-16">
                                 {[
@@ -634,7 +807,17 @@ const App = () => {
                                     { i: <Linkedin />, l: 'https://www.linkedin.com/in/ganesh-bobbala-9a7a52327' },
                                     { i: <Mail />, l: 'mailto:ganeshbobbala479@gmail.com' }
                                 ].map((s, i) => (
-                                    <a key={i} href={s.l} className="w-14 h-14 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center text-pink-500/40 hover:text-pink-400 hover:bg-pink-500/10 hover:border-pink-500/30 transition-all">{s.i}</a>
+                                    <motion.a 
+                                        key={i} 
+                                        href={s.l} 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        whileHover={{ y: -8, scale: 1.05 }}
+                                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                                        className="w-14 h-14 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center text-pink-500/40 hover:text-pink-400 hover:bg-pink-500/10 hover:border-pink-500/30 transition-all"
+                                    >
+                                        {s.i}
+                                    </motion.a>
                                 ))}
                             </div>
                         </div>
@@ -644,8 +827,7 @@ const App = () => {
                             
                             <div className="relative bg-zinc-950/50 border-2 border-blue-500/30 p-10 rounded-[3rem] backdrop-blur-3xl shadow-[0_0_50px_rgba(37,99,235,0.1)] group-hover:border-blue-500/60 group-hover:shadow-[0_0_60px_rgba(37,99,235,0.3)] transition-all duration-500">
                                 <form 
-                                    action="https://api.web3forms.com/submit" 
-                                    method="POST"
+                                    onSubmit={handleFormSubmit}
                                     className="space-y-8 relative z-10"
                                 >
                                     {/* Web3Forms Access Key */}
@@ -685,9 +867,36 @@ const App = () => {
                                     </div>
                                     <button 
                                         type="submit"
-                                        className="w-full bg-blue-600 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.3em] hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.3)] flex items-center justify-center gap-4 hover:-translate-y-1 active:translate-y-0"
+                                        disabled={isSubmitting || isSuccess}
+                                        style={{
+                                            background: isSuccess ? '#10b981' : undefined,
+                                            boxShadow: isSuccess ? '0 20px 40px rgba(16,185,129,0.2)' : undefined
+                                        }}
+                                        className="w-full bg-blue-600 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.3em] hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.3)] flex items-center justify-center gap-4 hover:-translate-y-1 active:translate-y-0 disabled:pointer-events-none"
                                     >
-                                        Send Message <Send size={18} />
+                                        {isSuccess ? (
+                                            <motion.div 
+                                                initial={{ scale: 0 }}
+                                                animate={{ scale: 1 }}
+                                                className="flex items-center gap-2 text-white"
+                                            >
+                                                <CheckCircle2 className="animate-bounce" size={18} /> Sent Successfully!
+                                            </motion.div>
+                                        ) : isSubmitting ? (
+                                            <div className="flex items-center gap-2">
+                                                <span>Sending</span>
+                                                <motion.div
+                                                    animate={{ x: [0, 100, -100, 0], y: [0, -100, 100, 0], opacity: [1, 0, 0, 1] }}
+                                                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                                                >
+                                                    <Send size={18} />
+                                                </motion.div>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                Send Message <Send size={18} />
+                                            </>
+                                        )}
                                     </button>
                                 </form>
                             </div>
@@ -708,7 +917,9 @@ const App = () => {
                     </p>
                 </div>
             </footer>
-        </div >
+                </motion.div>
+            )}
+        </AnimatePresence>
     );
 };
 
