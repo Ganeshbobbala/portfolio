@@ -23,11 +23,24 @@ const SectionHeader = ({ title, subtitle }) => (
 
 const Navbar = ({ isDark, toggleTheme }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
     const tabs = ['Home', 'About', 'My skills', 'My projects', 'Education', 'Certifications', 'Contact'];
 
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 80);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
-        <nav className="fixed top-0 left-0 right-0 z-[100] bg-black/60 backdrop-blur-3xl border-b border-white/5 py-4 px-6 md:px-0">
-            <div className="max-w-7xl mx-auto px-4 md:px-8 flex justify-between items-center text-white">
+        <nav className={`fixed z-[100] transition-all duration-500 ${
+            isScrolled 
+                ? 'top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl px-6 py-2.5 rounded-2xl border border-white/10 bg-black/80 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]' 
+                : 'top-0 left-0 right-0 py-4 px-6 md:px-0 border-b border-white/5 bg-black/60 backdrop-blur-3xl'
+        }`}>
+            <div className="w-full max-w-7xl mx-auto px-2 md:px-4 flex justify-between items-center text-white">
                 <a href="#home" className="text-2xl font-black tracking-tighter text-blue-500 italic flex items-center gap-2 hover:text-blue-400 transition-colors group">
                     <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center italic text-sm transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(37,99,235,0.8)] group-hover:scale-105">P</div>
                     Portfolio
@@ -235,113 +248,98 @@ const OrbitingTech = () => {
     );
 };
 
-const LoadingScreen = ({ onComplete }) => {
-    const [progress, setProgress] = useState(0);
-    const [codeText, setCodeText] = useState('');
-    
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setProgress((prev) => {
-                if (prev >= 100) {
-                    clearInterval(interval);
-                    setTimeout(onComplete, 500);
-                    return 100;
-                }
-                return prev + Math.floor(Math.random() * 15) + 5;
-            });
-        }, 150);
+const AITerminal = () => {
+    const [history, setHistory] = useState([
+        { cmd: '', output: 'Welcome to Ganesh\'s Interactive Terminal! Type "help" to see available commands.' }
+    ]);
+    const [input, setInput] = useState('');
+    const containerRef = useRef(null);
 
-        return () => clearInterval(interval);
-    }, [onComplete]);
+    const commands = {
+        help: 'Available commands: about, skills, projects, certs, contact, clear, banner',
+        about: 'Ganesh Bobbala - Motivated and enthusiastic Computer Science student specializing in AI & ML. Gained hands-on experience through academic and personal projects in software and web development. Passionate about Full-Stack Development, problem-solving, and continuous learning.',
+        skills: 'Languages: Java, Python\nWeb Tech: HTML, CSS, JavaScript, React.js\nDatabases: MySQL\nTools: Git, GitHub, VS Code\nConcepts: OOP, DBMS\nSoft Skills: Problem Solving, Collaboration, Communication, Adaptability',
+        projects: '1. Smart PDS: Automated Time-Slot Booking & Distribution System\n2. MarroeCode: AI-Powered Coding Practice Platform\n3. Autism Detection via Video Recognition\n4. Driver Drowsiness Detection System\n5. EMG-Based Parkinson\'s Detection',
+        certs: '1. Software Engineering Job Simulation (JPMorgan Forage)\n2. Generative AI for Beginners (Simplilearn)\n3. AI Tools and ChatGPT Workshop (be10x)\n4. GenAI Powered Data Analytics (JPMorgan Forage)\n5. Prompt Engineering (Infosys)',
+        contact: 'Email: ganeshbobbala479@gmail.com\nGitHub: https://github.com/Ganeshbobbala\nLinkedIn: https://www.linkedin.com/in/ganesh-bobbala-9a7a52327',
+        banner: '  ____    _    _   _ _____ ____  _   _ \n / ___|  / \\  | \\ | | ____/ ___|| | | |\n| |  _  / _ \\ |  \\| |  _| \\___ \\| |_| |\n| |_| |/ ___ \\| |\\  | |___ ___) |  _  |\n \\____/_/   \\_\\_| \\_|_____|____/|_| |_|\n\nGANESH BOBBALA - PORTFOLIO TERMINAL v1.0.0'
+    };
 
-    useEffect(() => {
-        const lines = [
-            'git clone portfolio...',
-            'npm install...',
-            'vite v8.0.0 ready...',
-            'loading assets...',
-            'welcome to my portfolio!'
-        ];
-        let lineIdx = 0;
-        let charIdx = 0;
-
-        const typeInterval = setInterval(() => {
-            if (lineIdx < lines.length) {
-                const currentLine = lines[lineIdx];
-                if (charIdx <= currentLine.length) {
-                    setCodeText(currentLine.substring(0, charIdx));
-                    charIdx++;
-                } else {
-                    setTimeout(() => {
-                        lineIdx++;
-                        charIdx = 0;
-                    }, 200);
-                }
+    const handleCommand = (e) => {
+        if (e.key === 'Enter') {
+            const trimmed = input.trim().toLowerCase();
+            if (trimmed === 'clear') {
+                setHistory([]);
+            } else if (trimmed === 'banner') {
+                setHistory(prev => [...prev, { cmd: input, output: commands.banner }]);
+            } else if (commands[trimmed]) {
+                setHistory(prev => [...prev, { cmd: input, output: commands[trimmed] }]);
+            } else if (trimmed === '') {
+                setHistory(prev => [...prev, { cmd: '', output: '' }]);
             } else {
-                clearInterval(typeInterval);
+                setHistory(prev => [...prev, { cmd: input, output: `Command not found: "${trimmed}". Type "help" for a list of commands.` }]);
             }
-        }, 35);
+            setInput('');
+        }
+    };
 
-        return () => clearInterval(typeInterval);
-    }, []);
+    useEffect(() => {
+        if (containerRef.current) {
+            containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+    }, [history]);
 
     return (
-        <motion.div 
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 bg-[#020202] z-[999] flex flex-col items-center justify-center text-white font-mono"
-        >
-            <div className="flex flex-col items-center max-w-sm w-full px-6 gap-8">
-                {/* Logo Morphing */}
-                <motion.div
-                    animate={{
-                        borderRadius: ["20%", "50%", "20%"],
-                        rotate: [0, 180, 360],
-                        scale: [1, 1.1, 1],
-                        borderColor: ["rgba(59,130,246,0.3)", "rgba(168,85,247,0.6)", "rgba(59,130,246,0.3)"],
-                        boxShadow: [
-                            "0 0 20px rgba(59,130,246,0.2)",
-                            "0 0 40px rgba(168,85,247,0.4)",
-                            "0 0 20px rgba(59,130,246,0.2)"
-                        ]
-                    }}
-                    transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                    className="w-20 h-20 border-2 flex items-center justify-center bg-zinc-950/80"
-                >
-                    <span className="text-2xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">GB</span>
-                </motion.div>
-
-                {/* Code Typing */}
-                <div className="w-full bg-zinc-950/80 border border-zinc-900 rounded-xl p-4 h-20 text-[10px] text-zinc-500 font-mono overflow-hidden">
-                    <span className="text-blue-500 mr-2">&gt;</span>
-                    <span className="text-zinc-300">{codeText}</span>
-                    <span className="animate-pulse">_</span>
+        <div className="w-full max-w-3xl mx-auto bg-zinc-950/90 border border-zinc-800 rounded-2xl overflow-hidden font-mono text-xs md:text-sm shadow-2xl relative z-10 backdrop-blur-md">
+            {/* Terminal Header */}
+            <div className="bg-zinc-900 px-4 py-3 flex items-center justify-between border-b border-zinc-850">
+                <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                    <div className="w-3 h-3 rounded-full bg-green-500/80" />
                 </div>
-
-                {/* Progress Bar */}
-                <div className="w-full flex flex-col gap-2">
-                    <div className="flex justify-between text-[10px] text-zinc-500 font-bold uppercase tracking-wider">
-                           <span>Initializing Portfolio</span>
-                           <span>{Math.min(progress, 100)}%</span>
+                <span className="text-zinc-500 text-xs font-black tracking-wide">ganesh@portfolio: ~</span>
+                <div className="w-10" />
+            </div>
+            
+            {/* Terminal Body */}
+            <div 
+                ref={containerRef}
+                className="p-6 h-64 overflow-y-auto space-y-4 text-left leading-relaxed text-zinc-300"
+            >
+                {history.map((h, i) => (
+                    <div key={i}>
+                        {h.cmd && (
+                            <div className="flex items-center gap-2 text-blue-400 font-bold mb-1">
+                                <span className="text-green-500">ganesh@portfolio:~$</span> {h.cmd}
+                            </div>
+                        )}
+                        <div className="whitespace-pre-wrap text-zinc-400">{h.output}</div>
                     </div>
-                    <div className="w-full h-1.5 bg-zinc-900 rounded-full overflow-hidden border border-zinc-800/40">
-                        <motion.div 
-                            className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"
-                            style={{ width: `${Math.min(progress, 100)}%` }}
-                        />
-                    </div>
+                ))}
+                
+                {/* Active Input Line */}
+                <div className="flex items-center gap-2 text-blue-400 font-bold">
+                    <span className="text-green-500">ganesh@portfolio:~$</span>
+                    <input 
+                        type="text"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        onKeyDown={handleCommand}
+                        className="flex-grow bg-transparent text-zinc-300 focus:outline-none font-mono caret-blue-500"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        autoCapitalize="off"
+                        spellCheck="false"
+                        placeholder="type 'help'..."
+                    />
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 };
 
 const App = () => {
-    const [loading, setLoading] = useState(true);
     const [isDark, setIsDark] = useState(() => {
         const saved = localStorage.getItem('portfolio-theme');
         return saved ? saved === 'dark' : true;
@@ -353,36 +351,6 @@ const App = () => {
     }, [isDark]);
 
     const toggleTheme = () => setIsDark(prev => !prev);
-
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
-
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        
-        const formData = new FormData(e.target);
-        
-        try {
-            const response = await fetch("https://api.web3forms.com/submit", {
-                method: "POST",
-                body: formData
-            });
-            const data = await response.json();
-            if (data.success) {
-                setIsSuccess(true);
-                e.target.reset();
-                setTimeout(() => setIsSuccess(false), 4000);
-            } else {
-                alert("Something went wrong. Please try again.");
-            }
-        } catch (error) {
-            console.error("Form submit error", error);
-            alert("Something went wrong. Please try again.");
-        } finally {
-            setIsSubmitting(false);
-        }
-    };
 
     const roles = ["Problem Solver", "Software Developer", "Full-Stack Developer"];
 
@@ -457,19 +425,8 @@ const App = () => {
     ];
 
     return (
-        <AnimatePresence mode="wait">
-            {loading ? (
-                <LoadingScreen key="loader" onComplete={() => setLoading(false)} />
-            ) : (
-                <motion.div 
-                    key="portfolio"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="bg-[#020202] text-white min-h-screen selection:bg-purple-500/30 overflow-x-hidden font-sans portfolio-root"
-                >
-                    <Navbar isDark={isDark} toggleTheme={toggleTheme} />
+        <div className="bg-[#020202] text-white min-h-screen selection:bg-purple-500/30 overflow-x-hidden font-sans portfolio-root">
+            <Navbar isDark={isDark} toggleTheme={toggleTheme} />
 
             {/* --- HERO --- */}
             <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
@@ -633,7 +590,18 @@ const App = () => {
                             glareBorderRadius="2.5rem"
                             className="flex"
                         >
-                            <div className="w-full flex flex-col justify-between border border-zinc-900 bg-zinc-950/40 p-8 md:p-10 rounded-[2.5rem] group hover:border-blue-500/20 transition-all backdrop-blur-3xl hover:bg-zinc-900/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+                            <div 
+                                onMouseMove={(e) => {
+                                    const rect = e.currentTarget.getBoundingClientRect();
+                                    const x = e.clientX - rect.left;
+                                    const y = e.clientY - rect.top;
+                                    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+                                    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+                                }}
+                                className="w-full flex flex-col justify-between border border-zinc-900 bg-zinc-950/40 p-8 md:p-10 rounded-[2.5rem] group hover:border-blue-500/20 transition-all backdrop-blur-3xl hover:bg-zinc-900/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden"
+                            >
+                                {/* Spotlight layer */}
+                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(350px_circle_at_var(--mouse-x,0px)_var(--mouse-y,0px),rgba(59,130,246,0.12),transparent_80%)]" />
                                 <div>
                                     <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-6 leading-snug group-hover:text-blue-400 transition-colors">{proj.title}</h3>
                                     <div className="bg-zinc-900/40 p-6 rounded-2xl mb-8 border border-zinc-800/30">
@@ -724,7 +692,18 @@ const App = () => {
                             glareBorderRadius="3rem"
                             className="flex"
                         >
-                            <div className="w-full bg-zinc-950/40 border border-zinc-900 p-8 rounded-[3rem] hover:border-blue-500/20 transition-all flex flex-col gap-6 group backdrop-blur-3xl hover:bg-zinc-900/50 hover:shadow-[0_20px_50px_rgba(37,99,235,0.05)]">
+                            <div 
+                                onMouseMove={(e) => {
+                                    const rect = e.currentTarget.getBoundingClientRect();
+                                    const x = e.clientX - rect.left;
+                                    const y = e.clientY - rect.top;
+                                    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+                                    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+                                }}
+                                className="w-full bg-zinc-950/40 border border-zinc-900 p-8 rounded-[3rem] hover:border-blue-500/20 transition-all flex flex-col gap-6 group backdrop-blur-3xl hover:bg-zinc-900/50 hover:shadow-[0_20px_50px_rgba(37,99,235,0.05)] relative overflow-hidden"
+                            >
+                                {/* Spotlight layer */}
+                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(300px_circle_at_var(--mouse-x,0px)_var(--mouse-y,0px),rgba(168,85,247,0.15),transparent_80%)]" />
                                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${c.c} group-hover:scale-110 transition-transform`}><Award size={24} /></div>
                                 <h4 className="text-white font-black tracking-tight text-lg leading-snug h-14 line-clamp-2">{c.n}</h4>
                                 <p className="text-zinc-500 text-[10px] font-black uppercase tracking-widest mb-4 h-8 line-clamp-2">{c.i}</p>
@@ -739,6 +718,14 @@ const App = () => {
                             </div>
                         </Tilt>
                     ))}
+                </div>
+            </section>
+
+            {/* --- TERMINAL --- */}
+            <section id="terminal" className="py-12 bg-zinc-950/20 border-t border-b border-white/5">
+                <SectionHeader title="Interactive Terminal" subtitle="Explore my portfolio using command-line inputs" />
+                <div className="max-w-6xl mx-auto px-10">
+                    <AITerminal />
                 </div>
             </section>
 
@@ -758,33 +745,6 @@ const App = () => {
                     }}
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-blue-600/5 blur-[200px] rounded-full pointer-events-none" 
                 />
-
-                {/* Floating Background Icons */}
-                {[
-                    { icon: <Mail size={24} />, x: "10%", y: "20%", delay: 0 },
-                    { icon: <MessageSquare size={20} />, x: "85%", y: "15%", delay: 1.5 },
-                    { icon: <Send size={18} />, x: "75%", y: "80%", delay: 3 },
-                    { icon: <Phone size={22} />, x: "15%", y: "75%", delay: 4.5 }
-                ].map((item, idx) => (
-                    <motion.div
-                        key={idx}
-                        className="absolute text-zinc-800/30 pointer-events-none hidden md:block"
-                        style={{ left: item.x, top: item.y }}
-                        animate={{
-                            y: [0, -15, 0],
-                            rotate: [0, 10, -10, 0]
-                        }}
-                        transition={{
-                            duration: 6,
-                            repeat: Infinity,
-                            delay: item.delay,
-                            ease: "easeInOut"
-                        }}
-                    >
-                        {item.icon}
-                    </motion.div>
-                ))}
-
                 <div className="max-w-6xl mx-auto px-10 relative z-10">
                     <div className="flex flex-col lg:flex-row gap-32">
                         <div className="lg:w-1/2">
@@ -800,6 +760,7 @@ const App = () => {
                                         <p className="text-lg font-bold text-white tracking-tight underline decoration-purple-500/30 underline-offset-8 group-hover:decoration-purple-500 transition-all">ganeshbobbala479@gmail.com</p>
                                     </div>
                                 </div>
+
                             </div>
                             <div className="flex gap-4 mt-16">
                                 {[
@@ -807,17 +768,7 @@ const App = () => {
                                     { i: <Linkedin />, l: 'https://www.linkedin.com/in/ganesh-bobbala-9a7a52327' },
                                     { i: <Mail />, l: 'mailto:ganeshbobbala479@gmail.com' }
                                 ].map((s, i) => (
-                                    <motion.a 
-                                        key={i} 
-                                        href={s.l} 
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        whileHover={{ y: -8, scale: 1.05 }}
-                                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                                        className="w-14 h-14 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center text-pink-500/40 hover:text-pink-400 hover:bg-pink-500/10 hover:border-pink-500/30 transition-all"
-                                    >
-                                        {s.i}
-                                    </motion.a>
+                                    <a key={i} href={s.l} className="w-14 h-14 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center text-pink-500/40 hover:text-pink-400 hover:bg-pink-500/10 hover:border-pink-500/30 transition-all">{s.i}</a>
                                 ))}
                             </div>
                         </div>
@@ -827,7 +778,8 @@ const App = () => {
                             
                             <div className="relative bg-zinc-950/50 border-2 border-blue-500/30 p-10 rounded-[3rem] backdrop-blur-3xl shadow-[0_0_50px_rgba(37,99,235,0.1)] group-hover:border-blue-500/60 group-hover:shadow-[0_0_60px_rgba(37,99,235,0.3)] transition-all duration-500">
                                 <form 
-                                    onSubmit={handleFormSubmit}
+                                    action="https://api.web3forms.com/submit" 
+                                    method="POST"
                                     className="space-y-8 relative z-10"
                                 >
                                     {/* Web3Forms Access Key */}
@@ -867,36 +819,9 @@ const App = () => {
                                     </div>
                                     <button 
                                         type="submit"
-                                        disabled={isSubmitting || isSuccess}
-                                        style={{
-                                            background: isSuccess ? '#10b981' : undefined,
-                                            boxShadow: isSuccess ? '0 20px 40px rgba(16,185,129,0.2)' : undefined
-                                        }}
-                                        className="w-full bg-blue-600 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.3em] hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.3)] flex items-center justify-center gap-4 hover:-translate-y-1 active:translate-y-0 disabled:pointer-events-none"
+                                        className="w-full bg-blue-600 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.3em] hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.3)] flex items-center justify-center gap-4 hover:-translate-y-1 active:translate-y-0"
                                     >
-                                        {isSuccess ? (
-                                            <motion.div 
-                                                initial={{ scale: 0 }}
-                                                animate={{ scale: 1 }}
-                                                className="flex items-center gap-2 text-white"
-                                            >
-                                                <CheckCircle2 className="animate-bounce" size={18} /> Sent Successfully!
-                                            </motion.div>
-                                        ) : isSubmitting ? (
-                                            <div className="flex items-center gap-2">
-                                                <span>Sending</span>
-                                                <motion.div
-                                                    animate={{ x: [0, 100, -100, 0], y: [0, -100, 100, 0], opacity: [1, 0, 0, 1] }}
-                                                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                                                >
-                                                    <Send size={18} />
-                                                </motion.div>
-                                            </div>
-                                        ) : (
-                                            <>
-                                                Send Message <Send size={18} />
-                                            </>
-                                        )}
+                                        Send Message <Send size={18} />
                                     </button>
                                 </form>
                             </div>
@@ -917,9 +842,7 @@ const App = () => {
                     </p>
                 </div>
             </footer>
-                </motion.div>
-            )}
-        </AnimatePresence>
+        </div >
     );
 };
 
