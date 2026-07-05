@@ -1152,6 +1152,16 @@ const App = () => {
             github: "https://github.com/Ganeshbobbala/portfolio"
         },
         {
+            title: "MarroeCode – AI-Powered Coding Practice Platform",
+            bullets: [
+                "Developed a full-stack coding practice platform with a modern IDE-style interface for writing, executing, and analyzing code in real time.",
+                "Built an AI-powered Python AST analysis engine to detect code complexity, logic errors, and provide intelligent coding feedback and execution insights.",
+                "Integrated Supabase PostgreSQL database with interactive React dashboards to store coding history, track user performance, and visualize learning analytics."
+            ],
+            tech: ["React.js", "Supabase", "PostgreSQL", "Python", "AST"],
+            github: "https://github.com/Ganeshbobbala/MarroeCode"
+        },
+        {
             title: "Behavior Recognition in Videos for Autism Detection",
             bullets: [
                 "Developed an AI-powered web application for autism behavior recognition by analyzing uploaded videos using CNN-LSTM deep learning models for accurate behavioral pattern classification.",
@@ -1160,6 +1170,24 @@ const App = () => {
             ],
             tech: ["Python", "TensorFlow/Keras", "OpenCV", "MediaPipe", "HTML", "CSS", "JavaScript"],
             github: "https://github.com/Ganeshbobbala/Behavioural-Video-Recognition-for-Autism-Detection"
+        },
+        {
+            title: "Driver Drowsiness Detection System",
+            bullets: [
+                "Monitored driver drowsiness using computer vision to analyze eye blink rate, head movement, and facial features in real-time.",
+                "Integrated Arduino controllers and IoT sensors with real-time facial detection alert mechanisms.",
+                "Programmed computer vision modules in Python with OpenCV to trigger immediate physical alarms."
+            ],
+            tech: ["Arduino", "Python", "OpenCV", "IoT Sensors"]
+        },
+        {
+            title: "EMG-Based Parkinson’s Disease Detection System",
+            bullets: [
+                "Designed a real-time health monitoring prototype using Arduino Uno to capture muscle activity.",
+                "Applied signal processing algorithms to detect abnormal neuromuscular patterns from EMG sensors.",
+                "Offered a low-cost, non-invasive wearable prototype for early healthcare monitoring and diagnosis."
+            ],
+            tech: ["Arduino Uno", "Embedded C", "EMG Sensors", "Signal Processing"]
         }
     ];
 
