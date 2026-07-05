@@ -1134,7 +1134,7 @@ const App = () => {
     const certs = [
         { n: "Software Engineering Job Simulation", i: "JPMorgan Chase & Co. (Forage)", link: "/Software Engineering Job Simulation.pdf", c: "bg-blue-500/10 text-blue-500" },
         { n: "Generative AI for Beginners", i: "Simplilearn SkillUp", link: "/Generative AI for Beginners.pdf", c: "bg-pink-500/10 text-pink-500" },
-        { n: "Artificial Intelligence", i: "Infosys Springboard", link: "", c: "bg-purple-500/10 text-purple-500" },
+        { n: "Artificial Intelligence", i: "Infosys Springboard", link: "/Artificial Intelligence.pdf", c: "bg-purple-500/10 text-purple-500" },
         { n: "Prompt Engineering", i: "Infosys Springboard", link: "/prompt Engineering.pdf", c: "bg-emerald-500/10 text-emerald-500" }
     ];
 
@@ -1307,7 +1307,7 @@ const App = () => {
                             {/* Glassmorphism Overlays stats cards */}
                             <div className="grid grid-cols-2 gap-6">
                                 {[
-                                    { l: 'Projects', v: '2', href: '#myprojects' }, { l: 'Certifications', v: '4', href: '#certifications' }
+                                    { l: 'Projects', v: '5+', href: '#myprojects' }, { l: 'Certifications', v: '5+', href: '#certifications' }
                                 ].map((s, i) => (
                                     <a key={i} href={s.href} className="bg-zinc-950/30 border border-zinc-900/50 p-8 rounded-3xl flex flex-col items-center justify-center text-center hover:bg-zinc-900/40 hover:border-cyan-500/20 backdrop-blur-3xl hover:shadow-[0_20px_50px_rgba(6,182,212,0.03)] transition-all cursor-pointer">
                                         <p className="text-4xl font-black text-cyan-400 mb-1"><Counter value={s.v} /></p>
