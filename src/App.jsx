@@ -1169,7 +1169,8 @@ const App = () => {
                 "Integrated the trained deep learning model into a responsive web interface, enabling secure video uploads, real-time prediction, and visualization of behavioral analysis results."
             ],
             tech: ["Python", "TensorFlow/Keras", "OpenCV", "MediaPipe", "HTML", "CSS", "JavaScript"],
-            github: "https://github.com/Ganeshbobbala/Behavioural-Video-Recognition-for-Autism-Detection"
+            github: "https://github.com/Ganeshbobbala/Behavioural-Video-Recognition-for-Autism-Detection",
+            demo: "https://autism-video-recognition.netlify.app/"
         },
         {
             title: "Driver Drowsiness Detection System",
@@ -1542,11 +1543,18 @@ const App = () => {
                                                 <span key={t} className="px-3.5 py-1.5 bg-zinc-900 text-[10px] font-black uppercase text-zinc-500 rounded-lg border border-zinc-800">{t}</span>
                                             ))}
                                         </div>
-                                        {proj.github && (
-                                            <a href={proj.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-cyan-400 transition-all group-hover:translate-x-1 transition-transform">
-                                                <Github size={16} /> View my project
-                                            </a>
-                                        )}
+                                        <div className="flex items-center gap-6">
+                                            {proj.github && (
+                                                <a href={proj.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-cyan-400 transition-all hover:scale-105 active:scale-95">
+                                                    <Github size={16} /> View Code
+                                                </a>
+                                            )}
+                                            {proj.demo && (
+                                                <a href={proj.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-cyan-400 transition-all hover:scale-105 active:scale-95">
+                                                    <ExternalLink size={16} /> Live Demo
+                                                </a>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </Tilt>
