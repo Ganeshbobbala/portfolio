@@ -821,14 +821,20 @@ const CertificateCard = ({ cert, index }) => {
                     <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${cert.c} group-hover:scale-110 transition-transform`}><Award size={24} /></div>
                     <h4 className="text-white font-black tracking-tight text-lg leading-snug h-14 line-clamp-2">{cert.n}</h4>
                     <p className="text-zinc-500 text-[10px] font-black uppercase tracking-widest mb-4 h-8 line-clamp-2">{cert.i}</p>
-                    <a 
-                        href={cert.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="mt-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-[0_10px_20px_rgba(37,99,235,0.2)] hover:-translate-y-0.5 active:translate-y-0"
-                    >
-                        View Certificate <ExternalLink size={16} />
-                    </a>
+                    {cert.link ? (
+                        <a 
+                            href={cert.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="mt-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-[0_10px_20px_rgba(37,99,235,0.2)] hover:-translate-y-0.5 active:translate-y-0"
+                        >
+                            View Certificate <ExternalLink size={16} />
+                        </a>
+                    ) : (
+                        <div className="mt-auto flex items-center justify-center gap-2 bg-zinc-900 border border-zinc-800 text-zinc-500 px-6 py-4 rounded-2xl font-black text-xs uppercase tracking-widest select-none">
+                            Verification Pending
+                        </div>
+                    )}
                 </div>
             </Tilt>
         </motion.div>
@@ -1118,7 +1124,7 @@ const App = () => {
     const skills = [
         { title: "Programming Languages", items: ["Java", "Python (Basics)"] },
         { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript", "React.js (Basics)"] },
-        { title: "Database Technologies", items: ["MySQL"] },
+        { title: "Database Technologies", items: ["PostgreSQL", "SQL"] },
         { title: "Tools & Platforms", items: ["Git", "GitHub", "Visual Studio Code"] },
         { title: "Soft Skills", items: ["Problem Solving", "Team Collaboration", "Communication", "Adaptability"] }
     ];
@@ -1126,10 +1132,9 @@ const App = () => {
 // (removed unused education constant; education UI uses inline data)
 
     const certs = [
-        { n: "AI Tools and ChatGPT Workshop", i: "be10x", link: "/Copy of Be10x participate.pdf", c: "bg-purple-500/10 text-purple-500" },
         { n: "Software Engineering Job Simulation", i: "JPMorgan Chase & Co. (Forage)", link: "/Software Engineering Job Simulation.pdf", c: "bg-blue-500/10 text-blue-500" },
         { n: "Generative AI for Beginners", i: "Simplilearn SkillUp", link: "/Generative AI for Beginners.pdf", c: "bg-pink-500/10 text-pink-500" },
-        { n: "GenAI Powered Data Analytics Job Simulation", i: "JPMorgan Chase & Co. (Forage)", link: "/GenAI Powered Data Analytics Job Simulation.pdf", c: "bg-indigo-500/10 text-indigo-500" },
+        { n: "Artificial Intelligence", i: "Infosys Springboard", link: "", c: "bg-purple-500/10 text-purple-500" },
         { n: "Prompt Engineering", i: "Infosys Springboard", link: "/prompt Engineering.pdf", c: "bg-emerald-500/10 text-emerald-500" }
     ];
 
@@ -1137,50 +1142,22 @@ const App = () => {
         {
             title: "Smart PDS: Automated Time-Slot Booking & Distribution System",
             bullets: [
-                "Built a multi-role full-stack web application with 7-language localization and PWA support, streamlining distribution through automated time-slot booking.",
-                "Integrated a Scikit-learn classification model via Flask API to predict ration card eligibility (APL/BPL) using demographic and income-based inputs for intelligent eligibility classification.",
-                "Built a real-time admin dashboard using Socket.io and Supabase to sync bookings, track inventory via Chart.js, and secure tickets with SHA-256 hashes."
+                "Developed a scalable full-stack web application with role-based authentication, automated time-slot booking, multilingual support (7 languages), and Progressive Web App (PWA) capabilities.",
+                "Integrated a Scikit-learn eligibility prediction model using a Flask API to automate beneficiary verification and improve the efficiency of the distribution process.",
+                "Built real-time administrative dashboards using Socket.io, Supabase PostgreSQL, and Chart.js for live booking synchronization, inventory tracking, analytics, and secure transaction processing."
             ],
             tech: ["HTML", "CSS", "JavaScript", "Node.js", "Socket.io", "Supabase", "Python", "Flask", "Scikit-Learn"],
             github: "https://github.com/Ganeshbobbala/portfolio"
         },
         {
-            title: "MarroeCode – AI-Powered Coding Practice Platform",
+            title: "Behavior Recognition in Videos for Autism Detection",
             bullets: [
-                "Developed a full-stack coding practice platform with a modern IDE-style interface for writing, executing, and analyzing code in real time.",
-                "Built an AI-powered Python AST analysis engine to detect code complexity, logic errors, and provide intelligent coding feedback and execution insights.",
-                "Integrated Supabase PostgreSQL database with interactive React dashboards to store coding history, track user performance, and visualize learning analytics."
+                "Developed an AI-powered web application for autism behavior recognition by analyzing uploaded videos using CNN-LSTM deep learning models for accurate behavioral pattern classification.",
+                "Utilized OpenCV and MediaPipe for video preprocessing, human pose estimation, and feature extraction to improve the accuracy and reliability of behavior detection.",
+                "Integrated the trained deep learning model into a responsive web interface, enabling secure video uploads, real-time prediction, and visualization of behavioral analysis results."
             ],
-            tech: ["React.js", "Supabase", "PostgreSQL", "Python", "AST"],
-            github: "https://github.com/Ganeshbobbala/MarroeCode"
-        },
-        {
-            title: "Autism Detection via Video Recognition",
-            bullets: [
-                "Developed a web-based system that detects autism-related behaviors from uploaded videos using CNN + LSTM deep learning models.",
-                "Trained CNN + LSTM models to recognize behavioral patterns, integrating landmarks and pose estimation via OpenCV and MediaPipe.",
-                "Stored video metadata and user analysis history securely using a custom MongoDB schema."
-            ],
-            tech: ["Python", "TensorFlow", "OpenCV", "MediaPipe", "MongoDB"],
+            tech: ["Python", "TensorFlow/Keras", "OpenCV", "MediaPipe", "HTML", "CSS", "JavaScript"],
             github: "https://github.com/Ganeshbobbala/Behavioural-Video-Recognition-for-Autism-Detection"
-        },
-        {
-            title: "Driver Drowsiness Detection System",
-            bullets: [
-                "Monitored driver drowsiness using computer vision to analyze eye blink rate, head movement, and facial features in real-time.",
-                "Integrated Arduino controllers and IoT sensors with real-time facial detection alert mechanisms.",
-                "Programmed computer vision modules in Python with OpenCV to trigger immediate physical alarms."
-            ],
-            tech: ["Arduino", "Python", "OpenCV", "IoT Sensors"]
-        },
-        {
-            title: "EMG-Based Parkinson’s Disease Detection System",
-            bullets: [
-                "Designed a real-time health monitoring prototype using Arduino Uno to capture muscle activity.",
-                "Applied signal processing algorithms to detect abnormal neuromuscular patterns from EMG sensors.",
-                "Offered a low-cost, non-invasive wearable prototype for early healthcare monitoring and diagnosis."
-            ],
-            tech: ["Arduino Uno", "Embedded C", "EMG Sensors", "Signal Processing"]
         }
     ];
 
