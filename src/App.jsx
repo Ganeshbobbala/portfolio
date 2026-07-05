@@ -1294,9 +1294,9 @@ const App = () => {
                         </motion.div>
                         
                         <div className="lg:w-[60%] w-full">
-                            <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-8 tracking-normal">Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Software Developer</span></h2>
+                            <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-8 tracking-normal">Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Software Engineer</span></h2>
                             <p className="text-zinc-400 text-lg md:text-xl font-medium leading-relaxed mb-10">
-                                Motivated and enthusiastic Computer Science student with knowledge of Java, Python, HTML, CSS, JavaScript and MySQL. Gained hands-on experience through academic and personal projects in software and web development. Passionate about Full-Stack Development, problem-solving, and continuous learning. Seeking an opportunity to apply and enhance technical skills while contributing to innovative software solutions in a professional environment.
+                            Hi, I'm Ganesh Bobbala, a Computer Science (AI & ML) student with a passion for software development and Full-Stack Web Development. I have hands-on experience building web applications and AI-powered solutions through academic and personal projects. I enjoy learning new technologies, writing clean and maintainable code, and solving real-world problems. My goal is to grow as a Software Engineer while contributing to impactful and innovative software solutions.
                             </p>
                             <div className="flex flex-wrap gap-8 mb-12">
                                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none"><GraduationCap size={16} className="text-cyan-500" /> B.Tech CSE (AI & ML)</div>
@@ -1307,7 +1307,7 @@ const App = () => {
                             {/* Glassmorphism Overlays stats cards */}
                             <div className="grid grid-cols-2 gap-6">
                                 {[
-                                    { l: 'Projects', v: '5+', href: '#myprojects' }, { l: 'Certifications', v: '5+', href: '#certifications' }
+                                    { l: 'Projects', v: '2', href: '#myprojects' }, { l: 'Certifications', v: '4', href: '#certifications' }
                                 ].map((s, i) => (
                                     <a key={i} href={s.href} className="bg-zinc-950/30 border border-zinc-900/50 p-8 rounded-3xl flex flex-col items-center justify-center text-center hover:bg-zinc-900/40 hover:border-cyan-500/20 backdrop-blur-3xl hover:shadow-[0_20px_50px_rgba(6,182,212,0.03)] transition-all cursor-pointer">
                                         <p className="text-4xl font-black text-cyan-400 mb-1"><Counter value={s.v} /></p>
