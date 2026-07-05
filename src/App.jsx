@@ -1135,7 +1135,9 @@ const App = () => {
         { n: "Software Engineering Job Simulation", i: "JPMorgan Chase & Co. (Forage)", link: "/Software Engineering Job Simulation.pdf", c: "bg-blue-500/10 text-blue-500" },
         { n: "Generative AI for Beginners", i: "Simplilearn SkillUp", link: "/Generative AI for Beginners.pdf", c: "bg-pink-500/10 text-pink-500" },
         { n: "Artificial Intelligence", i: "Infosys Springboard", link: "/Artificial Intelligence.pdf", c: "bg-purple-500/10 text-purple-500" },
-        { n: "Prompt Engineering", i: "Infosys Springboard", link: "/prompt Engineering.pdf", c: "bg-emerald-500/10 text-emerald-500" }
+        { n: "Prompt Engineering", i: "Infosys Springboard", link: "/prompt Engineering.pdf", c: "bg-emerald-500/10 text-emerald-500" },
+        { n: "Java Programming for Beginners", i: "Simplilearn SkillUp", link: "/Java Programming for Beginners.pdf", c: "bg-blue-500/10 text-blue-500" },
+        { n: "Web Development using VS Code", i: "Microsoft Learn", link: "/Get started with web development using Visual Studio Code.pdf", c: "bg-indigo-500/10 text-indigo-500" }
     ];
 
     const projects = [
@@ -1601,7 +1603,7 @@ const App = () => {
 
                 <SectionHeader title="Certifications" subtitle="Courses and achievements I've completed" />
                 
-                <div className="max-w-7xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+                <div className="max-w-7xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
                     {certs.map((c, i) => (
                         <CertificateCard key={i} cert={c} index={i} />
                     ))}
