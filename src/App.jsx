@@ -46,22 +46,22 @@ const Navbar = ({ isDark, toggleTheme }) => {
     return (
         <nav className={`fixed z-[100] transition-all duration-500 ${
             isScrolled 
-                ? 'top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-5xl px-6 py-2.5 rounded-2xl border border-white/10 bg-black/80 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]' 
+                ? 'top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-6xl px-6 py-2.5 rounded-2xl border border-white/10 bg-black/80 backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)]' 
                 : 'top-0 left-0 right-0 py-4 px-6 md:px-0 border-b border-white/5 bg-black/60 backdrop-blur-3xl'
         }`}>
-            <div className="w-full max-w-7xl mx-auto px-2 md:px-4 flex justify-between items-center text-white">
+            <div className="w-full max-w-6xl mx-auto px-2 md:px-4 flex justify-between items-center text-white">
                 <a href="#home" className="text-2xl font-black tracking-tighter text-blue-500 italic flex items-center gap-2 hover:text-blue-400 transition-colors group">
                     <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center italic text-sm transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(37,99,235,0.8)] group-hover:scale-105">P</div>
                     Portfolio
                 </a>
                 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex items-center gap-2">
+                <div className="hidden md:flex items-center gap-1 xl:gap-2">
                     {navItems.map((item) => (
                         <a 
                             key={item.label} 
                             href={item.href} 
-                            className="text-xs font-black tracking-[0.1em] text-zinc-300 hover:text-white transition-all px-4 py-2 rounded-xl bg-transparent hover:bg-blue-600/20 border border-transparent hover:border-blue-600/40 uppercase"
+                            className="text-[10px] xl:text-xs font-black tracking-[0.05em] xl:tracking-[0.1em] text-zinc-300 hover:text-white transition-all px-2.5 xl:px-4 py-1.5 xl:py-2 rounded-xl bg-transparent hover:bg-blue-600/20 border border-transparent hover:border-blue-600/40 uppercase"
                         >
                             {item.label}
                         </a>
