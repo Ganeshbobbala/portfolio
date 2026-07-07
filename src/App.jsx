@@ -1628,9 +1628,9 @@ const App = () => {
                     
                     <div className="space-y-16">
                         {[
-                            { title: "B. Tech in Computer Science and Engineering (AI & ML)", date: "2023 – 2027 (Expected)", org: "Kalasalingam Academy of Research and Education", grade: "CGPA: 8.64", icon: "🎓", align: "left", c: "cyan" },
-                            { title: "Higher Secondary Education (MPC)", date: "2021 – 2023", org: "Sri Chaitanya Junior College", grade: "Percentage: 89.7%", icon: "📚", align: "right", c: "blue" },
-                            { title: "Secondary School Certificate (SSC)", date: "2020 – 2021", org: "Sri Srinivasa High School", grade: "Percentage: 100%", icon: "🏫", align: "left", c: "indigo" }
+                            { title: "B. Tech in Computer Science and Engineering (AI & ML)", date: "2023 – 2027 (Expected)", org: "Kalasalingam Academy of Research and Education", icon: "🎓", align: "left", c: "cyan" },
+                            { title: "Higher Secondary Education (MPC)", date: "2021 – 2023", org: "Sri Chaitanya Junior College", icon: "📚", align: "right", c: "blue" },
+                            { title: "Secondary School Certificate (SSC)", date: "2020 – 2021", org: "Sri Srinivasa High School", icon: "🏫", align: "left", c: "indigo" }
                         ].map((exp, i) => (
                             <div key={i} className={`flex flex-col md:flex-row items-center gap-12 md:gap-0 ${exp.align === 'right' ? 'md:flex-row-reverse' : ''}`}>
                                 <motion.div
@@ -1639,23 +1639,22 @@ const App = () => {
                                     transition={{ duration: 0.8, type: 'spring' }}
                                     className={`md:w-[45%] text-center px-10 ${exp.align === 'left' ? 'md:text-left' : 'md:text-right'}`}
                                 >
-                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-4">
+                                    <div className={`flex flex-col md:items-center justify-between gap-2 mb-4 ${exp.align === 'left' ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
                                         <h4 className="text-xl md:text-2xl font-black tracking-normal text-white">{exp.title}</h4>
-                                        <div className={`bg-zinc-950/90 border-r-4 px-4 py-2 rounded-lg transition-all w-fit self-end md:self-auto shrink-0 hover:scale-105 ${exp.c === 'cyan' ? 'border-r-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.15)]' : exp.c === 'blue' ? 'border-r-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.15)]' : 'border-r-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.15)]'}`}>
+                                        <div className={`bg-zinc-950/90 border-r-4 px-4 py-2 rounded-lg transition-all w-fit self-center md:self-auto shrink-0 hover:scale-105 ${exp.c === 'cyan' ? 'border-r-cyan-500 shadow-[0_0_20px_rgba(6,182,212,0.15)]' : exp.c === 'blue' ? 'border-r-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.15)]' : 'border-r-indigo-500 shadow-[0_0_20px_rgba(99,102,241,0.15)]'}`}>
                                             {exp.date.includes(' – ') || exp.date.includes(' - ') ? (
-                                                <div className="flex flex-col items-end leading-none">
+                                                <div className={`flex flex-col items-center leading-none ${exp.align === 'left' ? 'md:items-end' : 'md:items-start'}`}>
                                                     <span className={`text-[10px] font-black uppercase mb-0.5 tracking-tighter ${exp.c === 'cyan' ? 'text-cyan-500/60' : exp.c === 'blue' ? 'text-blue-500/60' : 'text-indigo-500/60'}`}>{(exp.date.includes(' – ') ? exp.date.split(' – ') : exp.date.split(' - '))[0]} —</span>
                                                     <span className={`text-sm font-black tracking-wide ${exp.c === 'cyan' ? 'text-cyan-500' : exp.c === 'blue' ? 'text-blue-500' : 'text-indigo-500'}`}>{(exp.date.includes(' – ') ? exp.date.split(' – ') : exp.date.split(' - '))[1]}</span>
                                                 </div>
                                             ) : (
-                                                <div className="flex flex-col items-end leading-none">
+                                                <div className={`flex flex-col items-center leading-none ${exp.align === 'left' ? 'md:items-end' : 'md:items-start'}`}>
                                                     <span className={`text-sm font-black tracking-wide ${exp.c === 'cyan' ? 'text-cyan-500' : exp.c === 'blue' ? 'text-blue-500' : 'text-indigo-500'}`}>{exp.date}</span>
                                                 </div>
                                             )}
                                         </div>
                                     </div>
                                     <p className="text-zinc-300 font-bold text-sm md:text-base mb-4">{exp.org}</p>
-                                    {exp.grade && <p className="text-zinc-500 font-semibold text-xs tracking-wide">{exp.grade}</p>}
                                 </motion.div>
                                 
                                 {/* Floating Illustration Milestone Circle */}
