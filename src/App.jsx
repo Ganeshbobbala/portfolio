@@ -5,6 +5,8 @@ import {
 } from 'lucide-react';
 import { Typewriter } from 'react-simple-typewriter';
 import Tilt from 'react-parallax-tilt';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Float, Sphere } from '@react-three/drei';
 
 const RESUME_URL = '/Ganesh_Resume.pdf';
 const DEPLOY_URL = 'https://portfolio-ganeshbobbala.vercel.app/';
@@ -147,6 +149,54 @@ const Navbar = ({ isDark, toggleTheme }) => {
               )}
             </AnimatePresence>
         </nav>
+    );
+};
+
+
+const RotatingReactLogo = () => {
+    const groupRef = useRef();
+    useFrame(({ clock }) => {
+        groupRef.current.rotation.y = clock.getElapsedTime() * 0.2;
+        groupRef.current.rotation.z = clock.getElapsedTime() * 0.1;
+    });
+
+    return (
+        <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
+            <group ref={groupRef} scale={1.2}>
+                {/* Nucleus */}
+                <Sphere args={[0.3, 32, 32]}>
+                    <meshBasicMaterial color="#61dafb" />
+                </Sphere>
+                
+                {/* Orbits */}
+                <group rotation={[0, 0, 0]}>
+                    <mesh rotation={[Math.PI / 2, 0, 0]}>
+                        <torusGeometry args={[1.8, 0.04, 16, 100]} />
+                        <meshBasicMaterial color="#61dafb" transparent opacity={0.6} />
+                    </mesh>
+                </group>
+                <group rotation={[0, 0, Math.PI / 3]}>
+                    <mesh rotation={[Math.PI / 2, 0, 0]}>
+                        <torusGeometry args={[1.8, 0.04, 16, 100]} />
+                        <meshBasicMaterial color="#61dafb" transparent opacity={0.6} />
+                    </mesh>
+                </group>
+                <group rotation={[0, 0, -Math.PI / 3]}>
+                    <mesh rotation={[Math.PI / 2, 0, 0]}>
+                        <torusGeometry args={[1.8, 0.04, 16, 100]} />
+                        <meshBasicMaterial color="#61dafb" transparent opacity={0.6} />
+                    </mesh>
+                </group>
+
+                {/* Outer Glow Orbits for Hologram Effect */}
+                <group rotation={[0, 0, 0]}>
+                    <mesh rotation={[Math.PI / 2, 0, 0]}>
+                        <torusGeometry args={[1.8, 0.1, 8, 100]} />
+                        <meshBasicMaterial color="#61dafb" transparent opacity={0.1} wireframe />
+                    </mesh>
+                </group>
+            </group>
+        </Float>
     );
 };
 
@@ -1204,34 +1254,28 @@ const App = () => {
 
             {/* --- HERO --- */}
             <section id="home" className="min-h-screen flex items-center justify-center relative pt-20">
-                <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center z-0">
-                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] opacity-20 dark:opacity-30">
-                        {/* Outer Tech Ring */}
-                        <div className="absolute inset-0 border border-dashed border-cyan-500/30 rounded-full animate-[spin_40s_linear_infinite]" />
-                        
-                        {/* Inner Tech Ring */}
-                        <div className="absolute inset-4 border border-double border-blue-500/20 rounded-full animate-[spin_20s_linear_infinite_reverse]" />
-                        
-                        {/* Radar Line Sweep */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/0 via-cyan-500/10 to-cyan-500/0 rounded-full animate-[pulse_6s_ease-in-out_infinite]" />
-                        
-                        {/* Center Target Crosshair */}
-                        <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-cyan-500/20" />
-                        <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-cyan-500/20" />
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 border border-cyan-500/40 rounded-full animate-ping" style={{ animationDuration: '4s' }} />
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 border border-blue-500/40 rounded-full" />
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-cyan-400 rounded-full" />
-
-                        {/* Coding symbol floaters */}
-                        <div className="absolute top-[10%] left-[10%] text-xs font-mono text-cyan-500/40 animate-bounce">{'</>'}</div>
-                        <div className="absolute bottom-[15%] left-[20%] text-xs font-mono text-blue-500/40 animate-pulse">{'git'}</div>
-                        <div className="absolute top-[25%] right-[15%] text-xs font-mono text-indigo-500/40 animate-pulse">{'db'}</div>
-                        <div className="absolute bottom-[20%] right-[20%] text-xs font-mono text-cyan-400/40 animate-bounce">{'await'}</div>
-                    </div>
+                <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-40">
+                    <Canvas 
+                        camera={{ position: [0, 0, 5], fov: 60 }} 
+                        style={{ background: 'transparent' }}
+                    >
+                        <ambientLight intensity={1} />
+                        <pointLight position={[10, 10, 10]} intensity={1} />
+                        <RotatingReactLogo />
+                    </Canvas>
                 </div>
-                <div 
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/5 blur-[120px] rounded-full opacity-50 pointer-events-none animate-pulse" 
-                    style={{ animationDuration: '8s' }}
+                <motion.div 
+                    animate={{ 
+                        scale: [1, 1.2, 1], 
+                        x: [0, 50, -50, 0], 
+                        y: [0, -50, 50, 0] 
+                    }}
+                    transition={{ 
+                        duration: 15, 
+                        repeat: Infinity, 
+                        ease: "easeInOut" 
+                    }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-600/5 blur-[150px] rounded-full opacity-60 pointer-events-none" 
                 />
                 <div className="max-w-5xl mx-auto px-8 text-center relative z-10">
                     <motion.p
