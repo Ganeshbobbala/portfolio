@@ -31,7 +31,7 @@ const Navbar = ({ isDark, toggleTheme }) => {
         { label: 'Skills', href: '#myskills' },
         { label: 'Projects', href: '#myprojects' },
         { label: 'Education', href: '#education' },
-        { label: 'Certs', href: '#certifications' },
+        { label: 'Certifications', href: '#certifications' },
         { label: 'Contact', href: '#contact' }
     ];
 
@@ -256,120 +256,6 @@ const MagneticButton = ({ children, className, ...props }) => {
         >
             {children}
         </motion.div>
-    );
-};
-
-const Magnetic = ({ children, scale = 0.35, className = "" }) => {
-    const ref = useRef(null);
-    const [position, setPosition] = useState({ x: 0, y: 0 });
-
-    const handleMouseMove = (e) => {
-        const { clientX, clientY } = e;
-        const { left, top, width, height } = ref.current.getBoundingClientRect();
-        const x = clientX - (left + width / 2);
-        const y = clientY - (top + height / 2);
-        setPosition({ x: x * scale, y: y * scale });
-    };
-
-    const handleMouseLeave = () => {
-        setPosition({ x: 0, y: 0 });
-    };
-
-    return (
-        <motion.div
-            ref={ref}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            animate={{ x: position.x, y: position.y }}
-            transition={{ type: "spring", stiffness: 120, damping: 12, mass: 0.1 }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
-};
-
-const FloatingLabelInput = ({ label, name, type = "text", required = false, textarea = false, placeholder = "" }) => {
-    const [focused, setFocused] = useState(false);
-    const [value, setValue] = useState("");
-
-    const handleFocus = () => setFocused(true);
-    const handleBlur = (e) => {
-        setFocused(false);
-        setValue(e.target.value);
-    };
-
-    return (
-        <div className="space-y-2 relative pt-2">
-            <motion.label 
-                animate={{ 
-                    y: (focused || value) ? -18 : 0, 
-                    x: (focused || value) ? -10 : 0,
-                    scale: (focused || value) ? 0.8 : 1,
-                    color: (focused || value) ? '#06b6d4' : '#71717a'
-                }}
-                transition={{ type: "spring", stiffness: 180, damping: 16 }}
-                className="absolute left-6 top-8 pointer-events-none text-xs font-black uppercase tracking-widest select-none origin-left z-20"
-            >
-                {label}
-            </motion.label>
-            {textarea ? (
-                <textarea 
-                    name={name}
-                    required={required}
-                    rows={4}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    onChange={(e) => setValue(e.target.value)}
-                    className="w-full bg-zinc-900/30 border border-zinc-800 rounded-[2rem] px-6 py-5 focus:outline-none focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/20 transition-all font-bold text-white floating-label-input resize-none relative z-10"
-                    placeholder={focused ? placeholder : ""}
-                />
-            ) : (
-                <input 
-                    name={name}
-                    required={required}
-                    type={type}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    onChange={(e) => setValue(e.target.value)}
-                    className="w-full bg-zinc-900/30 border border-zinc-800 rounded-[1.5rem] px-6 py-5 focus:outline-none focus:border-cyan-500/60 focus:ring-1 focus:ring-cyan-500/20 transition-all font-bold text-white floating-label-input relative z-10"
-                    placeholder={focused ? placeholder : ""}
-                />
-            )}
-        </div>
-    );
-};
-
-const ConfettiBurst = () => {
-    return (
-        <div className="absolute inset-0 pointer-events-none overflow-hidden z-50">
-            {Array.from({ length: 30 }).map((_, i) => {
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 40 + Math.random() * 120;
-                const tx = Math.cos(angle) * distance;
-                const ty = Math.sin(angle) * distance - 30;
-                const rotate = Math.random() * 360;
-                const colors = ['#22d3ee', '#3b82f6', '#8b5cf6', '#10b981', '#f43f5e'];
-                const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                
-                return (
-                    <motion.div
-                        key={i}
-                        initial={{ x: "0px", y: "0px", scale: 1, opacity: 1, rotate: 0 }}
-                        animate={{ 
-                            x: `${tx}px`, 
-                            y: `${ty}px`, 
-                            scale: 0, 
-                            opacity: 0, 
-                            rotate: rotate 
-                        }}
-                        transition={{ duration: 1.0, ease: "easeOut" }}
-                        className="absolute w-2 h-2 rounded-sm"
-                        style={{ backgroundColor: randomColor, left: '50%', top: '50%' }}
-                    />
-                );
-            })}
-        </div>
     );
 };
 
@@ -1137,9 +1023,9 @@ const ContactNetworkCanvas = () => {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.3;
-                this.size = Math.random() * 1.5 + 1;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.size = Math.random() * 2 + 1;
             }
             update() {
                 this.x += this.vx;
@@ -1152,13 +1038,13 @@ const ContactNetworkCanvas = () => {
                 const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
                 c.beginPath();
                 c.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                c.fillStyle = isDark ? 'rgba(6, 182, 212, 0.25)' : 'rgba(8, 145, 178, 0.5)';
+                c.fillStyle = isDark ? 'rgba(6, 182, 212, 0.3)' : 'rgba(8, 145, 178, 0.65)';
                 c.fill();
             }
         }
         
-        const nodeCount = Math.floor((canvas.width * canvas.height) / 22000);
-        for (let i = 0; i < Math.max(15, Math.min(nodeCount, 40)); i++) {
+        const nodeCount = Math.floor((canvas.width * canvas.height) / 18000);
+        for (let i = 0; i < Math.max(20, Math.min(nodeCount, 60)); i++) {
             nodes.push(new NetworkNode());
         }
         
@@ -1172,117 +1058,67 @@ const ContactNetworkCanvas = () => {
             mouseRef.current.active = false;
         };
         
-        // Listen to the parent section
-        const parentSection = canvas.closest('#contact') || canvas.parentElement;
-        parentSection.addEventListener('mousemove', handleMouseMove);
-        parentSection.addEventListener('mouseleave', handleMouseLeave);
+        canvas.parentElement.addEventListener('mousemove', handleMouseMove);
+        canvas.parentElement.addEventListener('mouseleave', handleMouseLeave);
         
         const render = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
             
-            // 1. Draw nodes and background network
+            if (mouseRef.current.active) {
+                ctx.save();
+                const grad = ctx.createRadialGradient(
+                    mouseRef.current.x, mouseRef.current.y, 0,
+                    mouseRef.current.x, mouseRef.current.y, 180
+                );
+                grad.addColorStop(0, isDark ? 'rgba(6, 182, 212, 0.03)' : 'rgba(8, 145, 178, 0.08)');
+                grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(mouseRef.current.x, mouseRef.current.y, 180, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+            
             nodes.forEach(n => {
                 n.update();
                 n.draw(ctx);
             });
             
-            ctx.lineWidth = 0.6;
+            ctx.lineWidth = 0.8;
             for (let i = 0; i < nodes.length; i++) {
                 for (let j = i + 1; j < nodes.length; j++) {
                     const dx = nodes[i].x - nodes[j].x;
                     const dy = nodes[i].y - nodes[j].y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
                     
-                    if (dist < 120) {
+                    if (dist < 100) {
                         ctx.beginPath();
                         ctx.moveTo(nodes[i].x, nodes[i].y);
                         ctx.lineTo(nodes[j].x, nodes[j].y);
                         ctx.strokeStyle = isDark 
-                            ? `rgba(59, 130, 246, ${0.08 * (1 - dist / 120)})`
-                            : `rgba(29, 78, 216, ${0.25 * (1 - dist / 120)})`;
+                            ? `rgba(59, 130, 246, ${0.12 * (1 - dist / 100)})`
+                            : `rgba(29, 78, 216, ${0.35 * (1 - dist / 100)})`;
                         ctx.stroke();
                     }
                 }
-            }
-
-            // 2. Interactive connections to Contact items
-            const itemKeys = ['email', 'github', 'linkedin', 'portfolio', 'resume'];
-            const itemPositions = [];
-            let nearestItem = null;
-            let minDistance = Infinity;
-            
-            const canvasRect = canvas.getBoundingClientRect();
-
-            itemKeys.forEach(key => {
-                const el = document.querySelector(`[data-contact-link="${key}"]`);
-                if (el) {
-                    const elRect = el.getBoundingClientRect();
-                    // Center of the icon/card
-                    const cx = elRect.left + elRect.width / 2 - canvasRect.left;
-                    const cy = elRect.top + elRect.height / 2 - canvasRect.top;
-                    const pos = { key, x: cx, y: cy, el };
-                    itemPositions.push(pos);
-
-                    if (mouseRef.current.active) {
-                        const dx = cx - mouseRef.current.x;
-                        const dy = cy - mouseRef.current.y;
-                        const dist = Math.sqrt(dx * dx + dy * dy);
-                        if (dist < minDistance) {
-                            minDistance = dist;
-                            nearestItem = pos;
-                        }
+                
+                if (mouseRef.current.active) {
+                    const dx = nodes[i].x - mouseRef.current.x;
+                    const dy = nodes[i].y - mouseRef.current.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 140) {
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(mouseRef.current.x, mouseRef.current.y);
+                        ctx.strokeStyle = isDark
+                            ? `rgba(6, 182, 212, ${0.25 * (1 - dist / 140)})`
+                            : `rgba(8, 145, 178, ${0.6 * (1 - dist / 140)})`;
+                        ctx.stroke();
                     }
                 }
-            });
-
-            // Draw sequence links (Email -> GitHub -> LinkedIn -> Portfolio -> Resume)
-            if (itemPositions.length > 1) {
-                ctx.lineWidth = 1.0;
-                for (let i = 0; i < itemPositions.length - 1; i++) {
-                    const p1 = itemPositions[i];
-                    const p2 = itemPositions[i+1];
-                    ctx.beginPath();
-                    ctx.moveTo(p1.x, p1.y);
-                    ctx.lineTo(p2.x, p2.y);
-                    ctx.setLineDash([4, 6]);
-                    ctx.lineDashOffset = (Date.now() / 150) % 10;
-                    ctx.strokeStyle = isDark ? 'rgba(6, 182, 212, 0.15)' : 'rgba(8, 145, 178, 0.3)';
-                    ctx.stroke();
-                    ctx.setLineDash([]);
-                }
-            }
-
-            // Draw glow lines and dispatch hover animations
-            if (mouseRef.current.active && nearestItem && minDistance < 250) {
-                ctx.beginPath();
-                ctx.moveTo(mouseRef.current.x, mouseRef.current.y);
-                ctx.lineTo(nearestItem.x, nearestItem.y);
-                
-                const grad = ctx.createLinearGradient(mouseRef.current.x, mouseRef.current.y, nearestItem.x, nearestItem.y);
-                grad.addColorStop(0, isDark ? 'rgba(59, 130, 246, 0.4)' : 'rgba(37, 99, 235, 0.5)');
-                grad.addColorStop(1, isDark ? 'rgba(6, 182, 212, 0.65)' : 'rgba(8, 145, 178, 0.75)');
-                
-                ctx.strokeStyle = grad;
-                ctx.lineWidth = 1.8;
-                ctx.shadowColor = 'rgba(6, 182, 212, 0.4)';
-                ctx.shadowBlur = 8;
-                ctx.stroke();
-                ctx.shadowBlur = 0; // Reset
-                
-                // Dispatch event/class for neon lighting
-                itemPositions.forEach(p => {
-                    if (p.key === nearestItem.key) {
-                        p.el.classList.add('glowing-active');
-                    } else {
-                        p.el.classList.remove('glowing-active');
-                    }
-                });
-            } else {
-                itemPositions.forEach(p => {
-                    p.el.classList.remove('glowing-active');
-                });
             }
             
             animationFrameId = requestAnimationFrame(render);
@@ -1302,8 +1138,8 @@ const ContactNetworkCanvas = () => {
         
         return () => {
             window.removeEventListener('resize', resizeCanvas);
-            parentSection.removeEventListener('mousemove', handleMouseMove);
-            parentSection.removeEventListener('mouseleave', handleMouseLeave);
+            canvas.parentElement.removeEventListener('mousemove', handleMouseMove);
+            canvas.parentElement.removeEventListener('mouseleave', handleMouseLeave);
             cancelAnimationFrame(animationFrameId);
             observer.disconnect();
         };
@@ -1320,54 +1156,6 @@ const App = () => {
         return saved ? saved === 'dark' : true;
     });
 
-    const [formStatus, setFormStatus] = useState('idle'); // idle, sending, success, error
-    const [formProgress, setFormProgress] = useState(0);
-
-    const [cardMouse, setCardMouse] = useState({ x: 0, y: 0 });
-    const handleCardMouseMove = (e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        setCardMouse({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setFormStatus('sending');
-        setFormProgress(0);
-
-        const interval = setInterval(() => {
-            setFormProgress(p => {
-                if (p >= 90) return p;
-                return p + 10;
-            });
-        }, 180);
-
-        const formData = new FormData(e.target);
-
-        try {
-            const res = await fetch("https://api.web3forms.com/submit", {
-                method: "POST",
-                body: formData
-            });
-            const data = await res.json();
-            clearInterval(interval);
-
-            if (data.success) {
-                setFormProgress(100);
-                setTimeout(() => {
-                    setFormStatus('success');
-                }, 400);
-            } else {
-                setFormStatus('error');
-            }
-        } catch (err) {
-            clearInterval(interval);
-            setFormStatus('error');
-        }
-    };
-
     const experienceRef = useRef(null);
     const { scrollYProgress: expScrollY } = useScroll({
         target: experienceRef,
@@ -1379,23 +1167,6 @@ const App = () => {
         document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
         localStorage.setItem('portfolio-theme', isDark ? 'dark' : 'light');
     }, [isDark]);
-
-    // Global Click Ripple Hook
-    useEffect(() => {
-        const handleGlobalClick = (e) => {
-            const ripple = document.createElement('div');
-            ripple.className = 'click-ripple';
-            ripple.style.left = `${e.clientX - 10}px`;
-            ripple.style.top = `${e.clientY - 10}px`;
-            ripple.style.position = 'fixed';
-            document.body.appendChild(ripple);
-            setTimeout(() => {
-                ripple.remove();
-            }, 650);
-        };
-        window.addEventListener('click', handleGlobalClick);
-        return () => window.removeEventListener('click', handleGlobalClick);
-    }, []);
 
     const toggleTheme = () => setIsDark(prev => !prev);
 
@@ -1942,87 +1713,46 @@ const App = () => {
 
                 <div className="max-w-6xl mx-auto px-10 relative z-10">
                     <div className="flex flex-col lg:flex-row gap-32">
-                        {/* LEFT COLUMN: CONTACT DETAILS (Scroll reveal slides in from left) */}
-                        <motion.div 
-                            initial={{ opacity: 0, x: -50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
-                            className="lg:w-1/2"
-                        >
+                        <div className="lg:w-1/2">
                             <h2 className="text-3xl md:text-5xl font-black tracking-normal mb-10 leading-none">Let's build <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 italic lowercase tracking-normal">something great</span> together.</h2>
                             <p className="text-zinc-500 text-lg font-medium leading-relaxed mb-16 max-w-lg">
                                 I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision. Feel free to reach out!
                             </p>
-                            
-                            {/* Staggered Contact Cards Reveal */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-12">
+                            <div className="space-y-12">
+                                {/* Email Me Info Card */}
+                                <div className="flex items-center gap-6 group">
+                                    <div className="w-16 h-16 bg-zinc-950 border border-zinc-900 rounded-[1.5rem] flex items-center justify-center text-zinc-500 group-hover:text-cyan-400 transition-colors shadow-xl relative">
+                                        <Mail size={24} />
+                                        {/* Dynamic Pulse Ring */}
+                                        <div className="absolute inset-0 rounded-[1.5rem] border border-cyan-500/30 animate-[ping_2s_infinite]" />
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-black text-zinc-700 uppercase tracking-widest mb-1">Email Me</p>
+                                        <p className="text-lg font-bold text-white tracking-tight underline decoration-cyan-500/30 underline-offset-8 group-hover:decoration-cyan-500 transition-all">ganeshbobbala44@gmail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Cyber styled social list */}
+                            <div className="flex gap-4 mt-16">
                                 {[
-                                    { key: "email", label: "Email Me", val: "ganeshbobbala44@gmail.com", link: "mailto:ganeshbobbala44@gmail.com", icon: <Mail size={20} />, color: "border-cyan-500/20 text-cyan-400" },
-                                    { key: "phone", label: "Call Me", val: "+91 8247087380", link: "tel:+918247087380", icon: <Phone size={20} />, color: "border-blue-500/20 text-blue-400" },
-                                    { key: "linkedin", label: "LinkedIn", val: "ganesh-bobbala", link: "https://www.linkedin.com/in/ganesh-bobbala-9a7a52327", icon: <Linkedin size={20} />, color: "border-indigo-500/20 text-indigo-400" },
-                                    { key: "github", label: "GitHub", val: "Ganeshbobbala", link: "https://github.com/Ganeshbobbala", icon: <Github size={20} />, color: "border-purple-500/20 text-purple-400" },
-                                    { key: "portfolio", label: "Live Portfolio", val: "portfolio-ganeshbobbala", link: DEPLOY_URL, icon: <ExternalLink size={20} />, color: "border-emerald-500/20 text-emerald-400" },
-                                    { key: "resume", label: "My Resume", val: "Download PDF", link: RESUME_URL, icon: <Download size={20} />, color: "border-pink-500/20 text-pink-400" }
-                                ].map((card, i) => (
-                                    <motion.div
-                                        key={card.key}
-                                        initial={{ opacity: 0, y: 30 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true, margin: "-50px" }}
-                                        transition={{ duration: 0.6, delay: i * 0.1, type: "spring", stiffness: 100 }}
-                                    >
-                                        <Magnetic scale={0.12}>
-                                            <a
-                                                href={card.link}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                data-contact-link={card.key}
-                                                className="block p-6 bg-zinc-950/40 border border-zinc-900 rounded-3xl transition-all duration-300 hover:-translate-y-1.5 hover:border-cyan-500/30 hover:shadow-[0_15px_30px_rgba(6,182,212,0.08)] group relative overflow-hidden"
-                                            >
-                                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(150px_circle_at_50%_50%,rgba(6,182,212,0.06),transparent_80%)]" />
-                                                <div className="flex flex-col gap-4">
-                                                    <div className={`w-12 h-12 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center card-icon-container ${card.color} transition-all duration-300 group-hover:scale-110 shadow-lg relative`}>
-                                                        {card.icon}
-                                                        {card.key === 'email' && (
-                                                            <div className="absolute inset-0 rounded-2xl border border-cyan-500/20 animate-[ping_2.5s_infinite]" />
-                                                        )}
-                                                    </div>
-                                                    <div>
-                                                        <h4 className="text-[10px] font-black text-zinc-700 uppercase tracking-widest mb-1 group-hover:text-cyan-500 transition-colors">{card.label}</h4>
-                                                        <p className="text-sm font-black text-white truncate max-w-full tracking-tight">{card.val}</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </Magnetic>
-                                    </motion.div>
+                                    { i: <Github size={20} />, l: 'https://github.com/Ganeshbobbala/portfolio' },
+                                    { i: <Linkedin size={20} />, l: 'https://www.linkedin.com/in/ganesh-bobbala-9a7a52327' },
+                                    { i: <Mail size={20} />, l: 'mailto:ganeshbobbala44@gmail.com' }
+                                ].map((s, i) => (
+                                    <a key={i} href={s.l} className="w-14 h-14 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center text-cyan-500/40 hover:text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all">{s.i}</a>
                                 ))}
                             </div>
-                        </motion.div>
+                        </div>
 
-                        {/* RIGHT COLUMN: GLASS FORM WITH GRADIENT BORDERS (Scroll reveal slides in from right) */}
-                        <motion.div 
-                            initial={{ opacity: 0, x: 50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
-                            className="lg:w-1/2 relative group"
-                        >
-                            {/* Animated Gradient Border card wrapper */}
-                            <div 
-                                onMouseMove={handleCardMouseMove}
-                                className="animated-gradient-border p-10 rounded-[3rem] backdrop-blur-3xl shadow-[0_0_50px_rgba(6,182,212,0.05)] transition-all duration-500 relative overflow-hidden"
-                            >
-                                {/* Inner Mouse Spotlight */}
-                                <div 
-                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" 
-                                    style={{ 
-                                        background: `radial-gradient(400px circle at ${cardMouse.x}px ${cardMouse.y}px, rgba(6, 182, 212, 0.08), transparent 85%)` 
-                                    }}
-                                />
-                                
+                        <div className="lg:w-1/2 relative group">
+                            {/* Neon Glow Aura */}
+                            <div className="absolute -inset-4 bg-cyan-500/10 rounded-[4rem] blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-1000" />
+                            
+                            <div className="relative bg-zinc-950/50 border-2 border-cyan-500/20 p-10 rounded-[3rem] backdrop-blur-3xl shadow-[0_0_50px_rgba(6,182,212,0.1)] group-hover:border-cyan-500/40 group-hover:shadow-[0_0_60px_rgba(6,182,212,0.2)] transition-all duration-500">
                                 <form 
-                                    onSubmit={handleSubmit}
+                                    action="https://api.web3forms.com/submit" 
+                                    method="POST"
                                     className="space-y-8 relative z-10"
                                 >
                                     {/* Web3Forms Access Key */}
@@ -2030,84 +1760,47 @@ const App = () => {
                                     <input type="hidden" name="subject" value="New Portfolio Message" />
                                     <input type="checkbox" name="botcheck" className="hidden" />
  
-                                    <FloatingLabelInput label="Your Name" name="name" required placeholder="Ganesh Bobbala" />
-                                    
-                                    <FloatingLabelInput label="Your Email" name="email" type="email" required placeholder="ganesh@example.com" />
-                                    
-                                    <FloatingLabelInput label="Your Message" name="message" textarea required placeholder="Tell me about your vision..." />
-
-                                    {/* Custom Animated Submit Button */}
-                                    <div className="pt-4">
-                                        <MagneticButton className="w-full">
-                                            {formStatus === 'idle' && (
-                                                <button 
-                                                    type="submit"
-                                                    className="w-full bg-blue-600 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.3em] hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.3)] flex items-center justify-center gap-4 hover:-translate-y-1 active:translate-y-0 text-white cursor-pointer relative overflow-hidden"
-                                                >
-                                                    <span>Send Message</span>
-                                                    <Send size={18} />
-                                                </button>
-                                            )}
-
-                                            {formStatus === 'sending' && (
-                                                <button 
-                                                    disabled
-                                                    className="w-full bg-zinc-900/60 border border-zinc-800 py-6 rounded-3xl font-black text-xs uppercase tracking-[0.2em] flex flex-col items-center justify-center gap-3 text-zinc-500 select-none relative overflow-hidden"
-                                                >
-                                                    <div className="flex items-center gap-3">
-                                                        <span>Sending...</span>
-                                                        <motion.span 
-                                                            animate={{ x: [0, 80], y: [0, -25], opacity: [1, 0] }}
-                                                            transition={{ duration: 1.2, repeat: Infinity, ease: "easeIn" }}
-                                                            className="inline-block"
-                                                        >
-                                                            🛫
-                                                        </motion.span>
-                                                    </div>
-                                                    <div className="font-mono text-[10px] tracking-widest text-cyan-500">
-                                                        {"[" + "█".repeat(Math.round(formProgress/10)) + "░".repeat(10 - Math.round(formProgress/10)) + "]"} {formProgress}%
-                                                    </div>
-                                                </button>
-                                            )}
-
-                                            {formStatus === 'success' && (
-                                                <button 
-                                                    disabled
-                                                    className="w-full bg-emerald-600 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-4 text-white select-none relative overflow-hidden shadow-[0_20px_40px_rgba(16,185,129,0.35)]"
-                                                >
-                                                    <CheckCircle2 size={20} className="animate-bounce" />
-                                                    <span>Message Sent Successfully</span>
-                                                    <ConfettiBurst />
-                                                </button>
-                                            )}
-
-                                            {formStatus === 'error' && (
-                                                <button 
-                                                    onClick={() => setFormStatus('idle')}
-                                                    className="w-full bg-red-600 hover:bg-red-500 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.2em] flex items-center justify-center gap-4 text-white cursor-pointer shadow-[0_20px_40px_rgba(220,38,38,0.3)]"
-                                                >
-                                                    <span>Send Failed. Retry</span>
-                                                </button>
-                                            )}
-                                        </MagneticButton>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black text-zinc-600 uppercase tracking-widest ml-1">Your Name</label>
+                                        <input 
+                                            name="name"
+                                            required
+                                            type="text" 
+                                            className="w-full bg-zinc-900/50 border border-zinc-800 rounded-[1.5rem] px-8 py-5 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all placeholder-zinc-700 font-bold text-white" 
+                                            placeholder="Ganesh Bobbala" 
+                                        />
                                     </div>
-                                    
-                                    {/* Success Message Fades In */}
-                                    <AnimatePresence>
-                                        {formStatus === 'success' && (
-                                            <motion.p 
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                exit={{ opacity: 0 }}
-                                                className="text-center text-xs font-bold text-emerald-500 tracking-wider uppercase mt-4"
-                                            >
-                                                Thank you! I will get back to you shortly.
-                                            </motion.p>
-                                        )}
-                                    </AnimatePresence>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black text-zinc-600 uppercase tracking-widest ml-1">Your Email</label>
+                                        <input 
+                                            name="email"
+                                            required
+                                            type="email" 
+                                            className="w-full bg-zinc-900/50 border border-zinc-800 rounded-[1.5rem] px-8 py-5 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all placeholder-zinc-700 font-bold text-white" 
+                                            placeholder="ganesh@example.com" 
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black text-zinc-600 uppercase tracking-widest ml-1">Your Message</label>
+                                        <textarea 
+                                            name="message"
+                                            required
+                                            rows={4} 
+                                            className="w-full bg-zinc-900/50 border border-zinc-800 rounded-[2rem] px-8 py-6 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all placeholder-zinc-700 font-bold resize-none text-white" 
+                                            placeholder="Tell me about your vision..."
+                                        ></textarea>
+                                    </div>
+                                    <MagneticButton className="w-full">
+                                        <button 
+                                            type="submit"
+                                            className="w-full bg-blue-600 py-6 rounded-3xl font-black text-sm uppercase tracking-[0.3em] hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.3)] flex items-center justify-center gap-4 hover:-translate-y-1 active:translate-y-0 text-white"
+                                        >
+                                            Send Message <Send size={18} />
+                                        </button>
+                                    </MagneticButton>
                                 </form>
                             </div>
-                        </motion.div>
+                        </div>
                     </div>
                 </div>
             </section>
