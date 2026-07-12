@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { AnimatePresence, motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
 import {
     Github, Linkedin, Mail, Code2, ExternalLink, Download, User, MapPin, Search, Menu, X, Landmark, GraduationCap, Briefcase, BrainCircuit, Cpu, Laptop, Send, Phone, MessageSquare, Award, CheckCircle2, Sparkles, Target, Zap, Sun, Moon, Database
 } from 'lucide-react';
@@ -317,6 +317,37 @@ const OrbitingTech = () => {
 
 
 
+class Particle {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.vx = (Math.random() - 0.5) * 2;
+        this.vy = (Math.random() - 0.5) * 1.5 - 0.5; // slight upward drift
+        this.size = Math.random() * 2.5 + 0.8;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.012 + 0.006;
+        this.color = Math.random() > 0.5 ? '59, 130, 246' : '168, 85, 247'; // Blue or Purple
+    }
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= this.decay;
+    }
+    draw(c) {
+        c.save();
+        c.globalAlpha = this.alpha;
+        c.beginPath();
+        c.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        c.fillStyle = `rgba(${this.color}, ${this.alpha})`;
+        c.shadowBlur = 8;
+        c.shadowColor = `rgb(${this.color})`;
+        c.fill();
+        c.restore();
+    }
+}
+
+
+
 const TimelineCanvas = ({ containerRef }) => {
     const canvasRef = useRef(null);
     
@@ -336,38 +367,8 @@ const TimelineCanvas = ({ containerRef }) => {
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
         
-        class Particle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.vx = (Math.random() - 0.5) * 2;
-                this.vy = (Math.random() - 0.5) * 1.5 - 0.5; // slight upward drift
-                this.size = Math.random() * 2.5 + 0.8;
-                this.alpha = 1;
-                this.decay = Math.random() * 0.012 + 0.006;
-                this.color = Math.random() > 0.5 ? '59, 130, 246' : '168, 85, 247'; // Blue or Purple
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.alpha -= this.decay;
-            }
-            draw(c) {
-                c.save();
-                c.globalAlpha = this.alpha;
-                c.beginPath();
-                c.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                c.fillStyle = `rgba(${this.color}, ${this.alpha})`;
-                c.shadowBlur = 8;
-                c.shadowColor = `rgb(${this.color})`;
-                c.fill();
-                c.restore();
-            }
-        }
-        
         const handleScroll = () => {
             if (!containerRef.current) return;
-            const rect = canvas.getBoundingClientRect();
             const parentRect = containerRef.current.getBoundingClientRect();
             
             // Timeline line is at x=40px
@@ -620,6 +621,53 @@ const EducationGraphCanvas = () => {
 
 
 
+class CyberParticle {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = -Math.random() * 0.5 - 0.2; // slow rise
+        this.size = Math.random() * 2.5 + 1.2; // slightly larger for visibility
+        this.maxAlpha = Math.random() * 0.5 + 0.15;
+        this.alpha = 0;
+        this.fadeDirection = 1;
+        this.pulseSpeed = Math.random() * 0.01 + 0.004;
+        this.isCyan = Math.random() > 0.5;
+    }
+    update(width, height) {
+        this.x += this.vx;
+        this.y += this.vy;
+        
+        this.alpha += this.pulseSpeed * this.fadeDirection;
+        if (this.alpha >= this.maxAlpha) {
+            this.alpha = this.maxAlpha;
+            this.fadeDirection = -1;
+        } else if (this.alpha <= 0) {
+            this.x = Math.random() * width;
+            this.y = height + Math.random() * 20;
+            this.alpha = 0;
+            this.fadeDirection = 1;
+            this.vx = (Math.random() - 0.5) * 0.4;
+            this.vy = -Math.random() * 0.5 - 0.2;
+        }
+    }
+    draw(c) {
+        const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+        const colorStr = isDark 
+            ? (this.isCyan ? '6, 182, 212' : '59, 130, 246') // Cyan or Blue
+            : (this.isCyan ? '8, 145, 178' : '29, 78, 216'); // Darker Cyan or Darker Blue
+        const adjustedAlpha = isDark ? this.alpha : this.alpha * 1.5;
+        
+        c.save();
+        c.globalAlpha = Math.min(1, adjustedAlpha);
+        c.fillStyle = `rgba(${colorStr}, ${Math.min(1, adjustedAlpha)})`;
+        c.fillRect(this.x - this.size/2, this.y - this.size/2, this.size, this.size);
+        c.restore();
+    }
+}
+
+
+
 const CyberParticlesCanvas = () => {
     const canvasRef = useRef(null);
     
@@ -638,51 +686,6 @@ const CyberParticlesCanvas = () => {
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
         
-        class CyberParticle {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = -Math.random() * 0.5 - 0.2; // slow rise
-                this.size = Math.random() * 2.5 + 1.2; // slightly larger for visibility
-                this.maxAlpha = Math.random() * 0.5 + 0.15;
-                this.alpha = 0;
-                this.fadeDirection = 1;
-                this.pulseSpeed = Math.random() * 0.01 + 0.004;
-                this.isCyan = Math.random() > 0.5;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                
-                this.alpha += this.pulseSpeed * this.fadeDirection;
-                if (this.alpha >= this.maxAlpha) {
-                    this.alpha = this.maxAlpha;
-                    this.fadeDirection = -1;
-                } else if (this.alpha <= 0) {
-                    this.x = Math.random() * canvas.width;
-                    this.y = canvas.height + Math.random() * 20;
-                    this.alpha = 0;
-                    this.fadeDirection = 1;
-                    this.vx = (Math.random() - 0.5) * 0.4;
-                    this.vy = -Math.random() * 0.5 - 0.2;
-                }
-            }
-            draw(c) {
-                const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-                const colorStr = isDark 
-                    ? (this.isCyan ? '6, 182, 212' : '59, 130, 246') // Cyan or Blue
-                    : (this.isCyan ? '8, 145, 178' : '29, 78, 216'); // Darker Cyan or Darker Blue
-                const adjustedAlpha = isDark ? this.alpha : this.alpha * 1.5;
-                
-                c.save();
-                c.globalAlpha = Math.min(1, adjustedAlpha);
-                c.fillStyle = `rgba(${colorStr}, ${Math.min(1, adjustedAlpha)})`;
-                c.fillRect(this.x - this.size/2, this.y - this.size/2, this.size, this.size);
-                c.restore();
-            }
-        }
-        
         for (let i = 0; i < 40; i++) {
             particles.push(new CyberParticle(
                 Math.random() * canvas.width,
@@ -695,7 +698,7 @@ const CyberParticlesCanvas = () => {
             
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => {
-                p.update();
+                p.update(canvas.width, canvas.height);
                 p.draw(ctx);
             });
             animationFrameId = requestAnimationFrame(render);
@@ -726,7 +729,12 @@ const CyberParticlesCanvas = () => {
 
 
 const CyberDataWave = () => {
-    const [isDark, setIsDark] = useState(true);
+    const [isDark, setIsDark] = useState(() => {
+        if (typeof document !== 'undefined') {
+            return document.documentElement.getAttribute('data-theme') !== 'light';
+        }
+        return true;
+    });
     
     useEffect(() => {
         const observer = new MutationObserver(() => {
@@ -734,7 +742,6 @@ const CyberDataWave = () => {
             setIsDark(dark);
         });
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-        setIsDark(document.documentElement.getAttribute('data-theme') !== 'light');
         return () => observer.disconnect();
     }, []);
 
@@ -1000,6 +1007,32 @@ const ProjectsBackgroundCanvas = () => {
 
 
 
+class NetworkNode {
+    constructor(width, height) {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.size = Math.random() * 2 + 1;
+    }
+    update(width, height) {
+        this.x += this.vx;
+        this.y += this.vy;
+        
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+    }
+    draw(c) {
+        const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+        c.beginPath();
+        c.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        c.fillStyle = isDark ? 'rgba(6, 182, 212, 0.3)' : 'rgba(8, 145, 178, 0.65)';
+        c.fill();
+    }
+}
+
+
+
 const ContactNetworkCanvas = () => {
     const canvasRef = useRef(null);
     const mouseRef = useRef({ x: 0, y: 0, active: false });
@@ -1019,33 +1052,9 @@ const ContactNetworkCanvas = () => {
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
         
-        class NetworkNode {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.size = Math.random() * 2 + 1;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-            draw(c) {
-                const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
-                c.beginPath();
-                c.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                c.fillStyle = isDark ? 'rgba(6, 182, 212, 0.3)' : 'rgba(8, 145, 178, 0.65)';
-                c.fill();
-            }
-        }
-        
         const nodeCount = Math.floor((canvas.width * canvas.height) / 18000);
         for (let i = 0; i < Math.max(20, Math.min(nodeCount, 60)); i++) {
-            nodes.push(new NetworkNode());
+            nodes.push(new NetworkNode(canvas.width, canvas.height));
         }
         
         const handleMouseMove = (e) => {
@@ -1082,7 +1091,7 @@ const ContactNetworkCanvas = () => {
             }
             
             nodes.forEach(n => {
-                n.update();
+                n.update(canvas.width, canvas.height);
                 n.draw(ctx);
             });
             
