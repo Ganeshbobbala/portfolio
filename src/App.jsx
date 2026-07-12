@@ -272,20 +272,20 @@ const OrbitingTech = () => {
     ];
 
     return (
-        <div className="relative w-80 h-80 mx-auto flex items-center justify-center overflow-hidden">
+        <div className="relative w-72 h-72 sm:w-80 sm:h-80 mx-auto flex items-center justify-center overflow-hidden">
             {/* Ambient Radial Gradient Background */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.08)_0%,transparent_70%)] pointer-events-none" />
             
             {/* Center Node */}
-            <div className="relative z-10 w-24 h-24 bg-zinc-950 border border-zinc-800 rounded-full flex flex-col items-center justify-center shadow-[0_0_50px_rgba(59,130,246,0.15)] group hover:border-blue-500/40 transition-colors duration-500">
+            <div className="relative z-10 w-20 h-20 sm:w-24 sm:h-24 bg-zinc-950 border border-zinc-800 rounded-full flex flex-col items-center justify-center shadow-[0_0_50px_rgba(59,130,246,0.15)] group hover:border-blue-500/40 transition-colors duration-500">
                 <div className="absolute -inset-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur opacity-10 group-hover:opacity-25 transition-opacity" />
-                <BrainCircuit size={36} className="text-blue-500 group-hover:text-purple-400 transition-colors duration-500 animate-[pulse_3s_ease-in-out_infinite]" />
-                <span className="text-[9px] font-black uppercase tracking-widest text-zinc-500 mt-2">Skills</span>
+                <BrainCircuit className="w-8 h-8 sm:w-9 sm:h-9 text-blue-500 group-hover:text-purple-400 transition-colors duration-500 animate-[pulse_3s_ease-in-out_infinite]" />
+                <span className="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-zinc-500 mt-1.5 sm:mt-2">Skills</span>
             </div>
 
             {/* Orbiting Rings */}
-            <div className="absolute w-64 h-64 border border-zinc-800/40 rounded-full border-dashed animate-[spin_40s_linear_infinite]" />
-            <div className="absolute w-44 h-44 border border-zinc-800/20 rounded-full border-dashed animate-[spin_25s_linear_infinite_reverse]" />
+            <div className="absolute w-56 h-56 sm:w-64 sm:h-64 border border-zinc-800/40 rounded-full border-dashed animate-[spin_40s_linear_infinite]" />
+            <div className="absolute w-36 h-36 sm:w-44 sm:h-44 border border-zinc-800/20 rounded-full border-dashed animate-[spin_25s_linear_infinite_reverse]" />
 
             {/* Orbiting Items */}
             {icons.map((ico, idx) => {
@@ -301,11 +301,11 @@ const OrbitingTech = () => {
                             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
                         >
                             <motion.div
-                                className="absolute top-2 w-12 h-12 bg-zinc-950 border border-zinc-800 rounded-2xl flex flex-col items-center justify-center shadow-xl hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] transition-all pointer-events-auto cursor-pointer"
+                                className="absolute top-2 w-10 h-10 sm:w-12 sm:h-12 bg-zinc-950 border border-zinc-800 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center shadow-xl hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] transition-all pointer-events-auto cursor-pointer"
                                 animate={{ rotate: [-startAngle, -(startAngle + 360)] }}
                                 transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
                             >
-                                <span className={`text-[10px] font-black tracking-widest uppercase ${ico.color}`}>{ico.name}</span>
+                                <span className={`text-[8px] sm:text-[10px] font-black tracking-widest uppercase ${ico.color}`}>{ico.name}</span>
                             </motion.div>
                         </motion.div>
                     </div>
@@ -1507,7 +1507,7 @@ const App = () => {
                     </div>
 
                     {/* Center Column (Orbiting tech icons visual) */}
-                    <div className="hidden lg:block">
+                    <div className="flex justify-center items-center py-6 lg:py-0 scale-90 sm:scale-100">
                         <OrbitingTech />
                     </div>
 
