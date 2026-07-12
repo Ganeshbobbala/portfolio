@@ -1174,7 +1174,7 @@ const App = () => {
     const skills = [
         { title: "Programming Languages", items: ["Java", "Python (Basics)"] },
         { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript", "React.js (Basics)"] },
-        { title: "Database Technologies", items: ["PostgreSQL", "SQL"] },
+        { title: "Database Technologies", items: ["MySQL", "SQL"] },
         { title: "Tools & Platforms", items: ["Git", "GitHub", "Visual Studio Code"] },
         { title: "Soft Skills", items: ["Problem Solving", "Team Collaboration", "Communication", "Adaptability"] }
     ];
