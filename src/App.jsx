@@ -1745,8 +1745,8 @@ const App = () => {
                             {/* Cyber styled social list */}
                             <div className="flex gap-4 mt-16">
                                 {[
-                                    { i: <Github size={20} />, l: 'https://github.com/Ganeshbobbala/portfolio' },
-                                    { i: <Linkedin size={20} />, l: 'https://www.linkedin.com/in/ganesh-bobbala-9a7a52327' },
+                                    { i: <Github size={20} />, l: 'https://github.com/Ganeshbobbala' },
+                                    { i: <Linkedin size={20} />, l: 'https://www.linkedin.com/in/ganesh-bobbala' },
                                     { i: <Mail size={20} />, l: 'mailto:ganeshbobbala479@gmail.com' }
                                 ].map((s, i) => (
                                     <a key={i} href={s.l} className="w-14 h-14 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center text-cyan-500/40 hover:text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all">{s.i}</a>
