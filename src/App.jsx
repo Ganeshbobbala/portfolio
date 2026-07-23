@@ -263,9 +263,9 @@ const OrbitingTech = () => {
     const icons = [
         { name: 'Java', color: 'text-red-500' },
         { name: 'Python', color: 'text-blue-400' },
-        { name: 'React', color: 'text-cyan-400' },
+        { name: 'SQL', color: 'text-orange-400' },
         { name: 'JS', color: 'text-yellow-400' },
-        { name: 'MySQL', color: 'text-orange-400' },
+        { name: 'DBMS', color: 'text-emerald-400' },
         { name: 'Git', color: 'text-red-400' },
         { name: 'VS Code', color: 'text-blue-500' },
         { name: 'OOP', color: 'text-purple-400' }
@@ -1182,8 +1182,9 @@ const App = () => {
     const roles = ["Problem Solver", "Frontend Developer", "Software Engineering Enthusiast", "Full-Stack Developer"]
     const skills = [
         { title: "Programming Languages", items: ["Java", "Python (Basics)"] },
-        { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript", "React.js (Basics)"] },
-        { title: "Database Technologies", items: ["MySQL", "SQL"] },
+        { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript"] },
+        { title: "Database Technologies", items: ["SQL"] },
+        { title: "Core concepts", items: ["Object-Oriented Programming (OOP)", "DBMS"] },
         { title: "Tools & Platforms", items: ["Git", "GitHub", "Visual Studio Code"] },
         { title: "Soft Skills", items: ["Problem Solving", "Team Collaboration", "Communication", "Adaptability"] }
     ];
@@ -1736,7 +1737,7 @@ const App = () => {
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-black text-zinc-700 uppercase tracking-widest mb-1">Email Me</p>
-                                        <p className="text-lg font-bold text-white tracking-tight underline decoration-cyan-500/30 underline-offset-8 group-hover:decoration-cyan-500 transition-all">ganeshbobbala44@gmail.com</p>
+                                        <p className="text-lg font-bold text-white tracking-tight underline decoration-cyan-500/30 underline-offset-8 group-hover:decoration-cyan-500 transition-all">ganeshbobbala479@gmail.com</p>
                                     </div>
                                 </div>
                             </div>
@@ -1746,7 +1747,7 @@ const App = () => {
                                 {[
                                     { i: <Github size={20} />, l: 'https://github.com/Ganeshbobbala/portfolio' },
                                     { i: <Linkedin size={20} />, l: 'https://www.linkedin.com/in/ganesh-bobbala-9a7a52327' },
-                                    { i: <Mail size={20} />, l: 'mailto:ganeshbobbala44@gmail.com' }
+                                    { i: <Mail size={20} />, l: 'mailto:ganeshbobbala479@gmail.com' }
                                 ].map((s, i) => (
                                     <a key={i} href={s.l} className="w-14 h-14 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center text-cyan-500/40 hover:text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all">{s.i}</a>
                                 ))}
