@@ -262,8 +262,8 @@ const MagneticButton = ({ children, className, ...props }) => {
 const OrbitingTech = () => {
     const icons = [
         { name: 'Java', color: 'text-red-500' },
-        { name: 'Python', color: 'text-blue-400' },
-        { name: 'SQL', color: 'text-orange-400' },
+        { name: 'React', color: 'text-cyan-400' },
+        { name: 'MySQL', color: 'text-orange-400' },
         { name: 'JS', color: 'text-yellow-400' },
         { name: 'DBMS', color: 'text-emerald-400' },
         { name: 'Git', color: 'text-red-400' },
@@ -1181,9 +1181,9 @@ const App = () => {
 
     const roles = ["Problem Solver", "Frontend Developer", "Software Engineering Enthusiast", "Full-Stack Developer"]
     const skills = [
-        { title: "Programming Languages", items: ["Java", "Python (Basics)"] },
-        { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript"] },
-        { title: "Database Technologies", items: ["SQL"] },
+        { title: "Programming Languages", items: ["Java"] },
+        { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript", "React.js (Basics)"] },
+        { title: "Database Technologies", items: ["MySQL"] },
         { title: "Core concepts", items: ["Object-Oriented Programming (OOP)", "DBMS"] },
         { title: "Tools & Platforms", items: ["Git", "GitHub", "Visual Studio Code"] },
         { title: "Soft Skills", items: ["Problem Solving", "Team Collaboration", "Communication", "Adaptability"] }
