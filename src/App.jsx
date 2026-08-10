@@ -7,6 +7,7 @@ import { Typewriter } from 'react-simple-typewriter';
 import Tilt from 'react-parallax-tilt';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Sphere } from '@react-three/drei';
+import TerminalIntro from './components/TerminalIntro';
 
 const RESUME_URL = '/Ganesh_Resume.pdf';
 const DEPLOY_URL = 'https://portfolio-ganeshbobbala.vercel.app/';
@@ -1165,6 +1166,26 @@ const App = () => {
         return saved ? saved === 'dark' : true;
     });
 
+    const [showIntro, setShowIntro] = useState(() => {
+        return !sessionStorage.getItem('portfolio-intro-seen');
+    });
+
+    useEffect(() => {
+        if (showIntro) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [showIntro]);
+
+    const handleIntroComplete = () => {
+        sessionStorage.setItem('portfolio-intro-seen', 'true');
+        setShowIntro(false);
+    };
+
     const experienceRef = useRef(null);
     const { scrollYProgress: expScrollY } = useScroll({
         target: experienceRef,
@@ -1254,6 +1275,12 @@ const App = () => {
 
     return (
         <div className="bg-[#020202] text-white min-h-screen selection:bg-purple-500/30 overflow-x-hidden font-sans portfolio-root relative">
+            <AnimatePresence>
+                {showIntro && (
+                    <TerminalIntro onComplete={handleIntroComplete} />
+                )}
+            </AnimatePresence>
+
             {/* Aurora Background */}
             <div className="absolute top-0 left-0 right-0 h-[1000px] pointer-events-none overflow-hidden z-0 opacity-40">
                 <div className="absolute top-[-30%] left-[-20%] w-[80%] h-[80%] rounded-full bg-gradient-to-br from-blue-600/10 via-indigo-600/10 to-transparent blur-[130px] animate-[pulse_10s_ease-in-out_infinite]" />
