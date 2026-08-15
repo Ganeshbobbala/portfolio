@@ -1399,7 +1399,7 @@ const App = () => {
                             <div className="absolute -inset-4 bg-cyan-500/10 rounded-[3rem] blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
                             
                             <div className="relative aspect-square rounded-[3rem] overflow-hidden bg-zinc-900 border border-white/10 z-10">
-                                <img src="/My Photo.png" alt="Ganesh Bobbala" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
+                                <img src="/My Photo.jpg" alt="Ganesh Bobbala" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
                                 {/* Inner Gloss Overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
