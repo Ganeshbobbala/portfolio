@@ -37,22 +37,7 @@ const TerminalIntro = ({ onComplete }) => {
     };
   }, [onComplete]);
 
-  // Global skip listener (any key or click anywhere)
-  useEffect(() => {
-    const handleSkip = (e) => {
-      // Prevent skipping if clicking the skip button to avoid double triggering
-      if (e.target.closest('.skip-btn')) return;
-      onComplete();
-    };
 
-    window.addEventListener('keydown', handleSkip);
-    window.addEventListener('click', handleSkip);
-
-    return () => {
-      window.removeEventListener('keydown', handleSkip);
-      window.removeEventListener('click', handleSkip);
-    };
-  }, [onComplete]);
 
   // Calculate active cursor index
   let activeCursorIndex = 0;
@@ -77,7 +62,7 @@ const TerminalIntro = ({ onComplete }) => {
         filter: 'blur(10px)',
         transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] }
       }}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#020202] select-none cursor-pointer"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#020202] select-none"
     >
       {/* Premium subtle background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-blue-500/5 to-indigo-500/5 blur-[120px] rounded-full pointer-events-none -z-10" />
@@ -141,21 +126,7 @@ const TerminalIntro = ({ onComplete }) => {
         }
       `}</style>
 
-      {/* Bottom Hint */}
-      <div className="absolute bottom-10 text-[10px] tracking-[0.2em] uppercase text-zinc-600 pointer-events-none font-sans">
-        Click or press any key to skip
-      </div>
 
-      {/* Explicit Skip Button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onComplete();
-        }}
-        className="skip-btn absolute bottom-8 right-8 px-4 py-1.5 border border-white/5 hover:border-white/15 rounded-full text-[9px] font-bold tracking-[0.15em] uppercase bg-zinc-950/40 text-zinc-500 hover:text-zinc-300 backdrop-blur-sm cursor-pointer transition-all duration-300 hover:scale-105 z-20"
-      >
-        Skip Intro
-      </button>
     </motion.div>
   );
 };
