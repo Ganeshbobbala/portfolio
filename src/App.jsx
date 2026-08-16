@@ -2112,6 +2112,17 @@ const App = () => {
                             <div className="absolute -inset-4 bg-cyan-500/10 rounded-[4rem] blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-1000" />
                             
                             <div className="relative bg-zinc-950/50 border-2 border-cyan-500/20 p-10 rounded-[3rem] backdrop-blur-3xl shadow-[0_0_50px_rgba(6,182,212,0.1)] group-hover:border-cyan-500/40 group-hover:shadow-[0_0_60px_rgba(6,182,212,0.2)] transition-all duration-500">
+                                {/* Top Cyan Border Light Flare */}
+                                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent pointer-events-none z-10" />
+
+                                {/* Precision Corner Crosshair Brackets */}
+                                <div className="pointer-events-none">
+                                    <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-cyan-500/40 group-hover:border-cyan-500 rounded-tl-[3rem] transition-colors duration-500" />
+                                    <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-cyan-500/40 group-hover:border-cyan-500 rounded-tr-[3rem] transition-colors duration-500" />
+                                    <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-cyan-500/40 group-hover:border-cyan-500 rounded-bl-[3rem] transition-colors duration-500" />
+                                    <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-cyan-500/40 group-hover:border-cyan-500 rounded-br-[3rem] transition-colors duration-500" />
+                                </div>
+                                
                                 <form 
                                     action="https://api.web3forms.com/submit" 
                                     method="POST"
