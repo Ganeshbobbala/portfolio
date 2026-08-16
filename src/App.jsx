@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion';
+import { AnimatePresence, motion, useScroll, useSpring, useMotionValue, useTransform } from 'framer-motion';
 import {
     Github, Linkedin, Mail, Code2, ExternalLink, Download, User, MapPin, Search, Menu, X, Landmark, GraduationCap, Briefcase, BrainCircuit, Cpu, Laptop, Send, Phone, MessageSquare, Award, CheckCircle2, Sparkles, Target, Zap, Sun, Moon, Database
 } from 'lucide-react';
@@ -1186,6 +1186,42 @@ const App = () => {
         setShowIntro(false);
     };
 
+    // Cinematic 3D Holographic Card Hooks for Profile Photo
+    const profileCardRef = useRef(null);
+    const [isProfileCardHovered, setIsProfileCardHovered] = useState(false);
+
+    const profileMouseX = useMotionValue(0);
+    const profileMouseY = useMotionValue(0);
+    const profileSpotlightX = useMotionValue(200);
+    const profileSpotlightY = useMotionValue(200);
+
+    const profileRotateX = useSpring(useTransform(profileMouseY, [-0.5, 0.5], [15, -15]), { damping: 20, stiffness: 220 });
+    const profileRotateY = useSpring(useTransform(profileMouseX, [-0.5, 0.5], [-15, 15]), { damping: 20, stiffness: 220 });
+
+    const profileSpotlightBg = useTransform(
+        [profileSpotlightX, profileSpotlightY],
+        ([x, y]) => `radial-gradient(circle 200px at ${x}px ${y}px, rgba(255,255,255,0.25), rgba(34,211,238,0.12), transparent 80%)`
+    );
+
+    const handleProfileMouseMove = (e) => {
+        if (!profileCardRef.current) return;
+        const rect = profileCardRef.current.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        profileMouseX.set(x);
+        profileMouseY.set(y);
+        profileSpotlightX.set(e.clientX - rect.left);
+        profileSpotlightY.set(e.clientY - rect.top);
+    };
+
+    const handleProfileMouseEnter = () => setIsProfileCardHovered(true);
+
+    const handleProfileMouseLeave = () => {
+        setIsProfileCardHovered(false);
+        profileMouseX.set(0);
+        profileMouseY.set(0);
+    };
+
     const experienceRef = useRef(null);
     const { scrollYProgress: expScrollY } = useScroll({
         target: experienceRef,
@@ -1389,21 +1425,100 @@ const App = () => {
                 <SectionHeader title="About Me" subtitle="Get to know me a little better" />
                 <div className="max-w-6xl mx-auto px-10 relative z-10">
                     <div className="flex flex-col lg:flex-row gap-24 items-center">
-                        {/* Slow parallax profile photo wrapper */}
-                        <motion.div
-                            animate={{ y: [0, -10, 0], rotate: [0, 1, -1, 0] }}
-                            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                            className="lg:w-[40%] relative group w-full max-w-[320px] lg:max-w-none"
-                        >
-                            {/* Neon Glow Aura */}
-                            <div className="absolute -inset-4 bg-cyan-500/10 rounded-[3rem] blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
-                            
-                            <div className="relative aspect-square rounded-[3rem] overflow-hidden bg-zinc-900 border border-white/10 z-10">
-                                <img src="/My Photo.jpg" alt="Ganesh Bobbala" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
-                                {/* Inner Gloss Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                            </div>
-                        </motion.div>
+                        {/* Cinematic 3D Holographic Portrait Frame */}
+                        <div className="lg:w-[40%] flex items-center justify-center relative perspective-[1400px] w-full max-w-[320px] lg:max-w-none">
+                            {/* Ambient Animated Glow Ring Behind Frame */}
+                            <motion.div 
+                                animate={{
+                                    scale: isProfileCardHovered ? 1.15 : 1,
+                                    opacity: isProfileCardHovered ? 0.35 : 0.15,
+                                    rotate: isProfileCardHovered ? 180 : 0
+                                }}
+                                transition={{ duration: 3, ease: "easeOut" }}
+                                className="absolute -inset-6 bg-[conic-gradient(from_0deg,#22d3ee_0%,#3b82f6_30%,transparent_60%,#22d3ee_100%)] blur-2xl rounded-[2rem] pointer-events-none"
+                            />
+
+                            {/* Drifting Cyber Embers on Hover */}
+                            {isProfileCardHovered && (
+                                <>
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10, x: -20 }}
+                                        animate={{ opacity: [0, 1, 0], y: -50, x: -30 }}
+                                        transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+                                        className="absolute top-1/4 -left-6 w-1.5 h-1.5 bg-cyan-300 rounded-full blur-[1px] shadow-[0_0_8px_#22d3ee] pointer-events-none z-30"
+                                    />
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20, x: 20 }}
+                                        animate={{ opacity: [0, 1, 0], y: -60, x: 40 }}
+                                        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut', delay: 0.3 }}
+                                        className="absolute bottom-1/3 -right-6 w-2 h-2 bg-blue-400 rounded-full blur-[1px] shadow-[0_0_10px_#3b82f6] pointer-events-none z-30"
+                                    />
+                                </>
+                            )}
+
+                            {/* 3D Holographic Main Card Container */}
+                            <motion.div
+                                ref={profileCardRef}
+                                style={{ rotateX: profileRotateX, rotateY: profileRotateY, transformStyle: 'preserve-3d' }}
+                                onMouseMove={handleProfileMouseMove}
+                                onMouseEnter={handleProfileMouseEnter}
+                                onMouseLeave={handleProfileMouseLeave}
+                                initial={{ opacity: 0, scale: 0.9, y: 30 }}
+                                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                                className="relative p-3 border border-white/10 rounded-2xl bg-zinc-950/80 backdrop-blur-xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] cursor-pointer group transition-colors duration-500 hover:border-cyan-500/50 z-10"
+                            >
+                                {/* Dynamic Laser Border Pulse */}
+                                <div className="absolute inset-0 rounded-2xl pointer-events-none overflow-hidden">
+                                    <motion.div 
+                                        animate={{ x: isProfileCardHovered ? ['-100%', '200%'] : '-100%' }}
+                                        transition={{ duration: 1.8, repeat: Infinity, ease: 'linear' }}
+                                        className="w-1/2 h-full bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent skew-x-12"
+                                    />
+                                </div>
+
+                                {/* Locked Corner Accent Brackets */}
+                                <div className="pointer-events-none">
+                                    <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-cyan-500 rounded-tl-xl transition-transform duration-500 group-hover:-translate-x-1 group-hover:-translate-y-1 shadow-[0_0_10px_rgba(34,211,238,0.4)]" />
+                                    <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-cyan-500 rounded-tr-xl transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 shadow-[0_0_10px_rgba(34,211,238,0.4)]" />
+                                    <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-cyan-500 rounded-bl-xl transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1 shadow-[0_0_10px_rgba(34,211,238,0.4)]" />
+                                    <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-cyan-500 rounded-br-xl transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1 shadow-[0_0_10px_rgba(34,211,238,0.4)]" />
+                                </div>
+
+                                {/* Portrait Image Canvas */}
+                                <div className="relative overflow-hidden w-full aspect-[4/5] bg-zinc-900 rounded-xl">
+                                    <img
+                                        src="/My Photo.jpg"
+                                        alt="Ganesh Bobbala"
+                                        className="w-full h-full object-cover filter brightness-[0.96] contrast-[1.04] grayscale group-hover:grayscale-0 group-hover:brightness-105 group-hover:contrast-[1.1] transition-all duration-700 ease-out"
+                                    />
+
+                                    {/* Mouse-Tracked Spotlight Sweep */}
+                                    <motion.div
+                                        className="absolute inset-0 pointer-events-none mix-blend-overlay transition-opacity duration-300"
+                                        style={{
+                                            background: profileSpotlightBg,
+                                            opacity: isProfileCardHovered ? 1 : 0,
+                                        }}
+                                    />
+
+                                    {/* Bottom Film Noir Shadow */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-transparent to-transparent pointer-events-none" />
+
+                                    {/* Cursive Signature */}
+                                    <div className="absolute bottom-3 right-4 z-20 select-none">
+                                        <span 
+                                            className="text-4xl text-cyan-300 drop-shadow-[0_0_12px_rgba(34,211,238,0.5)] transition-colors duration-300 group-hover:text-white"
+                                            style={{ fontFamily: "'Herr Von Muellerhoff', cursive" }}
+                                        >
+                                            Ganesh
+                                        </span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+
                         
                         <div className="lg:w-[60%] w-full">
                             <h2 className="text-2xl sm:text-3xl md:text-5xl font-black mb-8 tracking-normal">Aspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Software Engineer</span></h2>

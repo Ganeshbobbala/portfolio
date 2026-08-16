@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&display=swap');
+
 
 @theme {
   --font-sans: 'Inter', 'Outfit', system-ui, sans-serif;
