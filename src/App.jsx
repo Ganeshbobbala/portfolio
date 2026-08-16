@@ -1161,6 +1161,116 @@ const ContactNetworkCanvas = () => {
 
 
 
+// Cinematic 3D Holographic Skill Card Component
+const SkillCard = ({ skill, index }) => {
+    const cardRef = useRef(null);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+    const spotlightX = useMotionValue(200);
+    const spotlightY = useMotionValue(200);
+
+    const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [6, -6]), { damping: 20, stiffness: 220 });
+    const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-6, 6]), { damping: 20, stiffness: 220 });
+
+    const spotlightBg = useTransform(
+        [spotlightX, spotlightY],
+        ([x, y]) => `radial-gradient(circle 200px at ${x}px ${y}px, rgba(255,255,255,0.15), rgba(168,85,247,0.08), transparent 80%)`
+    );
+
+    const handleMouseMove = (e) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        mouseX.set(x);
+        mouseY.set(y);
+        spotlightX.set(e.clientX - rect.left);
+        spotlightY.set(e.clientY - rect.top);
+    };
+
+    const handleMouseEnter = () => setIsHovered(true);
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+        mouseX.set(0);
+        mouseY.set(0);
+    };
+
+    return (
+        <div className="relative w-full flex perspective-[1400px]">
+            {/* Ambient Conic Glow Ring Behind Card */}
+            <motion.div 
+                animate={{
+                    scale: isHovered ? 1.06 : 1,
+                    opacity: isHovered ? 0.3 : 0.1,
+                    rotate: isHovered ? 180 : 0
+                }}
+                transition={{ duration: 3, ease: "easeOut" }}
+                className="absolute -inset-3 bg-[conic-gradient(from_0deg,#a855f7_0%,#6366f1_30%,transparent_60%,#a855f7_100%)] blur-2xl rounded-[2rem] pointer-events-none"
+            />
+
+            {/* Drifting Cyber Embers on Hover */}
+            {isHovered && (
+                <div className="absolute inset-0 pointer-events-none">
+                    <motion.div
+                        initial={{ opacity: 0, y: 10, x: -15 }}
+                        animate={{ opacity: [0, 1, 0], y: -40, x: -25 }}
+                        transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+                        className="absolute top-1/4 -left-3 w-1.5 h-1.5 bg-purple-400 rounded-full blur-[1px] shadow-[0_0_8px_#a855f7] z-30"
+                    />
+                    <motion.div
+                        initial={{ opacity: 0, y: 20, x: 15 }}
+                        animate={{ opacity: [0, 1, 0], y: -50, x: 25 }}
+                        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut', delay: 0.3 }}
+                        className="absolute bottom-1/3 -right-3 w-1.5 h-1.5 bg-indigo-400 rounded-full blur-[1px] shadow-[0_0_8px_#6366f1] z-30"
+                    />
+                </div>
+            )}
+
+            <motion.div 
+                ref={cardRef}
+                style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+                onMouseMove={handleMouseMove}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                className="w-full bg-zinc-950/80 border border-zinc-900 p-10 rounded-[2rem] group hover:border-purple-500/40 transition-colors backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.85)] relative overflow-hidden z-10 cursor-pointer"
+            >
+                {/* Top Glow Border Light Flare */}
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500/80 to-transparent" />
+
+                {/* Locked Corner Accent Brackets */}
+                <div className="pointer-events-none">
+                    <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-purple-500/60 rounded-tl-[2rem] transition-transform duration-500 group-hover:-translate-x-1 group-hover:-translate-y-1 shadow-[0_0_10px_rgba(168,85,247,0.4)]" />
+                    <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-purple-500/60 rounded-tr-[2rem] transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 shadow-[0_0_10px_rgba(168,85,247,0.4)]" />
+                    <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-purple-500/60 rounded-bl-[2rem] transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1 shadow-[0_0_10px_rgba(168,85,247,0.4)]" />
+                    <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-purple-500/60 rounded-br-[2rem] transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1 shadow-[0_0_10px_rgba(168,85,247,0.4)]" />
+                </div>
+
+                {/* Mouse-Tracked Spotlight Sweep */}
+                <motion.div
+                    className="absolute inset-0 pointer-events-none mix-blend-overlay transition-opacity duration-300 rounded-[2rem] overflow-hidden"
+                    style={{
+                        background: spotlightBg,
+                        opacity: isHovered ? 1 : 0,
+                    }}
+                />
+
+                {/* Content */}
+                <div className="relative z-10">
+                    <h3 className="text-purple-500 text-sm font-black tracking-widest uppercase mb-10 group-hover:text-purple-400 transition-colors">{skill.title}</h3>
+                    <div className="flex flex-wrap gap-4">
+                        {skill.items.map(item => (
+                            <span key={item} className="px-5 py-2.5 bg-zinc-900 border border-zinc-800 text-sm font-black text-zinc-400 hover:text-white hover:border-purple-500/50 transition-all rounded-2xl uppercase tracking-tighter">{item}</span>
+                        ))}
+                    </div>
+                </div>
+            </motion.div>
+        </div>
+    );
+};
+
 // Cinematic 3D Holographic Project Card Component
 const ProjectCard = ({ proj, index }) => {
     const cardRef = useRef(null);
@@ -1910,14 +2020,7 @@ const App = () => {
                     {/* Left Column (first 3 skill categories) */}
                     <div className="space-y-10">
                         {skills.slice(0, 3).map((s, i) => (
-                            <div key={i} className="bg-zinc-950/80 border border-zinc-900 p-10 rounded-[2rem] hover:border-purple-500/20 transition-all group backdrop-blur-3xl">
-                                <h3 className="text-purple-500 text-sm font-black tracking-widest uppercase mb-10">{s.title}</h3>
-                                <div className="flex flex-wrap gap-4">
-                                    {s.items.map(item => (
-                                        <span key={item} className="px-5 py-2.5 bg-zinc-900 border border-zinc-800 text-sm font-black text-zinc-400 hover:text-white hover:border-purple-500/50 transition-all rounded-2xl uppercase tracking-tighter">{item}</span>
-                                    ))}
-                                </div>
-                            </div>
+                            <SkillCard key={i} skill={s} index={i} />
                         ))}
                     </div>
 
@@ -1929,14 +2032,7 @@ const App = () => {
                     {/* Right Column (last 3 skill categories) */}
                     <div className="space-y-10">
                         {skills.slice(3, 6).map((s, i) => (
-                            <div key={i} className="bg-zinc-950/80 border border-zinc-900 p-10 rounded-[2rem] hover:border-purple-500/20 transition-all group backdrop-blur-3xl">
-                                <h3 className="text-purple-500 text-sm font-black tracking-widest uppercase mb-10">{s.title}</h3>
-                                <div className="flex flex-wrap gap-4">
-                                    {s.items.map(item => (
-                                        <span key={item} className="px-5 py-2.5 bg-zinc-900 border border-zinc-800 text-sm font-black text-zinc-400 hover:text-white hover:border-purple-500/50 transition-all rounded-2xl uppercase tracking-tighter">{item}</span>
-                                    ))}
-                                </div>
-                            </div>
+                            <SkillCard key={i} skill={s} index={i + 3} />
                         ))}
                     </div>
                 </div>
