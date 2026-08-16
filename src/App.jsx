@@ -1176,7 +1176,10 @@ const SkillCard = ({ skill, index }) => {
 
     const spotlightBg = useTransform(
         [spotlightX, spotlightY],
-        ([x, y]) => `radial-gradient(circle 200px at ${x}px ${y}px, rgba(255,255,255,0.15), rgba(168,85,247,0.08), transparent 80%)`
+        ([x, y]) => {
+            const isLgt = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+            return `radial-gradient(circle 200px at ${x}px ${y}px, ${isLgt ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.15)'}, rgba(168,85,247,0.08), transparent 80%)`;
+        }
     );
 
     const handleMouseMove = (e) => {
@@ -1286,7 +1289,10 @@ const ProjectCard = ({ proj, index }) => {
 
     const spotlightBg = useTransform(
         [spotlightX, spotlightY],
-        ([x, y]) => `radial-gradient(circle 240px at ${x}px ${y}px, rgba(255,255,255,0.18), rgba(6,182,212,0.1), transparent 80%)`
+        ([x, y]) => {
+            const isLgt = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+            return `radial-gradient(circle 240px at ${x}px ${y}px, ${isLgt ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.18)'}, rgba(6,182,212,0.1), transparent 80%)`;
+        }
     );
 
     const handleMouseMove = (e) => {
@@ -1444,7 +1450,10 @@ const App = () => {
 
     const profileSpotlightBg = useTransform(
         [profileSpotlightX, profileSpotlightY],
-        ([x, y]) => `radial-gradient(circle 200px at ${x}px ${y}px, rgba(255,255,255,0.25), rgba(34,211,238,0.12), transparent 80%)`
+        ([x, y]) => {
+            const isLgt = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+            return `radial-gradient(circle 200px at ${x}px ${y}px, ${isLgt ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.25)'}, rgba(34,211,238,0.12), transparent 80%)`;
+        }
     );
 
     const handleProfileMouseMove = (e) => {
@@ -1522,7 +1531,10 @@ const App = () => {
 
     const expSpotlightBg = useTransform(
         [expSpotlightX, expSpotlightY],
-        ([x, y]) => `radial-gradient(circle 240px at ${x}px ${y}px, rgba(255,255,255,0.18), rgba(59,130,246,0.1), transparent 80%)`
+        ([x, y]) => {
+            const isLgt = typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme') === 'light';
+            return `radial-gradient(circle 240px at ${x}px ${y}px, ${isLgt ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.18)'}, rgba(59,130,246,0.1), transparent 80%)`;
+        }
     );
 
     const handleExpMouseMove = (e) => {
@@ -2284,8 +2296,8 @@ const App = () => {
                         y: cursorPos.y - (isCursorHovered ? 24 : 6),
                         width: isCursorHovered ? 48 : 12,
                         height: isCursorHovered ? 48 : 12,
-                        backgroundColor: isCursorHovered ? 'rgba(34, 211, 238, 0.08)' : 'rgba(255, 255, 255, 0.9)',
-                        borderColor: isCursorHovered ? '#22d3ee' : 'rgba(34, 211, 238, 0.4)'
+                        backgroundColor: isCursorHovered ? 'rgba(34, 211, 238, 0.08)' : (isDark ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.15)'),
+                        borderColor: isCursorHovered ? '#22d3ee' : (isDark ? 'rgba(34, 211, 238, 0.4)' : 'rgba(34, 211, 238, 0.8)')
                     }}
                     transition={{ type: 'spring', damping: 28, stiffness: 320, mass: 0.4 }}
                 />
