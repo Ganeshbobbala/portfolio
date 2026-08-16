@@ -8,6 +8,7 @@ import Tilt from 'react-parallax-tilt';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Sphere } from '@react-three/drei';
 import TerminalIntro from './components/TerminalIntro';
+import ScrollStack, { ScrollStackItem } from './components/ScrollStack';
 
 const RESUME_URL = '/Ganesh_Resume.pdf';
 const DEPLOY_URL = 'https://portfolio-ganeshbobbala.vercel.app/';
@@ -1160,6 +1161,139 @@ const ContactNetworkCanvas = () => {
 
 
 
+// Cinematic 3D Holographic Project Card Component
+const ProjectCard = ({ proj, index }) => {
+    const cardRef = useRef(null);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+    const spotlightX = useMotionValue(200);
+    const spotlightY = useMotionValue(200);
+
+    const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), { damping: 20, stiffness: 220 });
+    const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), { damping: 20, stiffness: 220 });
+
+    const spotlightBg = useTransform(
+        [spotlightX, spotlightY],
+        ([x, y]) => `radial-gradient(circle 240px at ${x}px ${y}px, rgba(255,255,255,0.18), rgba(6,182,212,0.1), transparent 80%)`
+    );
+
+    const handleMouseMove = (e) => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        mouseX.set(x);
+        mouseY.set(y);
+        spotlightX.set(e.clientX - rect.left);
+        spotlightY.set(e.clientY - rect.top);
+    };
+
+    const handleMouseEnter = () => setIsHovered(true);
+
+    const handleMouseLeave = () => {
+        setIsHovered(false);
+        mouseX.set(0);
+        mouseY.set(0);
+    };
+
+    return (
+        <div className="relative w-full flex perspective-[1400px]">
+            {/* Ambient Conic Glow Ring Behind Card */}
+            <motion.div 
+                animate={{
+                    scale: isHovered ? 1.08 : 1,
+                    opacity: isHovered ? 0.35 : 0.12,
+                    rotate: isHovered ? 180 : 0
+                }}
+                transition={{ duration: 3, ease: "easeOut" }}
+                className="absolute -inset-4 bg-[conic-gradient(from_0deg,#06b6d4_0%,#3b82f6_30%,transparent_60%,#06b6d4_100%)] blur-2xl rounded-[2.5rem] pointer-events-none"
+            />
+
+            {/* Drifting Cyber Embers on Hover */}
+            {isHovered && (
+                <div className="absolute inset-0 pointer-events-none">
+                    <motion.div
+                        initial={{ opacity: 0, y: 10, x: -20 }}
+                        animate={{ opacity: [0, 1, 0], y: -50, x: -30 }}
+                        transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+                        className="absolute top-1/4 -left-4 w-1.5 h-1.5 bg-cyan-300 rounded-full blur-[1px] shadow-[0_0_8px_#06b6d4] z-30"
+                    />
+                    <motion.div
+                        initial={{ opacity: 0, y: 20, x: 20 }}
+                        animate={{ opacity: [0, 1, 0], y: -60, x: 40 }}
+                        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut', delay: 0.3 }}
+                        className="absolute bottom-1/3 -right-4 w-2 h-2 bg-blue-400 rounded-full blur-[1px] shadow-[0_0_10px_#3b82f6] z-30"
+                    />
+                </div>
+            )}
+
+            <motion.div 
+                ref={cardRef}
+                style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+                onMouseMove={handleMouseMove}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                className="w-full flex flex-col justify-between border border-zinc-900 bg-zinc-950/80 p-8 md:p-10 rounded-[2.5rem] group hover:border-cyan-500/45 transition-colors backdrop-blur-3xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] relative overflow-hidden z-10 cursor-pointer"
+            >
+                {/* Top Glow Border Light Flare */}
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/80 to-transparent" />
+
+                {/* Locked Corner Accent Brackets */}
+                <div className="pointer-events-none">
+                    <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-cyan-500 rounded-tl-[2.5rem] transition-transform duration-500 group-hover:-translate-x-1 group-hover:-translate-y-1 shadow-[0_0_10px_rgba(6,182,212,0.4)]" />
+                    <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-cyan-500 rounded-tr-[2.5rem] transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 shadow-[0_0_10px_rgba(6,182,212,0.4)]" />
+                    <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-cyan-500 rounded-bl-[2.5rem] transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1 shadow-[0_0_10px_rgba(6,182,212,0.4)]" />
+                    <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-cyan-500 rounded-br-[2.5rem] transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1 shadow-[0_0_10px_rgba(6,182,212,0.4)]" />
+                </div>
+
+                {/* Mouse-Tracked Spotlight Sweep */}
+                <motion.div
+                    className="absolute inset-0 pointer-events-none mix-blend-overlay transition-opacity duration-300 rounded-[2.5rem] overflow-hidden"
+                    style={{
+                        background: spotlightBg,
+                        opacity: isHovered ? 1 : 0,
+                    }}
+                />
+
+                {/* Content */}
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                    <div>
+                        <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-6 leading-snug group-hover:text-cyan-400 transition-colors uppercase">{proj.title}</h3>
+                        <div className="bg-zinc-900/40 p-6 rounded-2xl mb-8 border border-zinc-800/30">
+                            <ul className="list-disc pl-5 space-y-2 text-zinc-400 text-xs md:text-sm leading-relaxed font-medium">
+                                {proj.bullets.map((bullet, idx) => (
+                                    <li key={idx} className="marker:text-cyan-500">{bullet}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div className="flex flex-wrap gap-2 mb-8">
+                            {proj.tech.map(t => (
+                                <span key={t} className="px-3.5 py-1.5 bg-zinc-900 text-[10px] font-black uppercase text-zinc-500 rounded-lg border border-zinc-800">{t}</span>
+                            ))}
+                        </div>
+                        <div className="flex items-center gap-6">
+                            {proj.github && (
+                                <a href={proj.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-cyan-400 transition-all hover:scale-105 active:scale-95 z-20">
+                                    <Github size={16} /> View Code
+                                </a>
+                            )}
+                            {proj.demo && (
+                                <a href={proj.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-cyan-400 transition-all hover:scale-105 active:scale-95 z-20">
+                                    <ExternalLink size={16} /> Live Demo
+                                </a>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+        </div>
+    );
+};
+
 const App = () => {
     const [isDark, setIsDark] = useState(() => {
         const saved = localStorage.getItem('portfolio-theme');
@@ -1221,6 +1355,86 @@ const App = () => {
         profileMouseX.set(0);
         profileMouseY.set(0);
     };
+
+    // Cinematic Custom Cursor Hooks
+    const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+    const [isCursorHovered, setIsCursorHovered] = useState(false);
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
+
+    useEffect(() => {
+        const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        setIsMobileDevice(isTouch);
+    }, []);
+
+    useEffect(() => {
+        if (isMobileDevice) return;
+        const handleMouseMove = (e) => {
+            setCursorPos({ x: e.clientX, y: e.clientY });
+        };
+        const handleMouseOver = (e) => {
+            const target = e.target;
+            if (!target) return;
+            const isInteractive = target.closest('a, button, [role="button"], input, select, textarea, .cursor-pointer, [data-cursor-hover]');
+            if (isInteractive) {
+                setIsCursorHovered(true);
+            }
+        };
+        const handleMouseOut = (e) => {
+            const target = e.target;
+            if (!target) return;
+            const isInteractive = target.closest('a, button, [role="button"], input, select, textarea, .cursor-pointer, [data-cursor-hover]');
+            if (isInteractive) {
+                setIsCursorHovered(false);
+            }
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseover', handleMouseOver);
+        window.addEventListener('mouseout', handleMouseOut);
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseover', handleMouseOver);
+            window.removeEventListener('mouseout', handleMouseOut);
+        };
+    }, [isMobileDevice]);
+
+    // Cinematic 3D Holographic Card Hooks for Experience Card
+    const expCardRef = useRef(null);
+    const [isExpCardHovered, setIsExpCardHovered] = useState(false);
+
+    const expMouseX = useMotionValue(0);
+    const expMouseY = useMotionValue(0);
+    const expSpotlightX = useMotionValue(200);
+    const expSpotlightY = useMotionValue(200);
+
+    const expRotateX = useSpring(useTransform(expMouseY, [-0.5, 0.5], [10, -10]), { damping: 20, stiffness: 220 });
+    const expRotateY = useSpring(useTransform(expMouseX, [-0.5, 0.5], [-10, 10]), { damping: 20, stiffness: 220 });
+
+    const expSpotlightBg = useTransform(
+        [expSpotlightX, expSpotlightY],
+        ([x, y]) => `radial-gradient(circle 240px at ${x}px ${y}px, rgba(255,255,255,0.18), rgba(59,130,246,0.1), transparent 80%)`
+    );
+
+    const handleExpMouseMove = (e) => {
+        if (!expCardRef.current) return;
+        const rect = expCardRef.current.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        expMouseX.set(x);
+        expMouseY.set(y);
+        expSpotlightX.set(e.clientX - rect.left);
+        expSpotlightY.set(e.clientY - rect.top);
+    };
+
+    const handleExpMouseEnter = () => setIsExpCardHovered(true);
+
+    const handleExpMouseLeave = () => {
+        setIsExpCardHovered(false);
+        expMouseX.set(0);
+        expMouseY.set(0);
+    };
+
+
 
     const experienceRef = useRef(null);
     const { scrollYProgress: expScrollY } = useScroll({
@@ -1603,38 +1817,87 @@ const App = () => {
                     </div>
 
                     {/* Experience Cards container (aligned to the right, ml-20) */}
-                    <div className="ml-20 pl-2 md:pl-4 py-8 relative z-20">
+                    <div className="ml-20 pl-2 md:pl-4 py-8 relative z-20 perspective-[1400px]">
+                        {/* Ambient Conic Glow Ring Behind Frame */}
                         <motion.div 
+                            animate={{
+                                scale: isExpCardHovered ? 1.12 : 1,
+                                opacity: isExpCardHovered ? 0.35 : 0.15,
+                                rotate: isExpCardHovered ? 180 : 0
+                            }}
+                            transition={{ duration: 3, ease: "easeOut" }}
+                            className="absolute -inset-6 bg-[conic-gradient(from_0deg,#2563eb_0%,#a855f7_30%,transparent_60%,#2563eb_100%)] blur-2xl rounded-[3rem] pointer-events-none max-w-2xl"
+                        />
+
+                        {/* Drifting Cyber Embers on Hover */}
+                        {isExpCardHovered && (
+                            <div className="absolute inset-0 max-w-2xl pointer-events-none">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10, x: -20 }}
+                                    animate={{ opacity: [0, 1, 0], y: -50, x: -30 }}
+                                    transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
+                                    className="absolute top-1/4 -left-6 w-1.5 h-1.5 bg-blue-400 rounded-full blur-[1px] shadow-[0_0_8px_#3b82f6] z-30"
+                                />
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20, x: 20 }}
+                                    animate={{ opacity: [0, 1, 0], y: -60, x: 40 }}
+                                    transition={{ duration: 2.4, repeat: Infinity, ease: 'easeOut', delay: 0.3 }}
+                                    className="absolute bottom-1/3 -right-6 w-2 h-2 bg-purple-400 rounded-full blur-[1px] shadow-[0_0_10px_#a855f7] z-30"
+                                />
+                            </div>
+                        )}
+
+                        <motion.div 
+                            ref={expCardRef}
+                            style={{ rotateX: expRotateX, rotateY: expRotateY, transformStyle: 'preserve-3d' }}
+                            onMouseMove={handleExpMouseMove}
+                            onMouseEnter={handleExpMouseEnter}
+                            onMouseLeave={handleExpMouseLeave}
                             initial={{ opacity: 0, x: 50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true, margin: "-100px" }}
                             transition={{ duration: 0.8, type: 'spring', bounce: 0.25 }}
-                            className="relative group max-w-2xl"
+                            className="relative group max-w-2xl border border-zinc-900 bg-zinc-950/80 p-8 md:p-10 rounded-[2.5rem] backdrop-blur-3xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] cursor-pointer transition-colors duration-500 hover:border-blue-500/40 z-10"
                         >
-                            {/* Neon Glow Aura */}
-                            <div className="absolute -inset-4 bg-blue-600/5 rounded-[3rem] blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-                            
-                            <div className="relative border border-zinc-900 bg-zinc-950/40 p-8 md:p-10 rounded-[2.5rem] backdrop-blur-3xl hover:border-blue-500/20 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-                                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-                                    <div className="flex items-center gap-5">
-                                        <div className="w-14 h-14 bg-blue-600/10 border border-blue-500/20 text-blue-500 rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
-                                            <Briefcase size={24} />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-xl md:text-2xl font-black text-white tracking-tight group-hover:text-blue-400 transition-colors">AI Web Development Intern</h3>
-                                            <p className="text-blue-500 font-bold text-sm md:text-base mt-1">In Amigos Foundation</p>
-                                        </div>
+                            {/* Top Glow Border Light Flare */}
+                            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/80 to-transparent" />
+
+                            {/* Locked Corner Accent Brackets */}
+                            <div className="pointer-events-none">
+                                <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-blue-500 rounded-tl-[2rem] transition-transform duration-500 group-hover:-translate-x-1 group-hover:-translate-y-1 shadow-[0_0_10px_rgba(59,130,246,0.4)]" />
+                                <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-blue-500 rounded-tr-[2rem] transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 shadow-[0_0_10px_rgba(59,130,246,0.4)]" />
+                                <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-blue-500 rounded-bl-[2rem] transition-transform duration-500 group-hover:-translate-x-1 group-hover:translate-y-1 shadow-[0_0_10px_rgba(59,130,246,0.4)]" />
+                                <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-blue-500 rounded-br-[2rem] transition-transform duration-500 group-hover:translate-x-1 group-hover:translate-y-1 shadow-[0_0_10px_rgba(59,130,246,0.4)]" />
+                            </div>
+
+                            {/* Mouse-Tracked Spotlight Sweep */}
+                            <motion.div
+                                className="absolute inset-0 pointer-events-none mix-blend-overlay transition-opacity duration-300 rounded-[2.5rem] overflow-hidden"
+                                style={{
+                                    background: expSpotlightBg,
+                                    opacity: isExpCardHovered ? 1 : 0,
+                                }}
+                            />
+
+                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                                <div className="flex items-center gap-5">
+                                    <div className="w-14 h-14 bg-blue-600/10 border border-blue-500/20 text-blue-500 rounded-2xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
+                                        <Briefcase size={24} />
                                     </div>
-                                    <div className="bg-zinc-950/90 border-r-4 border-r-blue-500 px-4 py-2 rounded-lg shadow-[0_0_20px_rgba(37,99,235,0.1)] shrink-0 self-end md:self-auto">
-                                        <span className="text-xs md:text-sm font-black text-blue-500 tracking-wide">May 2026 – Jun 2026</span>
+                                    <div>
+                                        <h3 className="text-xl md:text-2xl font-black text-white tracking-tight group-hover:text-blue-400 transition-colors">AI Web Development Intern</h3>
+                                        <p className="text-blue-500 font-bold text-sm md:text-base mt-1">In Amigos Foundation</p>
                                     </div>
                                 </div>
-                                
-                                <ul className="list-disc pl-5 space-y-4 text-zinc-400 text-xs md:text-sm leading-relaxed font-medium">
-                                    <li className="marker:text-blue-500">Completed 5 AI-focused web development assignments, including AI-powered website creation, website analysis, Figma prototyping, and UI/UX improvement proposals, while meeting all project deadlines.</li>
-                                    <li className="marker:text-blue-500">Collaborated with the development team to evaluate website usability, propose design improvements, and deliver project documentation while following software development best practices.</li>
-                                </ul>
+                                <div className="bg-zinc-950/90 border-r-4 border-r-blue-500 px-4 py-2 rounded-lg shadow-[0_0_20px_rgba(37,99,235,0.1)] shrink-0 self-end md:self-auto">
+                                    <span className="text-xs md:text-sm font-black text-blue-500 tracking-wide">May 2026 – Jun 2026</span>
+                                </div>
                             </div>
+                            
+                            <ul className="list-disc pl-5 space-y-4 text-zinc-400 text-xs md:text-sm leading-relaxed font-medium">
+                                <li className="marker:text-blue-500">Completed 5 AI-focused web development assignments, including AI-powered website creation, website analysis, Figma prototyping, and UI/UX improvement proposals, while meeting all project deadlines.</li>
+                                <li className="marker:text-blue-500">Collaborated with the development team to evaluate website usability, propose design improvements, and deliver project documentation while following software development best practices.</li>
+                            </ul>
                         </motion.div>
                     </div>
                 </div>
@@ -1688,74 +1951,22 @@ const App = () => {
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(6,182,212,0.06),transparent)] pointer-events-none" />
 
                 <SectionHeader title="My projects" subtitle="Some of the things I've built" />
-                <div className="max-w-6xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                    {projects.map((proj, i) => (
-                        <motion.div
-                            key={i}
-                            animate={{ y: [0, -8, 0] }}
-                            transition={{
-                                duration: 5 + (i % 2) * 1.5,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                                delay: i * 0.4
-                            }}
-                            className="flex relative w-full"
-                        >
-                            <Tilt 
-                                tiltMaxAngleX={6} 
-                                tiltMaxAngleY={6} 
-                                glareEnable={true} 
-                                glareMaxOpacity={0.1} 
-                                glareColor="#06b6d4" 
-                                glarePosition="all"
-                                glareBorderRadius="2.5rem"
-                                className="w-full flex"
-                            >
-                                <div 
-                                    onMouseMove={(e) => {
-                                        const rect = e.currentTarget.getBoundingClientRect();
-                                        const x = e.clientX - rect.left;
-                                        const y = e.clientY - rect.top;
-                                        e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
-                                        e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
-                                    }}
-                                    className="w-full flex flex-col justify-between border border-zinc-900 bg-zinc-950/40 p-8 md:p-10 rounded-[2.5rem] group hover:border-cyan-500/20 transition-all backdrop-blur-3xl hover:bg-zinc-900/20 shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative overflow-hidden"
-                                >
-                                    {/* Spotlight layer */}
-                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none bg-[radial-gradient(350px_circle_at_var(--mouse-x,0px)_var(--mouse-y,0px),rgba(6,182,212,0.12),transparent_80%)]" />
-                                    <div>
-                                        <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-6 leading-snug group-hover:text-cyan-400 transition-colors">{proj.title}</h3>
-                                        <div className="bg-zinc-900/40 p-6 rounded-2xl mb-8 border border-zinc-800/30">
-                                            <ul className="list-disc pl-5 space-y-2 text-zinc-400 text-xs md:text-sm leading-relaxed font-medium">
-                                                {proj.bullets.map((bullet, idx) => (
-                                                    <li key={idx} className="marker:text-cyan-500">{bullet}</li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="flex flex-wrap gap-2 mb-8">
-                                            {proj.tech.map(t => (
-                                                <span key={t} className="px-3.5 py-1.5 bg-zinc-900 text-[10px] font-black uppercase text-zinc-500 rounded-lg border border-zinc-800">{t}</span>
-                                            ))}
-                                        </div>
-                                        <div className="flex items-center gap-6">
-                                            {proj.github && (
-                                                <a href={proj.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-cyan-400 transition-all hover:scale-105 active:scale-95">
-                                                    <Github size={16} /> View Code
-                                                </a>
-                                            )}
-                                            {proj.demo && (
-                                                <a href={proj.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white font-black uppercase tracking-widest text-[10px] hover:text-cyan-400 transition-all hover:scale-105 active:scale-95">
-                                                    <ExternalLink size={16} /> Live Demo
-                                                </a>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </Tilt>
-                        </motion.div>
-                    ))}
+                <div className="max-w-3xl mx-auto px-10 relative z-10">
+                    <ScrollStack
+                        itemDistance={24}
+                        itemScale={0.03}
+                        itemStackDistance={30}
+                        stackPosition="14%"
+                        scaleEndPosition="6%"
+                        baseScale={0.9}
+                        useWindowScroll={true}
+                    >
+                        {projects.map((proj, i) => (
+                            <ScrollStackItem key={i}>
+                                <ProjectCard proj={proj} index={i} />
+                            </ScrollStackItem>
+                        ))}
+                    </ScrollStack>
                 </div>
             </section>
 
@@ -1968,6 +2179,22 @@ const App = () => {
                     </p>
                 </div>
             </footer>
+
+            {/* Cinematic Custom Cursor */}
+            {!isMobileDevice && cursorPos.x >= 0 && (
+                <motion.div
+                    className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border border-cyan-400/40 flex items-center justify-center backdrop-blur-[1px] shadow-[0_0_15px_rgba(34,211,238,0.15)]"
+                    animate={{
+                        x: cursorPos.x - (isCursorHovered ? 24 : 6),
+                        y: cursorPos.y - (isCursorHovered ? 24 : 6),
+                        width: isCursorHovered ? 48 : 12,
+                        height: isCursorHovered ? 48 : 12,
+                        backgroundColor: isCursorHovered ? 'rgba(34, 211, 238, 0.08)' : 'rgba(255, 255, 255, 0.9)',
+                        borderColor: isCursorHovered ? '#22d3ee' : 'rgba(34, 211, 238, 0.4)'
+                    }}
+                    transition={{ type: 'spring', damping: 28, stiffness: 320, mass: 0.4 }}
+                />
+            )}
         </div >
     );
 };
