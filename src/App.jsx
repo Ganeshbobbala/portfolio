@@ -2047,22 +2047,10 @@ const App = () => {
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(6,182,212,0.06),transparent)] pointer-events-none" />
 
                 <SectionHeader title="My projects" subtitle="Some of the things I've built" />
-                <div className="max-w-3xl mx-auto px-10 relative z-10">
-                    <ScrollStack
-                        itemDistance={24}
-                        itemScale={0.03}
-                        itemStackDistance={30}
-                        stackPosition="14%"
-                        scaleEndPosition="6%"
-                        baseScale={0.9}
-                        useWindowScroll={true}
-                    >
-                        {projects.map((proj, i) => (
-                            <ScrollStackItem key={i}>
-                                <ProjectCard proj={proj} index={i} />
-                            </ScrollStackItem>
-                        ))}
-                    </ScrollStack>
+                <div className="max-w-6xl mx-auto px-10 grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                    {projects.map((proj, i) => (
+                        <ProjectCard key={i} proj={proj} index={i} />
+                    ))}
                 </div>
             </section>
 
