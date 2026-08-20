@@ -264,13 +264,13 @@ const MagneticButton = ({ children, className, ...props }) => {
 const OrbitingTech = () => {
     const icons = [
         { name: 'Java', color: 'text-red-500' },
-        { name: 'React', color: 'text-cyan-400' },
-        { name: 'MySQL', color: 'text-orange-400' },
+        { name: 'HTML', color: 'text-orange-500' },
+        { name: 'CSS', color: 'text-blue-500' },
         { name: 'JS', color: 'text-yellow-400' },
-        { name: 'DBMS', color: 'text-emerald-400' },
+        { name: 'SQL', color: 'text-cyan-400' },
         { name: 'Git', color: 'text-red-400' },
-        { name: 'VS Code', color: 'text-blue-500' },
-        { name: 'OOP', color: 'text-purple-400' }
+        { name: 'GitHub', color: 'text-zinc-300' },
+        { name: 'VS Code', color: 'text-blue-500' }
     ];
 
     return (
@@ -1575,9 +1575,8 @@ const App = () => {
     const roles = ["Problem Solver", "Frontend Developer", "Software Engineering Enthusiast", "Full-Stack Developer"]
     const skills = [
         { title: "Programming Languages", items: ["Java"] },
-        { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript", "React.js (Basics)"] },
-        { title: "Database Technologies", items: ["MySQL"] },
-        { title: "Core concepts", items: ["Object-Oriented Programming (OOP)", "DBMS"] },
+        { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript"] },
+        { title: "Database Technologies", items: ["SQL"] },
         { title: "Tools & Platforms", items: ["Git", "GitHub", "Visual Studio Code"] },
         { title: "Soft Skills", items: ["Problem Solving", "Team Collaboration", "Communication", "Adaptability"] }
     ];
@@ -1587,6 +1586,7 @@ const App = () => {
     const certs = [
         { n: "Software Engineering Job Simulation", i: "JPMorgan Chase & Co. (Forage)", link: "/Software Engineering Job Simulation.pdf", c: "bg-blue-500/10 text-blue-500" },
         { n: "Generative AI for Beginners", i: "Simplilearn SkillUp", link: "/Generative AI for Beginners.pdf", c: "bg-pink-500/10 text-pink-500" },
+        { n: "Database Management Systems", i: "CodeChef", link: "", c: "bg-orange-500/10 text-orange-500" },
         { n: "Artificial Intelligence", i: "Infosys Springboard", link: "/Artificial Intelligence.pdf", c: "bg-purple-500/10 text-purple-500" },
         { n: "Prompt Engineering", i: "Infosys Springboard", link: "/prompt Engineering.pdf", c: "bg-emerald-500/10 text-emerald-500" },
         { n: "Java Programming for Beginners", i: "Simplilearn SkillUp", link: "/Java Programming for Beginners.pdf", c: "bg-blue-500/10 text-blue-500" },
