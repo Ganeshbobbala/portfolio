@@ -11,6 +11,7 @@ import ScrollStack, { ScrollStackItem } from './components/ScrollStack';
 
 const RESUME_URL = '/Ganesh_Resume.pdf';
 const DEPLOY_URL = 'https://portfolio-ganeshbobbala.vercel.app/';
+const GITHUB_URL = 'https://github.com/Ganeshbobbala/portfolio';
 
 // --- COMPONENTS ---
 
@@ -2256,7 +2257,7 @@ const App = () => {
                         {' · '}
                         <a href={DEPLOY_URL} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-blue-400 transition-colors">Live Site</a>
                         {' · '}
-                        <a href="https://github.com/Ganeshbobbala/portfolio" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-blue-400 transition-colors">GitHub</a>
+                        <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-blue-400 transition-colors">GitHub</a>
                     </p>
                 </div>
             </footer>
