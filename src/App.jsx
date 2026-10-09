@@ -7,7 +7,6 @@ import { Typewriter } from 'react-simple-typewriter';
 import Tilt from 'react-parallax-tilt';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Float, Sphere } from '@react-three/drei';
-import TerminalIntro from './components/TerminalIntro';
 import ScrollStack, { ScrollStackItem } from './components/ScrollStack';
 
 const RESUME_URL = '/Ganesh_Resume.pdf';
@@ -1416,26 +1415,6 @@ const App = () => {
         return saved ? saved === 'dark' : true;
     });
 
-    const [showIntro, setShowIntro] = useState(() => {
-        return !sessionStorage.getItem('portfolio-intro-seen');
-    });
-
-    useEffect(() => {
-        if (showIntro) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-        return () => {
-            document.body.style.overflow = '';
-        };
-    }, [showIntro]);
-
-    const handleIntroComplete = () => {
-        sessionStorage.setItem('portfolio-intro-seen', 'true');
-        setShowIntro(false);
-    };
-
     // Cinematic 3D Holographic Card Hooks for Profile Photo
     const profileCardRef = useRef(null);
     const [isProfileCardHovered, setIsProfileCardHovered] = useState(false);
@@ -1577,8 +1556,9 @@ const App = () => {
         { title: "Programming Languages", items: ["Java"] },
         { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript"] },
         { title: "Database Technologies", items: ["SQL"] },
-        { title: "Tools & Platforms", items: ["Git", "GitHub", "Visual Studio Code"] },
-        { title: "Soft Skills", items: ["Problem Solving", "Team Collaboration", "Communication", "Adaptability"] }
+        { title: "Core Concepts", items: ["Object-Oriented Programming (OOP)", "DBMS"] },
+        { title: "Tools & Platforms", items: ["GitHub", "Visual Studio Code"] },
+        { title: "Soft Skills", items: ["Problem Solving", "Team Collaboration", "Communication"] }
     ];
 
 // (removed unused education constant; education UI uses inline data)
@@ -1586,7 +1566,7 @@ const App = () => {
     const certs = [
         { n: "Software Engineering Job Simulation", i: "JPMorgan Chase & Co. (Forage)", link: "/Software Engineering Job Simulation.pdf", c: "bg-blue-500/10 text-blue-500" },
         { n: "Generative AI for Beginners", i: "Simplilearn SkillUp", link: "/Generative AI for Beginners.pdf", c: "bg-pink-500/10 text-pink-500" },
-        { n: "Database Management Systems", i: "CodeChef", link: "", c: "bg-orange-500/10 text-orange-500" },
+        { n: "Database Management Systems", i: "CodeChef", link: "/Database Management Systems.pdf", c: "bg-orange-500/10 text-orange-500" },
         { n: "Artificial Intelligence", i: "Infosys Springboard", link: "/Artificial Intelligence.pdf", c: "bg-purple-500/10 text-purple-500" },
         { n: "Prompt Engineering", i: "Infosys Springboard", link: "/prompt Engineering.pdf", c: "bg-emerald-500/10 text-emerald-500" },
         { n: "Java Programming for Beginners", i: "Simplilearn SkillUp", link: "/Java Programming for Beginners.pdf", c: "bg-blue-500/10 text-blue-500" },
@@ -1647,12 +1627,6 @@ const App = () => {
 
     return (
         <div className="bg-[#020202] text-white min-h-screen selection:bg-purple-500/30 overflow-x-hidden font-sans portfolio-root relative">
-            <AnimatePresence>
-                {showIntro && (
-                    <TerminalIntro onComplete={handleIntroComplete} />
-                )}
-            </AnimatePresence>
-
             {/* Aurora Background */}
             <div className="absolute top-0 left-0 right-0 h-[1000px] pointer-events-none overflow-hidden z-0 opacity-40">
                 <div className="absolute top-[-30%] left-[-20%] w-[80%] h-[80%] rounded-full bg-gradient-to-br from-blue-600/10 via-indigo-600/10 to-transparent blur-[130px] animate-[pulse_10s_ease-in-out_infinite]" />
@@ -2198,7 +2172,7 @@ const App = () => {
                                     { i: <Linkedin size={20} />, l: 'https://www.linkedin.com/in/ganesh-bobbala-9a7a52327/' },
                                     { i: <Mail size={20} />, l: 'mailto:ganeshbobbala479@gmail.com' }
                                 ].map((s, i) => (
-                                    <a key={i} href={s.l} className="w-14 h-14 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center text-cyan-500/40 hover:text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all">{s.i}</a>
+                                    <a key={i} href={s.l} target="_blank" rel="noopener noreferrer" className="w-14 h-14 bg-zinc-950 border border-zinc-900 rounded-2xl flex items-center justify-center text-cyan-500/40 hover:text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-500/30 transition-all">{s.i}</a>
                                 ))}
                             </div>
                         </div>
