@@ -91,6 +91,17 @@ const Navbar = ({ isDark, toggleTheme }) => {
                                 : <Sun size={13} className="text-zinc-900" />}
                         </motion.div>
                     </button>
+
+                    {/* GitHub Shortcut */}
+                    <a
+                        href="https://github.com/Ganeshbobbala"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 text-zinc-400 hover:text-white transition-all hover:scale-110 active:scale-95 ml-1"
+                        title="GitHub Profile"
+                    >
+                        <Github size={18} />
+                    </a>
                 </div>
 
                 {/* Mobile Right: Theme Toggle + Hamburger */}
@@ -116,6 +127,15 @@ const Navbar = ({ isDark, toggleTheme }) => {
                                 : <Sun size={11} className="text-zinc-900" />}
                         </motion.div>
                     </button>
+                    <a
+                        href="https://github.com/Ganeshbobbala"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-1.5 text-zinc-400 hover:text-white transition-colors"
+                        title="GitHub Profile"
+                    >
+                        <Github size={20} />
+                    </a>
                     <button 
                       onClick={() => setIsOpen(!isOpen)}
                       className="p-2 text-zinc-400 hover:text-white transition-colors"
@@ -146,6 +166,16 @@ const Navbar = ({ isDark, toggleTheme }) => {
                         <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                       </a>
                     ))}
+                    <a
+                      href="https://github.com/Ganeshbobbala"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsOpen(false)}
+                      className="text-sm font-black text-zinc-400 hover:text-cyan-400 transition-colors py-2 flex items-center justify-between border-t border-zinc-900 pt-4"
+                    >
+                      <span>GitHub Profile</span>
+                      <Github size={16} />
+                    </a>
                   </div>
                 </motion.div>
               )}
@@ -264,10 +294,14 @@ const MagneticButton = ({ children, className, ...props }) => {
 const OrbitingTech = () => {
     const icons = [
         { name: 'Java', color: 'text-red-500' },
+        { name: 'Python', color: 'text-blue-400' },
+        { name: 'React', color: 'text-cyan-400' },
+        { name: 'Node.js', color: 'text-emerald-500' },
         { name: 'HTML', color: 'text-orange-500' },
         { name: 'CSS', color: 'text-blue-500' },
         { name: 'JS', color: 'text-yellow-400' },
-        { name: 'SQL', color: 'text-cyan-400' },
+        { name: 'SQL', color: 'text-cyan-300' },
+        { name: 'Supabase', color: 'text-emerald-400' },
         { name: 'Git', color: 'text-red-400' },
         { name: 'GitHub', color: 'text-zinc-300' },
         { name: 'VS Code', color: 'text-blue-500' }
@@ -1554,17 +1588,18 @@ const App = () => {
 
     const roles = ["Problem Solver", "Frontend Developer", "Software Engineering Enthusiast", "Full-Stack Developer"]
     const skills = [
-        { title: "Programming Languages", items: ["Java"] },
-        { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript"] },
-        { title: "Database Technologies", items: ["SQL"] },
+        { title: "Programming Languages", items: ["Java", "Python"] },
+        { title: "Web Technologies", items: ["HTML", "CSS", "JavaScript", "Node.js", "React.js"] },
+        { title: "Database Technologies", items: ["SQL", "Supabase"] },
         { title: "Core Concepts", items: ["Object-Oriented Programming (OOP)", "DBMS"] },
-        { title: "Tools & Platforms", items: ["GitHub", "Visual Studio Code"] },
-        { title: "Soft Skills", items: ["Problem Solving", "Team Collaboration", "Communication"] }
+        { title: "Tools & Platforms", items: ["Git", "GitHub", "Visual Studio Code"] },
+        { title: "Soft Skills", items: ["Problem Solving", "Team Collaboration", "Communication", "Adaptability"] }
     ];
 
 // (removed unused education constant; education UI uses inline data)
 
     const certs = [
+        { n: "Web Development Internship Certificate", i: "InAmigos Foundation", link: "/InAmigos_Internship_Certificate.pdf", c: "bg-cyan-500/10 text-cyan-400" },
         { n: "Software Engineering Job Simulation", i: "JPMorgan Chase & Co. (Forage)", link: "/Software Engineering Job Simulation.pdf", c: "bg-blue-500/10 text-blue-500" },
         { n: "Generative AI for Beginners", i: "Simplilearn SkillUp", link: "/Generative AI for Beginners.pdf", c: "bg-pink-500/10 text-pink-500" },
         { n: "Database Management Systems", i: "CodeChef", link: "/Database Management Systems.pdf", c: "bg-orange-500/10 text-orange-500" },
@@ -1578,12 +1613,23 @@ const App = () => {
         {
             title: "Smart PDS: Automated Time-Slot Booking & Distribution System",
             bullets: [
-                "Developed a scalable full-stack web application with role-based authentication, automated time-slot booking, multilingual support (7 languages), and Progressive Web App (PWA) capabilities.",
-                "Integrated a Scikit-learn eligibility prediction model using a Flask API to automate beneficiary verification and improve the efficiency of the distribution process.",
-                "Built real-time administrative dashboards using Socket.io, Supabase PostgreSQL, and Chart.js for live booking synchronization, inventory tracking, analytics, and secure transaction processing."
+                "Developed a full-stack web application with role-based authentication, automated time-slot booking, 7-language localization, and Progressive Web App (PWA) support.",
+                "Integrated a machine learning-based eligibility prediction model to automate beneficiary verification, reducing manual review effort.",
+                "Built real-time administrative dashboards for live booking synchronization, inventory tracking, and analytics, with fraud-prevention safeguards for data integrity."
             ],
             tech: ["HTML", "CSS", "JavaScript", "Node.js", "Socket.io", "Supabase", "Python", "Flask", "Scikit-Learn"],
-            github: "https://github.com/Ganeshbobbala/portfolio"
+            github: "https://github.com/Ganeshbobbala/Smart-PDS-Automated-Time-Slot-Booking-Distribution-System"
+        },
+        {
+            title: "Behavior Recognition in Videos for Autism Detection",
+            bullets: [
+                "Developed an AI-powered web application for autism behavior recognition that classifies behavioral patterns in uploaded videos using CNN-LSTM deep learning models.",
+                "Engineered a video preprocessing and pose estimation pipeline to extract motion and movement-based features, improving detection accuracy and reliability.",
+                "Integrated the trained model into a full-stack web interface, enabling secure video upload, automated prediction, and visualization of behavioral analysis results for end users."
+            ],
+            tech: ["Python", "TensorFlow/Keras", "OpenCV", "MediaPipe", "HTML", "CSS", "JavaScript"],
+            github: "https://github.com/Ganeshbobbala/Behavioural-Video-Recognition-for-Autism-Detection",
+            demo: "https://autism-video-recognition.netlify.app/"
         },
         {
             title: "MarroeCode – AI-Powered Coding Practice Platform",
@@ -1594,17 +1640,6 @@ const App = () => {
             ],
             tech: ["React.js", "Supabase", "PostgreSQL", "Python", "AST"],
             github: "https://github.com/Ganeshbobbala/MarroeCode"
-        },
-        {
-            title: "Behavior Recognition in Videos for Autism Detection",
-            bullets: [
-                "Developed an AI-powered web application for autism behavior recognition by analyzing uploaded videos using CNN-LSTM deep learning models for accurate behavioral pattern classification.",
-                "Utilized OpenCV and MediaPipe for video preprocessing, human pose estimation, and feature extraction to improve the accuracy and reliability of behavior detection.",
-                "Integrated the trained deep learning model into a responsive web interface, enabling secure video uploads, real-time prediction, and visualization of behavioral analysis results."
-            ],
-            tech: ["Python", "TensorFlow/Keras", "OpenCV", "MediaPipe", "HTML", "CSS", "JavaScript"],
-            github: "https://github.com/Ganeshbobbala/Behavioural-Video-Recognition-for-Autism-Detection",
-            demo: "https://autism-video-recognition.netlify.app/"
         },
         {
             title: "Driver Drowsiness Detection System",
@@ -1688,9 +1723,14 @@ const App = () => {
                     <p className="text-zinc-500 text-lg md:text-xl font-medium max-w-3xl mx-auto leading-relaxed mb-16 px-4">
                         Building intelligent AI-driven solutions and scalable modern web applications.
                     </p>
-                    <div className="flex justify-center mb-16">
-                        <MagneticButton className="w-full md:w-auto">
-                            <a href="#myprojects" className="block w-full md:w-auto bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 text-center">View Projects</a>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                        <MagneticButton className="w-full sm:w-auto">
+                            <a href="#myprojects" className="block w-full sm:w-auto bg-blue-600 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-500 transition-all shadow-[0_20px_40px_rgba(37,99,235,0.2)] hover:-translate-y-1 text-center">View Projects</a>
+                        </MagneticButton>
+                        <MagneticButton className="w-full sm:w-auto">
+                            <a href="https://github.com/Ganeshbobbala" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full sm:w-auto bg-zinc-900/90 border border-zinc-800 px-9 py-5 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-zinc-800 hover:border-zinc-700 transition-all shadow-lg hover:-translate-y-1 text-center text-white">
+                                <Github size={18} /> GitHub Profile
+                            </a>
                         </MagneticButton>
                     </div>
                 </div>
@@ -1845,7 +1885,7 @@ const App = () => {
                             {/* Glassmorphism Overlays stats cards */}
                             <div className="grid grid-cols-2 gap-6">
                                 {[
-                                    { l: 'Projects', v: '5+', href: '#myprojects' }, { l: 'Certifications', v: '5+', href: '#certifications' }
+                                    { l: 'Projects', v: '5+', href: '#myprojects' }, { l: 'Certifications', v: '8+', href: '#certifications' }
                                 ].map((s, i) => (
                                     <a key={i} href={s.href} className="bg-zinc-950/30 border border-zinc-900/50 p-8 rounded-3xl flex flex-col items-center justify-center text-center hover:bg-zinc-900/40 hover:border-cyan-500/20 backdrop-blur-3xl hover:shadow-[0_20px_50px_rgba(6,182,212,0.03)] transition-all cursor-pointer">
                                         <p className="text-4xl font-black text-cyan-400 mb-1"><Counter value={s.v} /></p>
@@ -1982,19 +2022,33 @@ const App = () => {
                                         <Briefcase size={24} />
                                     </div>
                                     <div>
-                                        <h3 className="text-xl md:text-2xl font-black text-white tracking-tight group-hover:text-blue-400 transition-colors">AI Web Development Intern</h3>
-                                        <p className="text-blue-500 font-bold text-sm md:text-base mt-1">In Amigos Foundation</p>
+                                        <h3 className="text-xl md:text-2xl font-black text-white tracking-tight group-hover:text-blue-400 transition-colors">Web Development Intern</h3>
+                                        <p className="text-blue-500 font-bold text-sm md:text-base mt-1">InAmigos Foundation</p>
                                     </div>
                                 </div>
                                 <div className="bg-zinc-950/90 border-r-4 border-r-blue-500 px-4 py-2 rounded-lg shadow-[0_0_20px_rgba(37,99,235,0.1)] shrink-0 self-end md:self-auto">
-                                    <span className="text-xs md:text-sm font-black text-blue-500 tracking-wide">May 2026 – Jun 2026</span>
+                                    <span className="text-xs md:text-sm font-black text-blue-500 tracking-wide">21 May 2026 – 02 Jun 2026</span>
                                 </div>
                             </div>
                             
-                            <ul className="list-disc pl-5 space-y-4 text-zinc-400 text-xs md:text-sm leading-relaxed font-medium">
-                                <li className="marker:text-blue-500">Completed 5 AI-focused web development assignments, including AI-powered website creation, website analysis, Figma prototyping, and UI/UX improvement proposals, while meeting all project deadlines.</li>
-                                <li className="marker:text-blue-500">Collaborated with the development team to evaluate website usability, propose design improvements, and deliver project documentation while following software development best practices.</li>
+                            <ul className="list-disc pl-5 space-y-4 text-zinc-400 text-xs md:text-sm leading-relaxed font-medium mb-8">
+                                <li className="marker:text-blue-500">Completed 5 web development assignments, including responsive web interface design, website usability analysis, Figma prototyping, and UI/UX improvement proposals, while meeting all project deadlines.</li>
+                                <li className="marker:text-blue-500">Collaborated with the development team to evaluate website architectures, submit design improvements, and produce comprehensive documentation following software engineering best practices.</li>
                             </ul>
+
+                            <div className="pt-4 border-t border-zinc-900/80 flex items-center justify-between flex-wrap gap-4">
+                                <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-wider">
+                                    <CheckCircle2 size={16} className="text-emerald-400" /> Verified Certificate
+                                </div>
+                                <a
+                                    href="/InAmigos_Internship_Certificate.pdf"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest transition-all shadow-[0_10px_20px_rgba(37,99,235,0.25)] hover:-translate-y-0.5 active:translate-y-0"
+                                >
+                                    <Award size={15} /> View Certificate <ExternalLink size={13} />
+                                </a>
+                            </div>
                         </motion.div>
                     </div>
                 </div>
